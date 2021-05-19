@@ -68,7 +68,7 @@ accountRouter.post("/", async (req: AuthRequest<AccountRequest>, res: Response) 
         const {accountRepo, personRepo} = getRepos();
         let requestBody: AccountRequest = req.body;
         requestBody = {
-            ...requestBody, 
+            ...requestBody,
             email: requestBody.email?.toLowerCase(),
             username: requestBody.username.toLowerCase()
         }
@@ -88,6 +88,37 @@ accountRouter.post("/", async (req: AuthRequest<AccountRequest>, res: Response) 
         const newAccount = await accountRepo.save(account);
         res.status(HTTP_STATUS.CREATED).json(newAccount);
 
+    } catch (error) {
+        console.error(error);
+        res.status(HTTP_STATUS.SERVER_ERROR).json(error);
+    }
+});
+
+// get accounts
+accountRouter.get("/", async (req: AuthRequest<any>, res: Response) => {
+    try {
+        const accountRepo = getRepos().accountRepo;
+        const accounts = await accountRepo.find();
+        for (let account of accounts) {
+            delete account.password;
+            delete account.token;
+        }
+        res.json(accounts);
+    } catch (error) {
+        console.error(error);
+        res.status(HTTP_STATUS.SERVER_ERROR).json(error);
+    }
+});
+
+// get one account
+accountRouter.get("/:id", async (req: AuthRequest<any>, res: Response) => {
+    try {
+        const {accountRepo} = getRepos();
+        const account = await accountRepo.findOne({id: req.params.id});
+        if (!account) return res.sendStatus(HTTP_STATUS.NOT_FOUND);
+        delete account.password;
+        delete account.token;
+        res.json(account);
     } catch (error) {
         console.error(error);
         res.status(HTTP_STATUS.SERVER_ERROR).json(error);

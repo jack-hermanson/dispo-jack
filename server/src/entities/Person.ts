@@ -1,4 +1,4 @@
-import {OneToOne, Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {OneToOne, Column, Entity, PrimaryGeneratedColumn, JoinColumn} from "typeorm";
 import {Account} from "./Account";
 
 @Entity()
@@ -13,6 +13,7 @@ export class Person {
     @Column({nullable: false})
     lastName: string;
 
-    @OneToOne(() => Account, account => account.person, {nullable: true})
+    @OneToOne(() => Account, account => account.person,
+        {nullable: true, orphanedRowAction: "nullify"})
     account: Account;
 }

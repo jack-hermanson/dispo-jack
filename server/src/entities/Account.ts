@@ -21,13 +21,24 @@ export class Account {
     token: string;
 
     @OneToOne(() => Person, person => person.account,
-        {cascade: true})
-    @JoinColumn({name: "personId"})
+        {cascade: true, eager: true})
+    @JoinColumn({
+        name: "personId",
+        referencedColumnName: "id"
+    })
     person: Person;
 
-    @ManyToMany(() => Role)
+    @ManyToMany(() => Role, {eager: true})
     @JoinTable({
-        name: "account_role"
+        name: "account_role",
+        joinColumn: {
+            name: "accountId",
+            referencedColumnName: "id"
+        },
+        inverseJoinColumn: {
+            name: "roleId",
+            referencedColumnName: "id"
+        }
     })
     roles: Role[];
 }
