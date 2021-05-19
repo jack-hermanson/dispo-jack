@@ -1,0 +1,9 @@
+{
+  "name": "dispo-jack",
+  "version": "1.0.0",
+  "description": "A mockup dispensary app. Front end runs on React. Back end runs on Express.",
+  "main": "index.js",
+  "author": "Jack Hermanson",
+  "license": "WTFPL",
+  "private": false
+}
