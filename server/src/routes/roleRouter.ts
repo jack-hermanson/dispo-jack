@@ -4,17 +4,17 @@ import {HTTP_STATUS} from "../utils/constants";
 import {Connection, getConnection, Repository} from "typeorm";
 import {Role} from "../entities/Role";
 
-export const rolesRouter = express.Router();
+export const roleRouter = express.Router();
 
 // repos
 const getRepos = (): {roleRepo: Repository<Role>} => {
     const connection: Connection = getConnection();
     const roleRepo: Repository<Role> = connection.getRepository(Role);
     return {roleRepo};
-}
+};
 
 // new role
-rolesRouter.post("/", async (req: AuthRequest<Role>, res: Response) => {
+roleRouter.post("/", async (req: AuthRequest<Role>, res: Response) => {
     try {
         const role: Role = new Role();
         role.name = req.body.name;
@@ -30,7 +30,7 @@ rolesRouter.post("/", async (req: AuthRequest<Role>, res: Response) => {
 });
 
 // get all roles
-rolesRouter.get("/", async (req: AuthRequest<any>, res: Response) => {
+roleRouter.get("/", async (req: AuthRequest<any>, res: Response) => {
     try {
         const roles = await getRepos().roleRepo.find();
         res.json(roles);
@@ -41,7 +41,7 @@ rolesRouter.get("/", async (req: AuthRequest<any>, res: Response) => {
 });
 
 // get one role
-rolesRouter.get("/:id", async (req: AuthRequest<any>, res: Response) => {
+roleRouter.get("/:id", async (req: AuthRequest<any>, res: Response) => {
     try {
         const role = await getRepos().roleRepo.findOne({id: req.params.id});
         if (!role) return res.sendStatus(HTTP_STATUS.NOT_FOUND);
@@ -53,7 +53,7 @@ rolesRouter.get("/:id", async (req: AuthRequest<any>, res: Response) => {
 });
 
 // update a role
-rolesRouter.put("/:id", async (req: AuthRequest<Role>, res: Response) => {
+roleRouter.put("/:id", async (req: AuthRequest<Role>, res: Response) => {
     try {
         const roleRepo = getRepos().roleRepo;
         const role = await roleRepo.findOne({id: req.params.id});
@@ -79,7 +79,7 @@ rolesRouter.put("/:id", async (req: AuthRequest<Role>, res: Response) => {
 });
 
 // delete a role
-rolesRouter.delete("/:id", async (req: AuthRequest<any>, res: Response) => {
+roleRouter.delete("/:id", async (req: AuthRequest<any>, res: Response) => {
     // todo
     res.send(null);
 });

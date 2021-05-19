@@ -11,7 +11,8 @@ import {Account} from "./entities/Account";
 import {Role} from "./entities/Role";
 import {Person} from "./entities/Person";
 import {Accounts1621446055349} from "./migrations/1621446055349-Accounts";
-import {rolesRouter} from "./routes/rolesRouter";
+import {roleRouter} from "./routes/roleRouter";
+import {personRouter} from "./routes/personRouter";
 
 // env
 const envPath = path.join(__dirname, "..", ".env");
@@ -26,7 +27,8 @@ app.set("port", (process.env.PORT || 5000));
 
 // express routes
 app.use(routePrefixes.main, mainRouter);
-app.use(routePrefixes.roles, rolesRouter);
+app.use(routePrefixes.roles, roleRouter);
+app.use(routePrefixes.people, personRouter);
 
 // database
 const databaseDialect: DbDialect = process.env.DATABASE_DIALECT as DbDialect;

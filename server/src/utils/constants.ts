@@ -2,7 +2,8 @@ const apiPrefix = "/api";
 
 export const routePrefixes = {
     main: `${apiPrefix}`,
-    roles: `${apiPrefix}/roles`
+    roles: `${apiPrefix}/roles`,
+    people: `${apiPrefix}/people`
 };
 
 
