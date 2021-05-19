@@ -1,4 +1,4 @@
-import {OneToOne, ManyToMany, JoinTable, Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {OneToOne, ManyToMany, JoinTable, Column, Entity, PrimaryGeneratedColumn, JoinColumn} from "typeorm";
 import {Person} from "./Person";
 import {Role} from "./Role";
 
@@ -11,8 +11,8 @@ export class Account {
     @Column({nullable: false})
     username: string;
 
-    @Column()
-    email: string;
+    @Column({nullable: true})
+    email?: string;
 
     @Column({nullable: false})
     password: string;
@@ -20,7 +20,9 @@ export class Account {
     @Column({nullable: true})
     token: string;
 
-    @OneToOne(() => Person, person => person.account)
+    @OneToOne(() => Person, person => person.account,
+        {cascade: true})
+    @JoinColumn({name: "personId"})
     person: Person;
 
     @ManyToMany(() => Role)
@@ -28,4 +30,11 @@ export class Account {
         name: "account_role"
     })
     roles: Role[];
+}
+
+export interface AccountRequest {
+    username: string;
+    password: string;
+    email?: string;
+    personId: number;
 }

@@ -37,7 +37,7 @@ personRouter.post("/", async (req: AuthRequest<Person>, res: Response) => {
         person.lastName = lastName;
         const newPerson = await personRepo.save(person);
 
-        res.json(newPerson);
+        res.status(HTTP_STATUS.CREATED).json(newPerson);
     } catch (error) {
         console.error(error);
         res.status(HTTP_STATUS.SERVER_ERROR).json(error);

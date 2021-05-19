@@ -22,7 +22,7 @@ roleRouter.post("/", async (req: AuthRequest<Role>, res: Response) => {
         if (!role.name || !role.clearance) return res.sendStatus(HTTP_STATUS.BAD_REQUEST);
 
         const newRole = await getRepos().roleRepo.save(role);
-        res.json(newRole);
+        res.status(HTTP_STATUS.CREATED).json(newRole);
     } catch (error) {
         console.error(error);
         res.status(HTTP_STATUS.SERVER_ERROR).json(error);

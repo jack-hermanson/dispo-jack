@@ -68,6 +68,11 @@ export class Accounts1621446055349 implements MigrationInterface {
                     isUnique: true
                 },
                 {
+                    name: "email",
+                    type: "varchar",
+                    isNullable: true
+                },
+                {
                     name: "password",
                     type: "varchar",
                     isNullable: false
