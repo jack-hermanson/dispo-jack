@@ -109,14 +109,16 @@ export class Accounts1621446055349 implements MigrationInterface {
             new TableForeignKey({
                 columnNames: ["accountId"],
                 referencedTableName: "account",
-                referencedColumnNames: ["id"]
+                referencedColumnNames: ["id"],
+                onDelete: "CASCADE"
             }));
 
         await queryRunner.createForeignKey("account_role",
             new TableForeignKey({
                 columnNames: ["roleId"],
                 referencedTableName: "role",
-                referencedColumnNames: ["id"]
+                referencedColumnNames: ["id"],
+                onDelete: "CASCADE"
             }));
     }
 
