@@ -7,6 +7,10 @@ import {config} from "dotenv";
 import path from "path";
 import {DbDialect} from "./utils/types";
 import {ConnectionOptions, createConnection} from "typeorm";
+import {Account} from "./entities/Account";
+import {Role} from "./entities/Role";
+import {Person} from "./entities/Person";
+import {Accounts1621446055349} from "./migrations/1621446055349-Accounts";
 
 // env
 const envPath = path.join(__dirname, "..", ".env");
@@ -24,11 +28,11 @@ app.use(routePrefixes.main, mainRouter);
 
 // database
 const databaseDialect: DbDialect = process.env.DATABASE_DIALECT as DbDialect;
-const dbOptions: ConnectionOptions = {
+export const dbOptions: ConnectionOptions = {
     database: databaseDialect === "sqlite" ? "site.db" : "",
     type: databaseDialect,
     url: process.env.DATABASE_URL,
-    entities: [],
+    entities: [Role, Person, Account],
     synchronize: false,
     extra: {
         ssl: {
@@ -37,7 +41,7 @@ const dbOptions: ConnectionOptions = {
     },
     migrationsRun: true,
     migrationsTableName: "migrations",
-    migrations: [],
+    migrations: [Accounts1621446055349],
     cli: {
         migrationsDir: path.join(__dirname, "migrations")
     }
