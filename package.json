@@ -9,5 +9,6 @@
     "type": "git",
     "url": "https://github.com/jack-hermanson/dispo-jack"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "dependencies": {}
 }
