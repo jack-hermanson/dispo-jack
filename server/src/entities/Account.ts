@@ -21,14 +21,14 @@ export class Account {
     token: string;
 
     @OneToOne(() => Person, person => person.account,
-        {cascade: true, eager: true})
+        {eager: true, orphanedRowAction: "delete"})
     @JoinColumn({
         name: "personId",
         referencedColumnName: "id"
     })
     person: Person;
 
-    @ManyToMany(() => Role, {eager: true})
+    @ManyToMany(() => Role, {orphanedRowAction: "delete"})
     @JoinTable({
         name: "account_role",
         joinColumn: {
