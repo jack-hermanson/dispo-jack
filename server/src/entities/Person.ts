@@ -15,5 +15,10 @@ export class Person {
 
     @OneToOne(() => Account, account => account.person,
         {nullable: true, orphanedRowAction: "nullify"})
-    account: Account;
+    readonly account: Account;
+}
+
+export interface PersonRequest {
+    firstName: string;
+    lastName: string;
 }

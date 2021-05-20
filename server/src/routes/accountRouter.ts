@@ -4,7 +4,7 @@ import {HTTP_STATUS} from "../utils/constants";
 import {Connection, getConnection, Repository} from "typeorm";
 import {Account, AccountRequest} from "../entities/Account";
 import {getMissingProps} from "../utils/functions";
-import {Person} from "../entities/Person";
+import {Person, PersonRequest} from "../entities/Person";
 
 export const accountRouter = express.Router();
 
@@ -86,6 +86,43 @@ accountRouter.post("/", async (req: AuthRequest<AccountRequest>, res: Response) 
         account.person = person;
 
         const newAccount = await accountRepo.save(account);
+        res.status(HTTP_STATUS.CREATED).json(newAccount);
+
+    } catch (error) {
+        console.error(error);
+        res.status(HTTP_STATUS.SERVER_ERROR).json(error);
+    }
+});
+
+// new person AND account
+interface RegisterRequest extends AccountRequest, PersonRequest {}
+accountRouter.post("/register", async (req: AuthRequest<RegisterRequest>, res: Response) => {
+    try {
+        // get info from request
+        const requiredProps = ["username", "password", "firstName", "lastName"];
+        const missingProps = getMissingProps(req, requiredProps);
+        if (missingProps.length) return res.status(HTTP_STATUS.BAD_REQUEST).json({missingProps});
+        const requestBody: RegisterRequest = req.body;
+        requestBody.username = requestBody.username.toLowerCase();
+        requestBody.email = requestBody.email?.toLowerCase();
+
+        // repos
+        const {accountRepo, personRepo} = getRepos();
+
+        // make person
+        const person = new Person();
+        person.firstName = requestBody.firstName;
+        person.lastName = requestBody.lastName;
+        const newPerson = await personRepo.save(person);
+
+        // make account
+        const account = new Account();
+        account.username = requestBody.username;
+        account.email = requestBody.email;
+        account.password = requestBody.password; // todo
+        account.person = newPerson;
+        const newAccount = await accountRepo.save(account);
+
         res.status(HTTP_STATUS.CREATED).json(newAccount);
 
     } catch (error) {
