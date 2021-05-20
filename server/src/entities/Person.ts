@@ -1,7 +1,6 @@
-import {OneToOne, Column, Entity, PrimaryGeneratedColumn, JoinColumn} from "typeorm";
-import {Account} from "./Account";
+import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 
-@Entity()
+@Entity({name: "person"})
 export class Person {
 
     @PrimaryGeneratedColumn()
@@ -13,12 +12,13 @@ export class Person {
     @Column({nullable: false})
     lastName: string;
 
-    @OneToOne(() => Account, account => account.person,
-        {nullable: true, orphanedRowAction: "nullify"})
-    readonly account: Account;
+
+    @Column({nullable: false})
+    phone: string;
 }
 
 export interface PersonRequest {
     firstName: string;
     lastName: string;
+    phone: string;
 }

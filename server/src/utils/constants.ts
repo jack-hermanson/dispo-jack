@@ -1,3 +1,5 @@
+import {TableColumnOptions} from "typeorm/schema-builder/options/TableColumnOptions";
+
 const apiPrefix = "/api";
 
 export const routePrefixes = {
@@ -6,7 +8,6 @@ export const routePrefixes = {
     people: `${apiPrefix}/people`,
     accounts: `${apiPrefix}/account`
 };
-
 
 export enum HTTP_STATUS {
     OK = 200,
@@ -17,3 +18,11 @@ export enum HTTP_STATUS {
     CONFLICT = 409,
     SERVER_ERROR = 500
 }
+
+export const idColumn: TableColumnOptions = {
+    name: "id",
+    type: "integer",
+    isPrimary: true,
+    isGenerated: true,
+    generationStrategy: "increment"
+};

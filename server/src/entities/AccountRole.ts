@@ -1,14 +1,14 @@
 import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 
-@Entity({name: "role"})
-export class Role {
+@Entity({name: "account_role"})
+export class AccountRole {
 
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column({nullable: false})
-    name: string;
+    accountId: number;
 
-    @Column({nullable: false, default: 0})
-    clearance: number;
+    @Column({nullable: false})
+    roleId: number;
 }
