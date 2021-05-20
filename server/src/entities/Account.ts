@@ -1,4 +1,5 @@
 import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import Joi from "joi";
 
 
 @Entity({name: "account"})
@@ -30,3 +31,13 @@ export interface EditAccountRequest {
 export interface NewAccountRequest extends EditAccountRequest {
     password: string;
 }
+
+export const baseSchema = Joi.object().options({abortEarly: false}).keys({
+    username: Joi.string().min(3).required(),
+    email: Joi.string().email().required(),
+    personId: Joi.number().integer().required()
+});
+
+export const newAccountSchema = baseSchema.keys({
+    password: Joi.string().min(3).required()
+});
