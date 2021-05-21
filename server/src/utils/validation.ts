@@ -2,6 +2,8 @@ import Joi from "joi";
 import {AuthRequest} from "./types";
 import {Response} from "express";
 import {HTTP_STATUS} from "./constants";
+import {Connection, getConnection, Repository} from "typeorm";
+import {ok} from "assert";
 
 /*
 If the request is not valid, it will send a 400 response with details and return false.
@@ -16,4 +18,49 @@ export const validateRequest = async (schema: Joi.Schema,
         res.status(HTTP_STATUS.BAD_REQUEST).json(error.details.map(err => err.message));
         return false;
     }
+}
+
+interface RecordExistsProps<T> {
+    repo: Repository<T>;
+    properties: [
+        {
+            name: string;
+            value: any;
+        }
+    ]
+    res: Response;
+    existingRecord?: T;
+}
+/*
+Returns true if it's okay to proceed with this operation because there is no conflict.
+Returns false if there is a conflict and the operation must be aborted.
+ */
+export const doesNotConflict = async <T>(
+    {repo, properties, res, existingRecord}: RecordExistsProps<T>): Promise<boolean> => {
+
+    const conflictingProperties: string[] = [];
+
+    for (let pair of properties) {
+        let conflict: boolean = false;
+        const matchingRecord = await repo.findOne({[pair.name]: pair.value});
+        if (matchingRecord) {
+            // a match exists
+            if (existingRecord) {
+                // are the match and the existing record the same thing?
+                conflict = (matchingRecord["id"] !== existingRecord["id"]);
+            } else {
+                // there is no existing record to compare against, and this is not unique
+                conflict = true;
+            }
+        }
+        if (conflict) {
+            conflictingProperties.push(pair.name);
+        }
+    }
+
+    if (conflictingProperties.length) {
+        res.status(HTTP_STATUS.CONFLICT).json({conflictingProperties});
+    }
+
+    return conflictingProperties.length === 0;
 }
