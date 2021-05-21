@@ -1,15 +1,15 @@
-import {Account, NewAccountRequest} from "../entities/Account";
+import {Account, NewAccountRequest, RegisterRequest} from "../entities/Account";
 import {HTTP_STATUS} from "../utils/constants";
 import * as bcrypt from "bcryptjs";
 import {Connection, getConnection, Repository} from "typeorm";
 import {AccountPerson} from "../entities/AccountPerson";
-import {Person} from "../entities/Person";
+import {Person, PersonRequest} from "../entities/Person";
 import {Role} from "../entities/Role";
 import {AccountRole} from "../entities/AccountRole";
 import {doesNotConflict} from "../utils/validation";
 import {Response} from "express";
-import {getOnePerson} from "./personServices";
-import {AccountAndPerson} from "../utils/types";
+import {createPerson, getOnePerson} from "./personServices";
+import {AccountAndPerson, AuthRequest} from "../utils/types";
 
 const getRepos = (): {
     accountRepo: Repository<Account>;
@@ -111,4 +111,19 @@ export const getOneAccount = async (id: number, res: Response): Promise<AccountA
     const person = await personRepo.findOne({id: accountPerson.personId});
 
     return {account, person};
+}
+
+// register (create new person and new account)
+export const register = async (
+    requestBody: RegisterRequest,
+    res: Response
+): Promise<AccountAndPerson | undefined> => {
+    const person = await createPerson(requestBody, res);
+    if (!person) return undefined;
+    const accountAndPerson = await createAccount({
+        personId: person.id,
+        ...requestBody
+    }, res);
+    if (!accountAndPerson) return undefined;
+    return accountAndPerson;
 }

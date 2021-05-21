@@ -1,10 +1,11 @@
 import express, {Response} from "express";
 import {AuthRequest} from "../utils/types";
 import {HTTP_STATUS} from "../utils/constants";
-import {NewAccountRequest, newAccountSchema} from "../entities/Account";
+import {NewAccountRequest, newAccountSchema, RegisterRequest, registerSchema} from "../entities/Account";
 import {validateRequest} from "../utils/validation";
-import {createAccount, getAccounts, getOneAccount} from "../services/accountServices";
+import {createAccount, getAccounts, getOneAccount, register} from "../services/accountServices";
 import {sendError} from "../utils/functions";
+import {PersonRequest, personSchema} from "../entities/Person";
 
 export const accountRouter = express.Router();
 
@@ -38,4 +39,17 @@ accountRouter.get("/:id", async (req: AuthRequest<{ id: number; }>, res: Respons
         sendError(error, res);
     }
 });
+
+// new account and new person
+accountRouter.post("/register", async (req: AuthRequest<RegisterRequest>, res: Response) => {
+    try {
+        if (!await validateRequest(registerSchema, req, res)) return;
+        const requestBody: RegisterRequest = req.body;
+        const accountAndPerson = await register(requestBody, res);
+        if (!accountAndPerson) return;
+        res.status(HTTP_STATUS.CREATED).json(accountAndPerson);
+    } catch (error) {
+        sendError(error, res);
+    }
+})
 
