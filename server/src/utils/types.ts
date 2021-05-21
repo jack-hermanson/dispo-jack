@@ -1,5 +1,7 @@
 import {Request} from "express";
 import {HTTP_STATUS} from "./constants";
+import {Person} from "../entities/Person";
+import {Account} from "../entities/Account";
 
 export type DbDialect = "sqlite" | "postgres";
 
@@ -7,8 +9,8 @@ export interface AuthRequest<T> extends Request<T> {
     account?: Account;
 }
 
-export class HttpError {
-    public status: HTTP_STATUS;
-    public message?: string;
-    public error?: Error;
+
+export interface AccountAndPerson {
+    account: Account;
+    person: Person;
 }

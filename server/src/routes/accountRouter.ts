@@ -3,7 +3,7 @@ import {AuthRequest} from "../utils/types";
 import {HTTP_STATUS} from "../utils/constants";
 import {NewAccountRequest, newAccountSchema} from "../entities/Account";
 import {validateRequest} from "../utils/validation";
-import {createAccount} from "../services/accountServices";
+import {createAccount, getAccounts, getOneAccount} from "../services/accountServices";
 import {sendError} from "../utils/functions";
 
 export const accountRouter = express.Router();
@@ -14,7 +14,26 @@ accountRouter.post("/", async (req: AuthRequest<NewAccountRequest>, res: Respons
         if (!await validateRequest(newAccountSchema, req, res)) return;
         const requestBody: NewAccountRequest = req.body;
         const accountAndPerson = await createAccount(requestBody, res);
+        if (!accountAndPerson) return;
         res.status(HTTP_STATUS.CREATED).json(accountAndPerson);
+    } catch (error) {
+        sendError(error, res);
+    }
+});
+
+accountRouter.get("/", async (req: AuthRequest<any>, res: Response) => {
+    try {
+        res.json(await getAccounts());
+    } catch (error) {
+        sendError(error, res);
+    }
+});
+
+accountRouter.get("/:id", async (req: AuthRequest<{ id: number; }>, res: Response) => {
+    try {
+        const accountAndPerson = await getOneAccount(req.params.id, res);
+        if (!accountAndPerson) return;
+        res.json(accountAndPerson);
     } catch (error) {
         sendError(error, res);
     }

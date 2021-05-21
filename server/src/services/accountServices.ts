@@ -9,6 +9,7 @@ import {AccountRole} from "../entities/AccountRole";
 import {doesNotConflict} from "../utils/validation";
 import {Response} from "express";
 import {getOnePerson} from "./personServices";
+import {AccountAndPerson} from "../utils/types";
 
 const getRepos = (): {
     accountRepo: Repository<Account>;
@@ -28,10 +29,7 @@ const getRepos = (): {
 
 
 // create account for existing person
-export const createAccount = async (requestBody: NewAccountRequest, res: Response): Promise<{
-    account: Account;
-    person: Person;
-} | undefined> => {
+export const createAccount = async (requestBody: NewAccountRequest, res: Response): Promise<AccountAndPerson | undefined> => {
     const {accountRepo, accountPersonRepo} = getRepos();
 
     // is this personId a real person?
@@ -84,4 +82,33 @@ export const createAccount = async (requestBody: NewAccountRequest, res: Respons
         account: newAccount,
         person: person
     };
+};
+
+export const getAccounts = async (): Promise<AccountAndPerson[]> => {
+    const output: AccountAndPerson[] = [];
+
+    const {accountRepo, personRepo, accountPersonRepo} = getRepos();
+    const accountPeople = await accountPersonRepo.find();
+
+    for (let accountPerson of accountPeople) {
+        const person = await personRepo.findOne({id: accountPerson.personId});
+        const account = await accountRepo.findOne({id: accountPerson.accountId});
+        output.push({account, person});
+    }
+
+    return output;
+};
+
+export const getOneAccount = async (id: number, res: Response): Promise<AccountAndPerson | undefined> => {
+    const {accountRepo, personRepo, accountPersonRepo} = getRepos();
+    const accountPerson = await accountPersonRepo.findOne({accountId: id});
+    if (!accountPerson) {
+        res.sendStatus(HTTP_STATUS.NOT_FOUND);
+        return undefined;
+    }
+
+    const account = await accountRepo.findOne({id: accountPerson.accountId});
+    const person = await personRepo.findOne({id: accountPerson.personId});
+
+    return {account, person};
 }
