@@ -9,7 +9,7 @@ import {AccountRole} from "../entities/AccountRole";
 import {doesNotConflict} from "../utils/validation";
 import {Response} from "express";
 import {createPerson, getOnePerson} from "./personServices";
-import {AccountAndPerson} from "../utils/types";
+import {AccountAndPerson, AuthRequest} from "../utils/types";
 import * as jwt from "jsonwebtoken";
 
 const getRepos = (): {
@@ -161,3 +161,21 @@ export const login = async (requestBody: LoginRequest, res: Response): Promise<A
         person: person
     };
 };
+
+// return true if logout was successful
+export const logout = async (req: AuthRequest<any>, res: Response): Promise<boolean> => {
+    const {accountRepo} = getRepos();
+    const account = await accountRepo.findOne({id: req.account.id});
+    if (!account) {
+        res.sendStatus(HTTP_STATUS.NOT_FOUND);
+        return false;
+    }
+    await accountRepo.update(account, {token: null});
+    const updatedAccount = await accountRepo.findOne({id: account.id});
+    if (updatedAccount.token === null) {
+        return true;
+    } else {
+        res.sendStatus(HTTP_STATUS.SERVER_ERROR);
+        return false;
+    }
+}

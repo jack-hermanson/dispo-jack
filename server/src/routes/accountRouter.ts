@@ -10,9 +10,10 @@ import {
     registerSchema
 } from "../entities/Account";
 import {validateRequest} from "../utils/validation";
-import {createAccount, getAccounts, getOneAccount, login, register} from "../services/accountServices";
+import {createAccount, getAccounts, getOneAccount, login, logout, register} from "../services/accountServices";
 import {sendError} from "../utils/functions";
 import {PersonRequest, personSchema} from "../entities/Person";
+import {auth} from "../middleware/auth";
 
 export const accountRouter = express.Router();
 
@@ -70,5 +71,15 @@ accountRouter.post("/login", async (req: AuthRequest<LoginRequest>, res: Respons
     } catch (error) {
         sendError(error, res);
     }
-})
+});
 
+// log out
+accountRouter.post("/logout", auth, async (req: AuthRequest<any>, res: Response) => {
+    try {
+        const successfulLogout = await logout(req, res);
+        if (!successfulLogout) return;
+        res.sendStatus(HTTP_STATUS.OK);
+    } catch (error) {
+        sendError(error, res);
+    }
+});
