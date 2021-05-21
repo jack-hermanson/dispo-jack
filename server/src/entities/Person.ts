@@ -1,4 +1,5 @@
 import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import Joi from "joi";
 
 @Entity({name: "person"})
 export class Person {
@@ -12,7 +13,6 @@ export class Person {
     @Column({nullable: false})
     lastName: string;
 
-
     @Column({nullable: false})
     phone: string;
 }
@@ -22,3 +22,10 @@ export interface PersonRequest {
     lastName: string;
     phone: string;
 }
+
+export const personSchema = Joi.object().options({abortEarly: false}).keys({
+    firstName: Joi.string().required(),
+    lastName: Joi.string().required(),
+    phone: Joi.string().required()
+});
+

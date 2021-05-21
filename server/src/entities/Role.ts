@@ -14,7 +14,7 @@ export class Role {
     clearance: number;
 }
 
-export interface NewRoleRequest {
+export interface RoleRequest {
     name: string;
     clearance: number;
 }

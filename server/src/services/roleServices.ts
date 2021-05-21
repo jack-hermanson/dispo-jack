@@ -1,17 +1,16 @@
 import {getConnection, Repository} from "typeorm";
-import {NewRoleRequest, Role} from "../entities/Role";
+import {RoleRequest, Role} from "../entities/Role";
 import {doesNotConflict} from "../utils/validation";
 import {Response} from "express";
-import {isNumber} from "util";
 import {HTTP_STATUS} from "../utils/constants";
 
 const getRepos = (): {roleRepo: Repository<Role>} => {
     const connection = getConnection();
     const roleRepo = connection.getRepository(Role);
     return {roleRepo};
-}
+};
 
-export const createRole = async (requestBody: NewRoleRequest, res: Response): Promise<Role | undefined> => {
+export const createRole = async (requestBody: RoleRequest, res: Response): Promise<Role | undefined> => {
     // get repository
     const {roleRepo} = getRepos();
 
@@ -49,7 +48,7 @@ export const getOneRole = async (id: number, res: Response): Promise<Role | unde
     return role;
 };
 
-export const editRole = async (id: number, requestBody: NewRoleRequest, res: Response): Promise<Role | undefined> => {
+export const editRole = async (id: number, requestBody: RoleRequest, res: Response): Promise<Role | undefined> => {
     const role = await getOneRole(id, res);
     if (!role) return undefined;
 
