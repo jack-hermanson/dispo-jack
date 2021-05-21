@@ -36,3 +36,13 @@ export const getPeople = async (): Promise<Person[]> => {
     const {personRepo} = getRepos();
     return await personRepo.find();
 };
+
+export const getOnePerson = async (id: number, res: Response): Promise<Person | undefined> => {
+    const {personRepo} = getRepos();
+    const person = await personRepo.findOne({id: id});
+    if (!person) {
+        res.sendStatus(HTTP_STATUS.NOT_FOUND);
+        return undefined;
+    }
+    return person;
+};

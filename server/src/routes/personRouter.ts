@@ -1,6 +1,6 @@
 import express, {Response} from "express";
 import {AuthRequest} from "../utils/types";
-import {createPerson, getPeople} from "../services/personServices";
+import {createPerson, getOnePerson, getPeople} from "../services/personServices";
 import {sendError} from "../utils/functions";
 import {PersonRequest, personSchema} from "../entities/Person";
 import {validateRequest} from "../utils/validation";
@@ -27,6 +27,16 @@ personRouter.post("/", async (req: AuthRequest<PersonRequest>, res: Response) =>
 personRouter.get("/", async (req: AuthRequest<any>, res: Response) => {
     try {
         res.json(await getPeople());
+    } catch (error) {
+        sendError(error, res);
+    }
+});
+
+personRouter.get("/:id", async (req: AuthRequest<{ id: number; }>, res: Response) => {
+    try {
+        const person = await getOnePerson(req.params.id, res);
+        if (!person) return;
+        res.json(person);
     } catch (error) {
         sendError(error, res);
     }
