@@ -35,7 +35,8 @@ export interface NewAccountRequest extends EditAccountRequest {
 export const baseSchema = Joi.object().options({abortEarly: false}).keys({
     username: Joi.string().min(3).required(),
     email: Joi.string().email().required(),
-    personId: Joi.number().integer().required()
+    personId: Joi.number().integer().required(),
+    roleId: Joi.number().integer().optional()
 });
 
 export const newAccountSchema = baseSchema.keys({

@@ -4,19 +4,19 @@ import {HTTP_STATUS} from "../utils/constants";
 import {NewAccountRequest, newAccountSchema} from "../entities/Account";
 import {validateRequest} from "../utils/validation";
 import {createAccount} from "../services/accountServices";
+import {sendError} from "../utils/functions";
 
 export const accountRouter = express.Router();
 
 // new account
 accountRouter.post("/", async (req: AuthRequest<NewAccountRequest>, res: Response) => {
-    // todo
     try {
         if (!await validateRequest(newAccountSchema, req, res)) return;
         const requestBody: NewAccountRequest = req.body;
-        const account = await createAccount(requestBody);
-        res.status(HTTP_STATUS.CREATED).json(account);
+        const accountAndPerson = await createAccount(requestBody, res);
+        res.status(HTTP_STATUS.CREATED).json(accountAndPerson);
     } catch (error) {
-        res.status(HTTP_STATUS.SERVER_ERROR).json(error);
+        sendError(error, res);
     }
 });
 

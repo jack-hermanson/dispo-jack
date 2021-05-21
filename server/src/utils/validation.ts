@@ -2,8 +2,7 @@ import Joi from "joi";
 import {AuthRequest} from "./types";
 import {Response} from "express";
 import {HTTP_STATUS} from "./constants";
-import {Connection, getConnection, Repository} from "typeorm";
-import {ok} from "assert";
+import {Repository} from "typeorm";
 
 /*
 If the request is not valid, it will send a 400 response with details and return false.
@@ -22,15 +21,14 @@ export const validateRequest = async (schema: Joi.Schema,
 
 interface RecordExistsProps<T> {
     repo: Repository<T>;
-    properties: [
-        {
-            name: string;
-            value: any;
-        }
-    ]
+    properties: {
+        name: string;
+        value: any;
+    }[],
     res: Response;
     existingRecord?: T;
 }
+
 /*
 Returns true if it's okay to proceed with this operation because there is no conflict.
 Returns false if there is a conflict and the operation must be aborted.
