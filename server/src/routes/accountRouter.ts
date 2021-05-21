@@ -1,9 +1,16 @@
 import express, {Response} from "express";
 import {AuthRequest} from "../utils/types";
 import {HTTP_STATUS} from "../utils/constants";
-import {NewAccountRequest, newAccountSchema, RegisterRequest, registerSchema} from "../entities/Account";
+import {
+    LoginRequest,
+    loginSchema,
+    NewAccountRequest,
+    newAccountSchema,
+    RegisterRequest,
+    registerSchema
+} from "../entities/Account";
 import {validateRequest} from "../utils/validation";
-import {createAccount, getAccounts, getOneAccount, register} from "../services/accountServices";
+import {createAccount, getAccounts, getOneAccount, login, register} from "../services/accountServices";
 import {sendError} from "../utils/functions";
 import {PersonRequest, personSchema} from "../entities/Person";
 
@@ -48,6 +55,18 @@ accountRouter.post("/register", async (req: AuthRequest<RegisterRequest>, res: R
         const accountAndPerson = await register(requestBody, res);
         if (!accountAndPerson) return;
         res.status(HTTP_STATUS.CREATED).json(accountAndPerson);
+    } catch (error) {
+        sendError(error, res);
+    }
+});
+
+// log in
+accountRouter.post("/login", async (req: AuthRequest<LoginRequest>, res: Response) => {
+    try {
+        if (!await validateRequest(loginSchema, req, res)) return;
+        const requestBody: LoginRequest = req.body;
+        const accountAndPerson = await login(requestBody, res);
+        res.json(accountAndPerson);
     } catch (error) {
         sendError(error, res);
     }

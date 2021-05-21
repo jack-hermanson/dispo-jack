@@ -35,6 +35,16 @@ export interface NewAccountRequest extends EditAccountRequest {
 
 export interface RegisterRequest extends Omit<NewAccountRequest, "personId">, PersonRequest {}
 
+export interface LoginRequest {
+    username: string;
+    password: string;
+}
+
+export const loginSchema = Joi.object().options({abortEarly: false}).keys({
+    username: Joi.string().min(3).required(),
+    password: Joi.string().min(3).required()
+});
+
 export const baseSchema = Joi.object().options({abortEarly: false}).keys({
     username: Joi.string().min(3).required(),
     email: Joi.string().email().required(),

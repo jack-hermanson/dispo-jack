@@ -1,15 +1,16 @@
-import {Account, NewAccountRequest, RegisterRequest} from "../entities/Account";
+import {Account, LoginRequest, NewAccountRequest, RegisterRequest} from "../entities/Account";
 import {HTTP_STATUS} from "../utils/constants";
 import * as bcrypt from "bcryptjs";
-import {Connection, getConnection, Repository} from "typeorm";
+import {getConnection, Repository} from "typeorm";
 import {AccountPerson} from "../entities/AccountPerson";
-import {Person, PersonRequest} from "../entities/Person";
+import {Person} from "../entities/Person";
 import {Role} from "../entities/Role";
 import {AccountRole} from "../entities/AccountRole";
 import {doesNotConflict} from "../utils/validation";
 import {Response} from "express";
 import {createPerson, getOnePerson} from "./personServices";
-import {AccountAndPerson, AuthRequest} from "../utils/types";
+import {AccountAndPerson} from "../utils/types";
+import * as jwt from "jsonwebtoken";
 
 const getRepos = (): {
     accountRepo: Repository<Account>;
@@ -126,4 +127,37 @@ export const register = async (
     }, res);
     if (!accountAndPerson) return undefined;
     return accountAndPerson;
-}
+};
+
+export const login = async (requestBody: LoginRequest, res: Response): Promise<AccountAndPerson> => {
+    const {accountRepo, personRepo, accountPersonRepo} = getRepos();
+    const account = await accountRepo.findOne({username: requestBody.username});
+    if (!account) {
+        res.sendStatus(HTTP_STATUS.NOT_FOUND);
+        return undefined;
+    }
+    const validPassword: boolean = await bcrypt.compare(requestBody.password, account.password);
+    if (!validPassword) {
+        res.status(HTTP_STATUS.BAD_REQUEST).send("Wrong password.");
+        return undefined;
+    }
+
+    const token = jwt.sign(
+        {id: account.id},
+        process.env.SECRET_KEY,
+        {
+            expiresIn: "60 minutes"
+        }
+    );
+
+    await accountRepo.update(account, {token: token});
+    const editedAccount = await accountRepo.findOne({id: account.id});
+
+    const accountPerson = await accountPersonRepo.findOne({accountId: account.id});
+    const person = await personRepo.findOne({id: accountPerson.personId});
+
+    return {
+        account: editedAccount,
+        person: person
+    };
+};
