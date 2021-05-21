@@ -1,0 +1,30 @@
+@import url('http://fonts.cdnfonts.com/css/ubuntu');
+@import "../../node_modules/bootstrap/scss/functions";
+@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/mixins";
+
+$theme-colors: (
+  "primary": $green,
+  "success": $blue
+);
+
+$body-bg: darken($gray-800, 12%);
+$body-color: white;
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+
+body {
+  font-family: "Ubuntu", sans-serif;
+}
+
+.main-navbar {
+  background-color: $green;
+  color: white;
+}
+
+.hover-mouse {
+  &:hover {
+    cursor: pointer;
+  }
+}

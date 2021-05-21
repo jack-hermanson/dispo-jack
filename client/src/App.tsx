@@ -1,23 +1,13 @@
-import React from 'react';
+import {StoreProvider} from "easy-peasy";
+import {store} from "./store";
+import {MainRouter} from "./MainRouter";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <StoreProvider store={store}>
+            <MainRouter />
+        </StoreProvider>
+    );
 }
 
 export default App;
