@@ -37,7 +37,7 @@ export const createRole = async (requestBody: NewRoleRequest, res: Response): Pr
 export const getRoles = async (): Promise<Role[]> => {
     const {roleRepo} = getRepos();
     return await roleRepo.find();
-}
+};
 
 export const getOneRole = async (id: number, res: Response): Promise<Role | undefined> => {
     const {roleRepo} = getRepos();
@@ -47,4 +47,26 @@ export const getOneRole = async (id: number, res: Response): Promise<Role | unde
         return undefined;
     }
     return role;
-}
+};
+
+export const editRole = async (id: number, requestBody: NewRoleRequest, res: Response): Promise<Role | undefined> => {
+    const role = await getOneRole(id, res);
+    if (!role) return undefined;
+
+    // check uniqueness
+    const {roleRepo} = getRepos();
+    if (!await doesNotConflict<Role>({
+        repo: roleRepo,
+        properties: [
+            {name: "name", value: requestBody.name}
+        ],
+        res: res,
+        existingRecord: role
+    })) {
+        return undefined;
+    }
+
+    // save edits
+    await roleRepo.update(role, requestBody);
+    return await roleRepo.findOne({id: id});
+};
