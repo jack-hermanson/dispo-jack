@@ -1,85 +1,61 @@
 import express, {Response} from "express";
 import {AuthRequest} from "../utils/types";
+import {RoleRequest, Role, roleSchema} from "../entities/Role";
+import {validateRequest} from "../utils/validation";
 import {HTTP_STATUS} from "../utils/constants";
-import {Connection, getConnection, Repository} from "typeorm";
-import {Role} from "../entities/Role";
+import {createRole, editRole, getOneRole, getRoles} from "../services/roleServices";
+import {sendError} from "../utils/functions";
 
 export const roleRouter = express.Router();
 
-// repos
-const getRepos = (): {roleRepo: Repository<Role>} => {
-    const connection: Connection = getConnection();
-    const roleRepo: Repository<Role> = connection.getRepository(Role);
-    return {roleRepo};
-};
-
-// new role
 roleRouter.post("/", async (req: AuthRequest<Role>, res: Response) => {
     try {
-        const role: Role = new Role();
-        role.name = req.body.name;
-        role.clearance = req.body.clearance;
-        if (!role.name || !role.clearance) return res.sendStatus(HTTP_STATUS.BAD_REQUEST);
+        // check for required parameters
+        if (!await validateRequest(roleSchema, req, res)) return;
+        const requestBody: RoleRequest = req.body;
 
-        const newRole = await getRepos().roleRepo.save(role);
+        // create record
+        const newRole = await createRole(requestBody, res);
+        if (!newRole) return;
+
         res.status(HTTP_STATUS.CREATED).json(newRole);
     } catch (error) {
-        console.error(error);
-        res.status(HTTP_STATUS.SERVER_ERROR).json(error);
+        sendError(error, res);
     }
 });
 
-// get all roles
 roleRouter.get("/", async (req: AuthRequest<any>, res: Response) => {
     try {
-        const roles = await getRepos().roleRepo.find();
-        res.json(roles);
+        res.json(await getRoles());
     } catch (error) {
-        console.error(error);
-        res.status(HTTP_STATUS.SERVER_ERROR).json(error);
+        sendError(error, res);
     }
 });
 
-// get one role
-roleRouter.get("/:id", async (req: AuthRequest<any>, res: Response) => {
+roleRouter.get("/:id", async (req: AuthRequest<{id: number}>, res: Response) => {
     try {
-        const role = await getRepos().roleRepo.findOne({id: req.params.id});
-        if (!role) return res.sendStatus(HTTP_STATUS.NOT_FOUND);
+        const role = await getOneRole(req.params.id, res);
+        if (!role) return;
         res.json(role);
     } catch (error) {
-        console.error(error);
-        res.status(HTTP_STATUS.SERVER_ERROR).json(error);
+        sendError(error, res);
     }
 });
 
-// update a role
-roleRouter.put("/:id", async (req: AuthRequest<Role>, res: Response) => {
+roleRouter.put("/:id", async (req: AuthRequest<{id: number} & RoleRequest>, res: Response) => {
     try {
-        const roleRepo = getRepos().roleRepo;
-        const role = await roleRepo.findOne({id: req.params.id});
-        if (!role) return res.sendStatus(HTTP_STATUS.NOT_FOUND);
+        // check for required parameters
+        if (!await validateRequest(roleSchema, req, res)) return;
+        const requestBody: RoleRequest = req.body;
 
-        if (!req.body.name || !req.body.clearance) {
-            return res.sendStatus(HTTP_STATUS.BAD_REQUEST);
-        }
+        // edit record
+        const editedRole = await editRole(req.params.id, requestBody, res);
+        if (!editedRole) return;
 
-        await roleRepo.update(role, {
-            name: req.body.name,
-            clearance: req.body.clearance
-        });
-
-        const newRole = await roleRepo.findOne(req.params.id);
-
-        res.json(newRole);
-
+        res.json(editedRole);
     } catch (error) {
-        console.error(error);
-        res.status(HTTP_STATUS.SERVER_ERROR).json(error);
+        sendError(error, res);
     }
 });
 
-// delete a role
-roleRouter.delete("/:id", async (req: AuthRequest<any>, res: Response) => {
-    // todo
-    res.send(null);
-});
+// todo delete role

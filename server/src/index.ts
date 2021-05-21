@@ -10,10 +10,12 @@ import {ConnectionOptions, createConnection} from "typeorm";
 import {Account} from "./entities/Account";
 import {Role} from "./entities/Role";
 import {Person} from "./entities/Person";
-import {Accounts1621446055349} from "./migrations/1621446055349-Accounts";
+import {PrimitiveAccount1621529788492} from "./migrations/1621529788492-PrimitiveAccount";
 import {roleRouter} from "./routes/roleRouter";
 import {personRouter} from "./routes/personRouter";
 import {accountRouter} from "./routes/accountRouter";
+import {AccountRole} from "./entities/AccountRole";
+import {AccountPerson} from "./entities/AccountPerson";
 
 // env
 const envPath = path.join(__dirname, "..", ".env");
@@ -38,7 +40,7 @@ export const dbOptions: ConnectionOptions = {
     database: databaseDialect === "sqlite" ? "site.db" : "",
     type: databaseDialect,
     url: process.env.DATABASE_URL,
-    entities: [Role, Person, Account],
+    entities: [Role, Person, Account, AccountRole, AccountPerson],
     synchronize: false,
     extra: {
         ssl: {
@@ -47,7 +49,7 @@ export const dbOptions: ConnectionOptions = {
     },
     migrationsRun: true,
     migrationsTableName: "migrations",
-    migrations: [Accounts1621446055349],
+    migrations: [PrimitiveAccount1621529788492],
     cli: {
         migrationsDir: path.join(__dirname, "migrations")
     }
