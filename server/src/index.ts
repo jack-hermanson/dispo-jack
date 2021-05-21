@@ -28,11 +28,19 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.set("port", (process.env.PORT || 5000));
 
+// static
+const staticFiles = express.static(path.join(__dirname, '../../client/build'));
+app.use(staticFiles);
+
 // express routes
 app.use(routePrefixes.main, mainRouter);
 app.use(routePrefixes.roles, roleRouter);
 app.use(routePrefixes.people, personRouter);
 app.use(routePrefixes.accounts, accountRouter);
+
+// any apps not picked up by the server api will be handled by the react router
+app.use('/*', staticFiles);
+app.set('port', (process.env.PORT || 5000));
 
 // database
 const databaseDialect: DbDialect = process.env.DATABASE_DIALECT as DbDialect;
