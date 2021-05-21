@@ -48,7 +48,7 @@ roleRouter.put("/:id", async (req: AuthRequest<{id: number} & RoleRequest>, res:
         if (!await validateRequest(roleSchema, req, res)) return;
         const requestBody: RoleRequest = req.body;
 
-        // create record
+        // edit record
         const editedRole = await editRole(req.params.id, requestBody, res);
         if (!editedRole) return;
 

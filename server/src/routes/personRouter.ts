@@ -1,6 +1,6 @@
 import express, {Response} from "express";
 import {AuthRequest} from "../utils/types";
-import {createPerson, getOnePerson, getPeople} from "../services/personServices";
+import {createPerson, editPerson, getOnePerson, getPeople} from "../services/personServices";
 import {sendError} from "../utils/functions";
 import {PersonRequest, personSchema} from "../entities/Person";
 import {validateRequest} from "../utils/validation";
@@ -37,6 +37,22 @@ personRouter.get("/:id", async (req: AuthRequest<{ id: number; }>, res: Response
         const person = await getOnePerson(req.params.id, res);
         if (!person) return;
         res.json(person);
+    } catch (error) {
+        sendError(error, res);
+    }
+});
+
+personRouter.put("/:id", async (req: AuthRequest<{id: number} & PersonRequest>, res: Response) => {
+    try {
+        // check for required parameters
+        if (!await validateRequest(personSchema, req, res)) return;
+        const requestBody: PersonRequest = req.body;
+
+        // edit record
+        const editedPerson = await editPerson(req.params.id, requestBody, res);
+        if (!editedPerson) return;
+
+        res.json(editedPerson);
     } catch (error) {
         sendError(error, res);
     }

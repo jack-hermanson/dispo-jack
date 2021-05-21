@@ -46,3 +46,23 @@ export const getOnePerson = async (id: number, res: Response): Promise<Person | 
     }
     return person;
 };
+
+export const editPerson = async (id: number, requestBody: PersonRequest, res: Response): Promise<Person | undefined> => {
+    const person = await getOnePerson(id, res);
+    if (!person) return undefined;
+
+    const {personRepo} = getRepos();
+    if (!await doesNotConflict<Person>({
+        repo: personRepo,
+        properties: [
+            {name: "phone", value: requestBody.phone}
+        ],
+        res: res,
+        existingRecord: person
+    })) {
+        return undefined;
+    }
+
+    await personRepo.update(person, requestBody);
+    return await personRepo.findOne({id: id});
+};
