@@ -12,7 +12,6 @@ import {
 import {validateRequest} from "../utils/validation";
 import {createAccount, getAccounts, getOneAccount, login, logout, register} from "../services/accountServices";
 import {sendError} from "../utils/functions";
-import {PersonRequest, personSchema} from "../entities/Person";
 import {auth} from "../middleware/auth";
 
 export const accountRouter = express.Router();

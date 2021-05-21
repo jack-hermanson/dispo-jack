@@ -5,10 +5,13 @@
   "author": "Jack Hermanson",
   "license": "WTFPL",
   "private": false,
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/jack-hermanson/dispo-jack"
   },
   "devDependencies": {},
-  "dependencies": {}
+  "dependencies": {
+    "concurrently": "^6.1.0"
+  }
 }
