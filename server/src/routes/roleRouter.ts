@@ -3,7 +3,7 @@ import {AuthRequest} from "../utils/types";
 import {NewRoleRequest, Role, roleSchema} from "../entities/Role";
 import {validateRequest} from "../utils/validation";
 import {HTTP_STATUS} from "../utils/constants";
-import {createRole} from "../services/roleServices";
+import {createRole, getOneRole, getRoles} from "../services/roleServices";
 import {sendError} from "../utils/functions";
 
 export const roleRouter = express.Router();
@@ -24,7 +24,22 @@ roleRouter.post("/", async (req: AuthRequest<Role>, res: Response) => {
     } catch (error) {
         sendError(error, res);
     }
+});
 
-    
+roleRouter.get("/", async (req: AuthRequest<any>, res: Response) => {
+    try {
+        res.json(await getRoles());
+    } catch (error) {
+        sendError(error, res);
+    }
+});
 
+roleRouter.get("/:id", async (req: AuthRequest<{id: number}>, res: Response) => {
+    try {
+        const role = await getOneRole(req.params.id, res);
+        if (!role) return;
+        res.json(role);
+    } catch (error) {
+        sendError(error, res);
+    }
 });
