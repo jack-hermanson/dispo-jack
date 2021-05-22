@@ -5,7 +5,13 @@
 
 $theme-colors: (
   "primary": $green,
-  "success": $blue
+  "success": $blue,
+  "secondary": $secondary,
+  "info": $info,
+  "warning": $warning,
+  "danger": $danger,
+  "light": $light,
+  "dark": $dark
 );
 
 $body-bg: darken($gray-800, 12%);
@@ -26,5 +32,13 @@ body {
 .hover-mouse {
   &:hover {
     cursor: pointer;
+  }
+}
+
+.bottom-buttons {
+  margin-bottom: 0;
+  margin-top: 1.6em;
+  button:not(last-of-type) {
+    margin-right: 0.5em;
   }
 }

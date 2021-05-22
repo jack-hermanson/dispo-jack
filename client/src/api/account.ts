@@ -4,7 +4,8 @@ import axios from "axios";
 const baseUrl = "/api/account";
 
 export const logIn = async (userInfo: LoginRequest): Promise<AccountAndPerson> => {
-    return await axios.post(baseUrl, userInfo);
+    const response = await axios.post(`${baseUrl}/login`, userInfo);
+    return response.data;
 }
 
 export const logOut = async (token: string): Promise<boolean> => {
