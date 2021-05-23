@@ -1,21 +1,5 @@
-@import url('http://fonts.cdnfonts.com/css/ubuntu');
-@import "../../node_modules/bootstrap/scss/functions";
-@import "../../node_modules/bootstrap/scss/variables";
-@import "../../node_modules/bootstrap/scss/mixins";
-
-$theme-colors: (
-  "primary": $green,
-  "success": $blue,
-  "secondary": $secondary,
-  "info": $info,
-  "warning": $warning,
-  "danger": $danger,
-  "light": $light,
-  "dark": $dark
-);
-
-$body-bg: darken($gray-800, 12%);
-$body-color: white;
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');
+@import "theme";
 
 @import "../../node_modules/bootstrap/scss/bootstrap";
 
