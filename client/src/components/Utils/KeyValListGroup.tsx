@@ -7,9 +7,10 @@ interface Props {
     flush?: boolean;
     keyValPairs: KeyValPair[];
     className?: string;
+    children?: React.ReactNode;
 }
 
-export const KeyValListGroup: React.FC<Props> = ({flush = false, keyValPairs, className}: Props) => {
+export const KeyValListGroup: React.FC<Props> = ({flush = false, keyValPairs, className, children}: Props) => {
     return (
         <ListGroup className={className} flush={flush}>
             {keyValPairs.map((kvp, index) => {
@@ -28,6 +29,7 @@ export const KeyValListGroup: React.FC<Props> = ({flush = false, keyValPairs, cl
                     </ListGroupItem>
                 );
             })}
+            {children}
         </ListGroup>
     );
 }

@@ -11,6 +11,7 @@ import {Response} from "express";
 import {createPerson, getOnePerson} from "./personServices";
 import {AccountAndPerson, AuthRequest} from "../utils/types";
 import * as jwt from "jsonwebtoken";
+import {getUserClearances} from "./roleServices";
 
 const getRepos = (): {
     accountRepo: Repository<Account>;
@@ -78,10 +79,14 @@ export const createAccount = async (requestBody: NewAccountRequest, res: Respons
     accountPerson.personId = requestBody.personId;
     await accountPersonRepo.save(accountPerson);
 
+    // get clearances
+    const clearances = await getUserClearances(newAccount.id);
+
     // return account and person
     return {
         account: newAccount,
-        person: person
+        person: person,
+        clearances: clearances
     };
 };
 
@@ -94,7 +99,8 @@ export const getAccounts = async (): Promise<AccountAndPerson[]> => {
     for (let accountPerson of accountPeople) {
         const person = await personRepo.findOne({id: accountPerson.personId});
         const account = await accountRepo.findOne({id: accountPerson.accountId});
-        output.push({account, person});
+        const clearances = await getUserClearances(accountPerson.accountId);
+        output.push({account, person, clearances});
     }
 
     return output;
@@ -110,8 +116,9 @@ export const getOneAccount = async (id: number, res: Response): Promise<AccountA
 
     const account = await accountRepo.findOne({id: accountPerson.accountId});
     const person = await personRepo.findOne({id: accountPerson.personId});
+    const clearances = await getUserClearances(account.id);
 
-    return {account, person};
+    return {account, person, clearances};
 }
 
 // register (create new person and new account)
@@ -155,10 +162,12 @@ export const login = async (requestBody: LoginRequest, res: Response): Promise<A
 
     const accountPerson = await accountPersonRepo.findOne({accountId: account.id});
     const person = await personRepo.findOne({id: accountPerson.personId});
+    const clearances = await getUserClearances(account.id);
 
     return {
         account: editedAccount,
-        person: person
+        person: person,
+        clearances: clearances
     };
 };
 

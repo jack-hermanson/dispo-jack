@@ -61,7 +61,7 @@ export const Navigation: React.FC = () => {
             }}>
                 {account ? (
                     <ButtonDropdown isOpen={userBtnOpen} toggle={() => setUserBtnOpen(open => !open)}>
-                        <DropdownToggle size="sm" color="info" caret>
+                        <DropdownToggle size="sm" color="secondary" caret>
                             {renderUserIcon()}
                             {account.username}
                         </DropdownToggle>
