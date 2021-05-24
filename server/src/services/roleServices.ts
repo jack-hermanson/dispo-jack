@@ -112,12 +112,12 @@ export const applyRole = async (
     });
 
     // current user
-    const currentUserClearances = await getClearances(currentUser.id);
+    const currentUserClearances = await getUserClearances(currentUser.id);
     const currentUserIsAdmin: boolean = currentUserClearances.some(clearance => clearance >= 5);
     const currentUserIsSuperAdmin: boolean = currentUserClearances.some(clearance => clearance === 10);
 
     // affected user
-    const affectedUserClearances = await getClearances(accountId);
+    const affectedUserClearances = await getUserClearances(accountId);
     const affectedUserIsSuperAdmin: boolean = affectedUserClearances.some(clearance => clearance === 10);
 
     // is current user allowed to modify roles?
@@ -144,7 +144,7 @@ export const applyRole = async (
 };
 
 // get list of user clearances
-export const getClearances = async (accountId: number): Promise<number[]> => {
+export const getUserClearances = async (accountId: number): Promise<number[]> => {
 
     // repos
     const {accountRoleRepo, roleRepo} = getRepos();

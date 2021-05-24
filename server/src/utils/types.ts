@@ -13,4 +13,5 @@ export interface AuthRequest<T> extends Request<T> {
 export interface AccountAndPerson {
     account: Account;
     person: Person;
+    clearances: number[];
 }
