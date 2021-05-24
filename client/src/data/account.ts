@@ -13,6 +13,7 @@ export interface AccountRecord extends AccountRequest, BaseModel {}
 export interface AccountAndPerson {
     account: AccountRecord;
     person: PersonRecord;
+    clearances: number[];
 }
 
 export interface LoginRequest {
