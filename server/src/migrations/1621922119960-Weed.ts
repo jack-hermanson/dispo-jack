@@ -128,6 +128,23 @@ export class Weed1621922119960 implements MigrationInterface {
             ]
         });
 
+        const purchaseBatch = new Table({
+            name: "purchase_batch",
+            columns: [
+                idColumn,
+                {
+                    name: "purchaseId",
+                    type: "integer",
+                    isNullable: false
+                },
+                {
+                    name: "batchId",
+                    type: "integer",
+                    isNullable: false
+                }
+            ]
+        });
+
         
     }
 
