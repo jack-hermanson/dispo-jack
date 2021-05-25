@@ -6,6 +6,7 @@ import {LoginPage} from "./components/Account/LoginPage";
 import {useEffect} from "react";
 import {useStoreActions} from "./store";
 import {Dashboard} from "./components/Dashboard/Dashboard";
+import {Strains} from "./components/Strains/Strains";
 
 export const MainRouter = () => {
 
@@ -24,6 +25,7 @@ export const MainRouter = () => {
                 <Route exact path="/" component={Dashboard} />
                 <Route exact path="/account" component={Account} />
                 <Route exact path="/account/login" component={LoginPage} />
+                <Route exact path="/strains" component={Strains} />
             </Container>
         </BrowserRouter>
     );
