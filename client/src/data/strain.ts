@@ -15,4 +15,4 @@ export interface StrainTypeRequest {
     name: string;
 }
 
-export interface StrainTypeRecord extends BaseModel, StrainRequest {}
+export interface StrainTypeRecord extends BaseModel, StrainTypeRequest {}
