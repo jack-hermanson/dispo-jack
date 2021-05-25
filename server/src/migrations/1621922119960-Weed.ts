@@ -83,6 +83,33 @@ export class Weed1621922119960 implements MigrationInterface {
                 }
             ]
         });
+
+        const purchase = new Table({
+            name: "purchase",
+            columns: [
+                idColumn,
+                {
+                    name: "dateAndTime",
+                    type: "datetime",
+                    isNullable: false
+                },
+                {
+                    name: "employeeId",
+                    type: "integer",
+                    isNullable: false
+                },
+                {
+                    name: "customerId",
+                    type: "integer",
+                    isNullable: true
+                },
+                {
+                    name: "notes",
+                    type: "varchar",
+                    isNullable: true
+                }
+            ]
+        })
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
