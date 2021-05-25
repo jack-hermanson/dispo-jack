@@ -6,7 +6,8 @@ export const routePrefixes = {
     main: `${apiPrefix}`,
     roles: `${apiPrefix}/roles`,
     people: `${apiPrefix}/people`,
-    accounts: `${apiPrefix}/account`
+    accounts: `${apiPrefix}/account`,
+    strains: `${apiPrefix}/strains`
 };
 
 export enum HTTP_STATUS {

@@ -1,6 +1,5 @@
 import {MigrationInterface, QueryRunner, Table, TableForeignKey} from "typeorm";
 import {idColumn} from "../utils/constants";
-import {query} from "express";
 
 export class PrimitiveAccount1621529788492 implements MigrationInterface {
 

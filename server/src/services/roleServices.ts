@@ -162,6 +162,19 @@ export const getUserClearances = async (accountId: number): Promise<number[]> =>
     return clearances;
 };
 
+// does user have this clearance or above?
+export const hasMinClearance = async (accountId: number, clearance: number, res: Response): Promise<boolean> => {
+    // clearances
+    const clearances = await getUserClearances(accountId);
+    const okay = clearances.some(c => c >= clearance);
+    if (okay) {
+        return true;
+    } else {
+        res.sendStatus(HTTP_STATUS.FORBIDDEN);
+        return false;
+    }
+}
+
 // get user roles
 export const getUserRoles = async (accountId: number) => {
 
