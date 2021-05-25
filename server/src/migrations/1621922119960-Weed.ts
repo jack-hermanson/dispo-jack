@@ -109,7 +109,26 @@ export class Weed1621922119960 implements MigrationInterface {
                     isNullable: true
                 }
             ]
-        })
+        });
+
+        const adjustment = new Table({
+            name: "adjustment",
+            columns: [
+                idColumn,
+                {
+                    name: "amount",
+                    type: "float",
+                    isNullable: false
+                },
+                {
+                    name: "purchaseId",
+                    type: "float",
+                    isNullable: false
+                }
+            ]
+        });
+
+        
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
