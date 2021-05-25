@@ -9,7 +9,7 @@ export class Strain {
     @Column({nullable: false})
     name: string;
 
-    @Column({nullable: false})
+    @Column({nullable: false, type: "integer"})
     strainTypeId: number;
 
     @Column({nullable: false, type: "float"})

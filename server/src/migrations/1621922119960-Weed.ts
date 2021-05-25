@@ -1,5 +1,4 @@
 import {MigrationInterface, QueryRunner, Table, TableForeignKey} from "typeorm";
-import {StrainType} from "../entities/StrainType";
 import {idColumn} from "../utils/constants";
 
 export class Weed1621922119960 implements MigrationInterface {
@@ -8,7 +7,7 @@ export class Weed1621922119960 implements MigrationInterface {
 
         // new tables
 
-        const strainType: Table = new Table({
+        const strainType = new Table({
             name: "strain_type",
             columns: [
                 idColumn,
@@ -20,7 +19,7 @@ export class Weed1621922119960 implements MigrationInterface {
             ]
         });
 
-        const strain: Table = new Table({
+        const strain = new Table({
             name: "strain",
             columns: [
                 idColumn,
@@ -49,6 +48,38 @@ export class Weed1621922119960 implements MigrationInterface {
                 {
                     name: "gramPrice",
                     type: "float"
+                }
+            ]
+        });
+
+        const batch = new Table({
+            name: "batch",
+            columns: [
+                idColumn,
+                {
+                    name: "strainId",
+                    type: "integer",
+                    isNullable: false
+                },
+                {
+                    name: "size",
+                    type: "float",
+                    isNullable: false
+                },
+                {
+                    name: "thcPotency",
+                    type: "float",
+                    isNullable: false
+                },
+                {
+                    name: "cbdPotency",
+                    type: "float",
+                    isNullable: false
+                },
+                {
+                    name: "notes",
+                    type: "varchar",
+                    isNullable: true
                 }
             ]
         });
