@@ -4,20 +4,17 @@ import {StrainTypeRequest, strainTypeSchema} from "../entities/StrainType";
 import {auth} from "../middleware/auth";
 import {sendError} from "../utils/functions";
 import {validateRequest} from "../utils/validation";
-import {getUserClearances} from "../services/roleServices";
+import {getUserClearances, hasMinClearance} from "../services/roleServices";
 import {HTTP_STATUS} from "../utils/constants";
-import {createStrainType, getStrainTypes} from "../services/strainServices";
+import {createStrain, createStrainType, getStrains, getStrainTypes} from "../services/strainServices";
+import {StrainRequest, strainSchema} from "../entities/Strain";
 
 export const strainRouter = express.Router();
 
 strainRouter.post("/strain-type", auth, async (req: AuthRequest<StrainTypeRequest>, res: Response) => {
     try {
         // check permissions
-        const clearances = await getUserClearances(req.account.id);
-        if (!clearances.some(clearance => clearance >= 5)) {
-            res.status(HTTP_STATUS.FORBIDDEN).send("Only admins can create strain types.");
-            return;
-        }
+        if (!await hasMinClearance(req.account.id, 5, res)) return;
 
         // check required parameters
         if (!await validateRequest(strainTypeSchema, req, res)) return;
@@ -35,4 +32,27 @@ strainRouter.post("/strain-type", auth, async (req: AuthRequest<StrainTypeReques
 
 strainRouter.get("/strain-type", async (req: AuthRequest<any>, res: Response) => {
     res.json(await getStrainTypes());
+});
+
+strainRouter.post("/", auth, async (req: AuthRequest<StrainRequest>, res: Response) => {
+    try {
+        // check permissions
+        if (!await hasMinClearance(req.account.id, 5, res)) return;
+
+        // check required parameters
+        if (!await validateRequest(strainSchema, req, res)) return;
+        const requestBody: StrainRequest = req.body;
+
+        // create record
+        const newStrain = await createStrain(requestBody, res);
+        if (!newStrain) return;
+
+        res.status(HTTP_STATUS.CREATED).json(newStrain);
+    } catch (error) {
+        sendError(error, res);
+    }
+});
+
+strainRouter.get("/", async (req: AuthRequest<any>, res: Response) => {
+    res.json(await getStrains());
 });

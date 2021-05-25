@@ -1,4 +1,5 @@
 import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import Joi from "joi";
 
 @Entity({name: "strain"})
 export class Strain {
@@ -24,3 +25,21 @@ export class Strain {
     @Column({nullable: false, type: "float"})
     gramPrice: number;
 }
+
+export interface StrainRequest {
+    name: string;
+    strainTypeId: number;
+    ouncePrice: number;
+    quadPrice: number;
+    eighthPrice: number;
+    gramPrice: number;
+}
+
+export const strainSchema = Joi.object().options({abortEarly: false}).keys({
+    name: Joi.string().required(),
+    strainTypeId: Joi.number().integer().required(),
+    ouncePrice: Joi.number().required(),
+    quadPrice: Joi.number().required(),
+    eighthPrice: Joi.number().required(),
+    gramPrice: Joi.number().required()
+});
