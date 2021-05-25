@@ -15,6 +15,7 @@ import {Weed1621922119960} from "./migrations/1621922119960-Weed";
 import {roleRouter} from "./routes/roleRouter";
 import {personRouter} from "./routes/personRouter";
 import {accountRouter} from "./routes/accountRouter";
+import {strainRouter} from "./routes/strainRouter";
 import {AccountRole} from "./entities/AccountRole";
 import {AccountPerson} from "./entities/AccountPerson";
 import {StrainType} from "./entities/StrainType";
@@ -44,6 +45,7 @@ app.use(routePrefixes.main, mainRouter);
 app.use(routePrefixes.roles, roleRouter);
 app.use(routePrefixes.people, personRouter);
 app.use(routePrefixes.accounts, accountRouter);
+app.use(routePrefixes.strains, strainRouter);
 
 // any apps not picked up by the server api will be handled by the react router
 app.use('/*', staticFiles);
