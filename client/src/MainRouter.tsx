@@ -14,10 +14,12 @@ export const MainRouter = () => {
 
     const fetchStrainTypes = useStoreActions(actions => actions.fetchStrainTypes);
     const fetchStrains = useStoreActions(actions => actions.fetchStrains);
+    const fetchBatches = useStoreActions(actions => actions.fetchBatches);
 
     useEffect(() => {
         fetchStrainTypes();
         fetchStrains();
+        fetchBatches();
     });
 
     return (
