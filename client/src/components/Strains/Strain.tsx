@@ -1,10 +1,12 @@
 import React from "react";
-import {Card, CardBody, CardFooter, CardHeader, CardImg} from "reactstrap";
-import {StrainRecord, StrainTypeRecord} from "../../data/strain";
+import {Button, Card, CardBody, CardFooter, CardHeader, CardImg} from "reactstrap";
+import {StrainRecord} from "../../data/strain";
 import {StrainTypeBadge} from "./StrainTypeBadge";
 import {useStoreState} from "../../store";
-import {KeyValTable} from "../Utils/KeyValTable";
-import {formatMoney} from "../../utils/functions";
+import {StrainPrices} from "./StrainPrices";
+import {FontAwesomeIcon as FA} from "@fortawesome/react-fontawesome";
+import {faPlus} from "@fortawesome/free-solid-svg-icons";
+import {AgnosticLink} from "../Utils/AgnosticLink";
 
 interface Props {
     strain: StrainRecord;
@@ -16,19 +18,16 @@ export const Strain: React.FC<Props> = ({strain}: Props) => {
     return (
         <Card className="mb-4">
             <CardHeader>
-                <h5 className="mb-0">{strain.name} <StrainTypeBadge typeName={strainType || ""} /></h5>
+                <h5 className="mb-0">
+                    <AgnosticLink className="me-2 dotted-link" linkType="internal" linkText={strain.name} path={`/strains/${strain.id}`} />
+                    <StrainTypeBadge typeName={strainType || ""} /></h5>
             </CardHeader>
             <CardBody className="p-0">
                 <CardImg className="p-3" src="https://leafly-cms-production.imgix.net/wp-content/uploads/2017/02/01113652/kush-1024x640.jpg" />
-                <KeyValTable className="mb-0 table-striped card-table same-width" keyValPairs={[
-                    {key: "Ounce (28g) Price", val: formatMoney(strain.ouncePrice)},
-                    {key: "Quad (7g) Price", val: formatMoney(strain.quadPrice)},
-                    {key: "Eighth (3.5g) Price", val: formatMoney(strain.eighthPrice)},
-                    {key: "Gram (1g) Price", val: formatMoney(strain.gramPrice)},
-                ]} />
+                <StrainPrices className="mb-0 card-table same-width" strain={strain} />
             </CardBody>
             <CardFooter>
-                ok
+                <Button color="primary" size="sm" block><FA className="me-2" icon={faPlus} />Add to Cart</Button>
             </CardFooter>
         </Card>
     )
