@@ -10828,4 +10828,21 @@ body {
   margin-right: 0.5em;
 }
 
+.card-table tbody > tr th {
+  padding-left: 1em;
+}
+.card-table tbody > tr td:last-of-type {
+  padding-right: 1em;
+}
+.card-table tbody > tr:last-of-type th, .card-table tbody > tr:last-of-type td {
+  border-bottom: 0;
+}
+.card-table tbody > tr:first-of-type th, .card-table tbody > tr:first-of-type td {
+  border-top: 0;
+}
+
+table.same-width tbody > tr th {
+  width: 50%;
+}
+
 /*# sourceMappingURL=main.css.map */

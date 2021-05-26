@@ -26,3 +26,32 @@ body {
     margin-right: 0.5em;
   }
 }
+
+.card-table {
+  tbody > tr {
+    th {
+      padding-left: 1em;
+    }
+    td:last-of-type {
+      padding-right: 1em;
+    }
+    &:last-of-type {
+      th, td {
+        border-bottom: 0;
+      }
+    }
+    &:first-of-type {
+      th, td {
+        border-top: 0;
+      }
+    }
+  }
+}
+
+table.same-width {
+  tbody > tr {
+    th {
+      width: 50%;
+    }
+  }
+}

@@ -24,7 +24,9 @@ export const Strains: React.FC = () => {
             </Row>
             <Row>
                 <Col lg={3}>
-                    <StrainFilter setFilteredStrains={setFilteredStrains} />
+                    <div className="sticky-top mb-4 mb-lg-0">
+                        <StrainFilter setFilteredStrains={setFilteredStrains} />
+                    </div>
                 </Col>
                 <Col lg={9}>
                     <Row>
