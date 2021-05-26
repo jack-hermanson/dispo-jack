@@ -8,6 +8,7 @@ import {useStoreActions} from "./store";
 import {Dashboard} from "./components/Dashboard/Dashboard";
 import {Strains} from "./components/Strains/Strains";
 import {StrainDetails} from "./components/Strains/StrainDetails";
+import {AdminDashboard} from "./components/Admin/AdminDashboard";
 
 export const MainRouter = () => {
 
@@ -28,6 +29,7 @@ export const MainRouter = () => {
                 <Route exact path="/account/login" component={LoginPage} />
                 <Route exact path="/strains" component={Strains} />
                 <Route exact path="/strains/:id" component={StrainDetails} />
+                <Route exact path="/admin" component={AdminDashboard} />
             </Container>
         </BrowserRouter>
     );

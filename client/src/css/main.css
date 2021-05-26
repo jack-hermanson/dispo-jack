@@ -10854,4 +10854,8 @@ a.dotted-link:hover, a.dotted-link:active {
   border-bottom: 1px solid white;
 }
 
+.card {
+  border: 0 !important;
+}
+
 /*# sourceMappingURL=main.css.map */
