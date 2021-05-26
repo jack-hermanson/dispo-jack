@@ -3,6 +3,8 @@ import {Button, Card, CardBody, CardHeader, FormGroup, Input, Label} from "react
 import {LoadingSpinner} from "../Utils/LoadingSpinner";
 import {useStoreState} from "../../store";
 import {StrainRecord} from "../../data/strain";
+import {faCaretDown, faCaretUp} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon as FA} from "@fortawesome/react-fontawesome";
 
 interface Props {
     setFilteredStrains: (strains: StrainRecord[]) => any;
@@ -14,51 +16,56 @@ export const StrainFilter: React.FC<Props> = ({setFilteredStrains}: Props) => {
 
     const [searchText, setSearchText] = useState("");
     const [selectedTypes, setSelectedTypes] = useState<number[]>([]);
+    const [showFilter, setShowFilter] = useState(false);
 
     return (
         <Card>
-            <CardHeader>
-                <h5 className="mb-0">Filter</h5>
+            <CardHeader onClick={() => setShowFilter(f => !f)}>
+                <h5 className="mb-0">
+                    Filter
+                    <FA className="d-lg-none ms-2 hover-mouse" icon={showFilter ? faCaretUp : faCaretDown} />
+                </h5>
             </CardHeader>
-            <CardBody>
-                <form>
-                    <FormGroup>
-                        <Label htmlFor="search-input">Search</Label>
-                        <Input
-                            type="search"
-                            id="search-input"
-                            value={searchText}
-                            onChange={event => handleSearchTextChange(event.target.value)}
-                        />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label>Type</Label>
-                        {strainTypes ? (
-                            strainTypes.map(strainType => (
-                                <FormGroup check key={strainType.id}>
-                                    <Input
-                                        onChange={event => handleTypeChange(event, strainType.id)}
-                                        id={`strain-type-${strainType.id}`}
-                                        type="checkbox"
-                                        checked={selectedTypes.includes(strainType.id)}
-                                    />
-                                    <Label for={`strain-type-${strainType.id}`}>{strainType.name}</Label>
-                                </FormGroup>
-                            ))
-                        ) : <LoadingSpinner/>}
-                    </FormGroup>
-                    <div className="mt-4">
-                        <Button
-                            type="reset"
-                            block size="sm"
-                            color="secondary"
-                            onClick={reset}
-                        >
-                            Reset
-                        </Button>
-                    </div>
-                </form>
-            </CardBody>
+            <CardBody className={`${showFilter ? "" : "d-none"} d-lg-flex`}>
+                    <form>
+                        <FormGroup>
+                            <Label htmlFor="search-input">Search</Label>
+                            <Input
+                                type="search"
+                                id="search-input"
+                                value={searchText}
+                                onChange={event => handleSearchTextChange(event.target.value)}
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <Label>Type</Label>
+                            {strainTypes ? (
+                                strainTypes.map(strainType => (
+                                    <FormGroup check key={strainType.id}>
+                                        <Input
+                                            onChange={event => handleTypeChange(event, strainType.id)}
+                                            id={`strain-type-${strainType.id}`}
+                                            type="checkbox"
+                                            checked={selectedTypes.includes(strainType.id)}
+                                        />
+                                        <Label for={`strain-type-${strainType.id}`}>{strainType.name}</Label>
+                                    </FormGroup>
+                                ))
+                            ) : <LoadingSpinner/>}
+                        </FormGroup>
+                        <div className="mt-4">
+                            <Button
+                                type="reset"
+                                block size="sm"
+                                color="secondary"
+                                onClick={reset}
+                            >
+                                Reset
+                            </Button>
+                        </div>
+                    </form>
+                </CardBody>
+
         </Card>
     );
 
