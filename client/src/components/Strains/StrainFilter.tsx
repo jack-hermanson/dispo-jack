@@ -13,6 +13,7 @@ export const StrainFilter: React.FC<Props> = ({setFilteredStrains}: Props) => {
     const strains = useStoreState(state => state.strains);
 
     const [searchText, setSearchText] = useState("");
+    const [selectedTypes, setSelectedTypes] = useState<number[]>([]);
 
     return (
         <Card>
@@ -35,7 +36,12 @@ export const StrainFilter: React.FC<Props> = ({setFilteredStrains}: Props) => {
                         {strainTypes ? (
                             strainTypes.map(strainType => (
                                 <FormGroup check key={strainType.id}>
-                                    <Input id={`strain-type-${strainType.id}`} type="checkbox"/>
+                                    <Input
+                                        onChange={event => handleTypeChange(event, strainType.id)}
+                                        id={`strain-type-${strainType.id}`}
+                                        type="checkbox"
+                                        checked={selectedTypes.includes(strainType.id)}
+                                    />
                                     <Label for={`strain-type-${strainType.id}`}>{strainType.name}</Label>
                                 </FormGroup>
                             ))
@@ -61,16 +67,36 @@ export const StrainFilter: React.FC<Props> = ({setFilteredStrains}: Props) => {
             setFilteredStrains(strains);
         }
         setSearchText("");
+        setSelectedTypes([]);
         document.getElementById("search-input")?.focus();
     }
 
     function handleSearchTextChange(text: string) {
+        setSearchText(text);
+        filterStrains(text, selectedTypes);
+    }
+
+    function filterStrains(matchText: string, typeIds: number[]) {
         if (strains) {
-            const matches = strains.filter(strain => {
-                return strain.name.toLowerCase().includes(text.toLowerCase());
-            });
+            const matches = strains
+                .filter(strain => strain.name.toLowerCase().includes(matchText.toLowerCase()))
+                .filter(strain => typeIds.includes(strain.strainTypeId) || !typeIds.length);
             setFilteredStrains(matches);
         }
-        setSearchText(text);
+    }
+
+    function handleTypeChange(event: React.ChangeEvent<HTMLInputElement>, strainTypeId: number) {
+        const checked = event.target.checked;
+        const alreadyInList = selectedTypes.some(s => s === strainTypeId);
+        let newSelectedTypes: number[] = [];
+
+        if (checked && !alreadyInList) {
+            newSelectedTypes = [...selectedTypes, strainTypeId];
+        } else if (!checked && alreadyInList) {
+            newSelectedTypes = selectedTypes.filter(n => n !== strainTypeId);
+        }
+
+        filterStrains(searchText, newSelectedTypes);
+        setSelectedTypes(newSelectedTypes);
     }
 }
