@@ -24,6 +24,9 @@ export class Batch {
 
     @Column()
     imageUrl?: string;
+
+    @Column({type: "datetime", nullable: false, default: () => "CURRENT_TIMESTAMP"})
+    dateReceived: Date;
 }
 
 export interface BatchRequest {
@@ -33,6 +36,7 @@ export interface BatchRequest {
     cbdPotency: number;
     notes?: string;
     imageUrl?: string;
+    date: Date;
 }
 
 export const batchSchema = Joi.object().options({abortEarly: false}).keys({
