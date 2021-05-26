@@ -1,4 +1,5 @@
 import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import Joi from "joi";
 
 @Entity({name: "batch"})
 export class Batch {
@@ -24,3 +25,21 @@ export class Batch {
     @Column()
     imageUrl?: string;
 }
+
+export interface BatchRequest {
+    strainId: number;
+    size: number;
+    thcPotency: number;
+    cbdPotency: number;
+    notes?: string;
+    imageUrl?: string;
+}
+
+export const batchSchema = Joi.object().options({abortEarly: false}).keys({
+    strainId: Joi.number().integer().required(),
+    size: Joi.number().required(),
+    thcPotency: Joi.number().required(),
+    cbdPotency: Joi.number().required(),
+    notes: Joi.string().optional(),
+    imageUrl: Joi.string().uri().optional()
+});

@@ -4,7 +4,7 @@ import {StrainTypeRequest, strainTypeSchema} from "../entities/StrainType";
 import {auth} from "../middleware/auth";
 import {sendError} from "../utils/functions";
 import {validateRequest} from "../utils/validation";
-import {getUserClearances, hasMinClearance} from "../services/roleServices";
+import {hasMinClearance} from "../services/roleServices";
 import {HTTP_STATUS} from "../utils/constants";
 import {createStrain, createStrainType, getStrains, getStrainTypes} from "../services/strainServices";
 import {StrainRequest, strainSchema} from "../entities/Strain";

@@ -25,6 +25,7 @@ import {Batch} from "./entities/Batch";
 import {Purchase} from "./entities/Purchase";
 import {PurchaseBatch} from "./entities/PurchaseBatch";
 import {Adjustment} from "./entities/Adjustment";
+import {batchRouter} from "./routes/batchRouter";
 
 // env
 const envPath = path.join(__dirname, "..", ".env");
@@ -47,6 +48,7 @@ app.use(routePrefixes.roles, roleRouter);
 app.use(routePrefixes.people, personRouter);
 app.use(routePrefixes.accounts, accountRouter);
 app.use(routePrefixes.strains, strainRouter);
+app.use(routePrefixes.batches, batchRouter);
 
 // any apps not picked up by the server api will be handled by the react router
 app.use('/*', staticFiles);
