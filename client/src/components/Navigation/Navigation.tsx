@@ -13,7 +13,7 @@ import {
     NavItem
 } from "reactstrap";
 import {NavLink, useHistory} from "react-router-dom";
-import {faCannabis, faHome, faUserCircle} from "@fortawesome/free-solid-svg-icons";
+import {faCannabis, faHome, faUserCircle, faBong, faTools} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon as FA} from "@fortawesome/react-fontawesome";
 import {useStoreActions, useStoreState} from "../../store";
 
@@ -29,7 +29,7 @@ export const Navigation: React.FC = () => {
         <Navbar dark className="mb-4 main-navbar px-0" expand="lg">
             <Container>
                 <NavbarBrand className="hover-mouse" onClick={() => history.push("/")}>
-                    <FA icon={faCannabis}/> DispoJack
+                    <FA icon={faBong}/> DispoJack
                 </NavbarBrand>
                 <NavbarToggler onClick={toggle}/>
                 <Collapse isOpen={isOpen} navbar>
@@ -37,6 +37,10 @@ export const Navigation: React.FC = () => {
                         <NavItem>
                             <NavLink exact className="nav-link" to="/"><FA icon={faHome}/> Home</NavLink>
                         </NavItem>
+                        <NavItem>
+                            <NavLink className="nav-link" to="/strains"><FA icon={faCannabis}/> Strains</NavLink>
+                        </NavItem>
+                        {renderAdmin()}
                     </Nav>
                     <Nav navbar style={{marginLeft: "auto"}}>
                         <NavItem>
@@ -78,7 +82,15 @@ export const Navigation: React.FC = () => {
                     </ButtonDropdown>
                 ) : <span>{renderUserIcon()} Account</span>}
             </NavLink>
-        )
+        );
+    }
+
+    function renderAdmin() {
+        if (account) return (
+            <NavItem>
+                <NavLink className="nav-link" to="/admin"><FA icon={faTools}/> Admin</NavLink>
+            </NavItem>
+        );
     }
 
 }

@@ -10828,4 +10828,34 @@ body {
   margin-right: 0.5em;
 }
 
+.card-table tbody > tr th {
+  padding-left: 1em;
+}
+.card-table tbody > tr td:last-of-type {
+  padding-right: 1em;
+}
+.card-table tbody > tr:last-of-type th, .card-table tbody > tr:last-of-type td {
+  border-bottom: 0;
+}
+.card-table tbody > tr:first-of-type th, .card-table tbody > tr:first-of-type td {
+  border-top: 0;
+}
+
+table.same-width tbody > tr th {
+  width: 50%;
+}
+
+a.dotted-link {
+  color: white;
+  text-decoration: none;
+  border-bottom: 1px dotted white;
+}
+a.dotted-link:hover, a.dotted-link:active {
+  border-bottom: 1px solid white;
+}
+
+.card {
+  border: 0 !important;
+}
+
 /*# sourceMappingURL=main.css.map */

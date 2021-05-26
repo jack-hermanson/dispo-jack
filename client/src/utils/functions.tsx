@@ -7,3 +7,7 @@ export function formatPhoneNumber(phoneNumberString: string): string {
     }
     return "";
 }
+
+export function formatMoney(dollarAmt: number): string {
+    return `$${dollarAmt.toFixed(2)}`;
+}
