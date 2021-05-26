@@ -6,6 +6,7 @@ import {LoadingSpinner} from "../Utils/LoadingSpinner";
 import {Strain} from "./Strain";
 import {StrainFilter} from "./StrainFilter";
 import {StrainRecord} from "../../data/strain";
+import {PopularSidebar} from "./PopularSidebar";
 
 export const Strains: React.FC = () => {
     const strains = useStoreState(state => state.strains);
@@ -26,6 +27,7 @@ export const Strains: React.FC = () => {
                 <Col lg={3}>
                     <div className="sticky-top mb-4 mb-lg-0">
                         <StrainFilter setFilteredStrains={setFilteredStrains} />
+                        <PopularSidebar />
                     </div>
                 </Col>
                 <Col lg={9}>

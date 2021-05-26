@@ -10809,7 +10809,6 @@ textarea.form-control-lg {
 }
 body {
   font-family: "Ubuntu", sans-serif;
-  overflow-y: scroll;
 }
 
 .main-navbar {
@@ -10844,6 +10843,15 @@ body {
 
 table.same-width tbody > tr th {
   width: 50%;
+}
+
+a.dotted-link {
+  color: white;
+  text-decoration: none;
+  border-bottom: 1px dotted white;
+}
+a.dotted-link:hover, a.dotted-link:active {
+  border-bottom: 1px solid white;
 }
 
 /*# sourceMappingURL=main.css.map */
