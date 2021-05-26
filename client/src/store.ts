@@ -3,6 +3,8 @@ import {AccountAndPerson, LoginRequest} from "./data/account";
 import {logIn, logOut} from "./api/account";
 import {StrainRecord, StrainTypeRecord} from "./data/strain";
 import {getStrains, getStrainTypes} from "./api/strain";
+import {BatchRecord} from "./data/batch";
+import {getBatches} from "./api/batch";
 
 interface StoreModel {
     currentUser: AccountAndPerson | undefined;
@@ -17,6 +19,10 @@ interface StoreModel {
     strainTypes: StrainTypeRecord[] | undefined;
     setStrainTypes: Action<StoreModel, StrainTypeRecord[]>;
     fetchStrainTypes: Thunk<StoreModel>;
+
+    batches: BatchRecord[] | undefined;
+    setBatches: Action<StoreModel, BatchRecord[]>;
+    fetchBatches: Thunk<StoreModel>;
 }
 
 export const store = createStore<StoreModel>({
@@ -49,6 +55,15 @@ export const store = createStore<StoreModel>({
     fetchStrainTypes: thunk(async (actions) => {
         const strainTypes = await getStrainTypes();
         actions.setStrainTypes(strainTypes);
+    }),
+
+    batches: undefined,
+    setBatches: action((state, payload) => {
+        state.batches = payload;
+    }),
+    fetchBatches: thunk(async (actions) => {
+        const batches = await getBatches();
+        actions.setBatches(batches);
     })
 });
 

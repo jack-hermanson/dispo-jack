@@ -36,7 +36,6 @@ export interface BatchRequest {
     cbdPotency: number;
     notes?: string;
     imageUrl?: string;
-    date: Date;
 }
 
 export const batchSchema = Joi.object().options({abortEarly: false}).keys({
