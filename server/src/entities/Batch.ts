@@ -20,4 +20,7 @@ export class Batch {
 
     @Column()
     notes?: string;
+
+    @Column()
+    imageUrl?: string;
 }
