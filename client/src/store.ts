@@ -44,9 +44,15 @@ export const store = createStore<StoreModel>({
         actions.addAlert({text: "Logged in successfully.", color: "info", error: false});
     }),
     logOut: thunk(async (actions, token) => {
-        await logOut(token);
-        actions.setCurrentUser(undefined);
-        actions.addAlert({text: "Logged out successfully.", color: "info", error: false});
+        try {
+            await logOut(token);
+            actions.setCurrentUser(undefined);
+            actions.addAlert({text: "Logged out successfully.", color: "info", error: false});
+        } catch (error) {
+            actions.setCurrentUser(undefined);
+            console.error(error);
+        }
+
     }),
 
     strains: undefined,
@@ -61,16 +67,26 @@ export const store = createStore<StoreModel>({
         try {
             await addStrain(payload.strain, payload.token);
             await actions.fetchStrains();
+            actions.addAlert({
+                color: "info",
+                text: "Strain added successfully.",
+                error: false
+            });
         } catch (error) {
+            let text;
             if (error.response.status === 409) {
                 const conflicts = error.response.data.conflictingProperties;
-                actions.addAlert({
-                    color: "danger",
-                    text: `A record already exists with the same ${conflicts}.`,
-                    error: true
-                });
-                throw error;
+                text = `A record already exists with the same ${conflicts}.`;
+            } else {
+                text = error.response.data;
             }
+            actions.addAlert({
+                error: true,
+                text,
+                color: "danger"
+            });
+            console.error(error.response);
+            throw error;
         }
     }),
 
