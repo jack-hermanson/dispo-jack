@@ -4,6 +4,7 @@ import {useHistory} from "react-router-dom";
 import {Card, CardBody, CardHeader, Col, ListGroup, ListGroupItem, Row} from "reactstrap";
 import {PageHeader} from "../Utils/PageHeader";
 import {AgnosticLink} from "../Utils/AgnosticLink";
+import {AdminTabs} from "./AdminTabs";
 
 export const AdminDashboard: React.FC = () => {
     const currentUser = useStoreState(state => state.currentUser);
@@ -20,6 +21,7 @@ export const AdminDashboard: React.FC = () => {
         <React.Fragment>
             {currentUser && (
                 <React.Fragment>
+                    <AdminTabs />
                     <Row>
                         <Col>
                             <PageHeader title="Admin Dashboard" />

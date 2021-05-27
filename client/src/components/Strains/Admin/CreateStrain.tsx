@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {Col, Row} from "reactstrap";
-import {useStoreState} from "../../store";
+import {useStoreState} from "../../../store";
 import {CreateEditStrainForm} from "./CreateEditStrainForm";
-import {PageHeader} from "../Utils/PageHeader";
+import {PageHeader} from "../../Utils/PageHeader";
 import {useHistory} from "react-router-dom";
-import {StrainRequest} from "../../data/strain";
+import {StrainRequest} from "../../../data/strain";
+import {AdminTabs} from "../../Admin/AdminTabs";
 
 
 export const CreateStrain: React.FC = () => {
@@ -19,6 +20,7 @@ export const CreateStrain: React.FC = () => {
 
     return (
         <React.Fragment>
+            <AdminTabs />
             <Row>
                 <Col>
                     <PageHeader title="New Strain"/>

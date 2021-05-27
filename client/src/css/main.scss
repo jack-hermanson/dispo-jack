@@ -22,6 +22,7 @@ body {
 .bottom-buttons {
   margin-bottom: 0;
   margin-top: 1.6em;
+
   button:not(last-of-type) {
     margin-right: 0.5em;
   }
@@ -32,14 +33,17 @@ body {
     th {
       padding-left: 1em;
     }
+
     td:last-of-type {
       padding-right: 1em;
     }
+
     &:last-of-type {
       th, td {
         border-bottom: 0;
       }
     }
+
     &:first-of-type {
       th, td {
         border-top: 0;
@@ -60,6 +64,7 @@ a.dotted-link {
   color: white;
   text-decoration: none;
   border-bottom: 1px dotted white;
+
   &:hover, &:active {
     border-bottom: 1px solid white;
   }
@@ -80,4 +85,18 @@ select option[data-default] {
 
 label {
   margin-bottom: 0.5rem;
+}
+
+.page-title {
+  display: flex;
+
+  .actions-button {
+    margin-left: auto;
+    margin-top: auto;
+  }
+
+  .title-text {
+    margin-bottom: 0;
+    margin-top: auto;
+  }
 }

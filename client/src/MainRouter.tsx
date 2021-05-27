@@ -9,7 +9,8 @@ import {Dashboard} from "./components/Dashboard/Dashboard";
 import {Strains} from "./components/Strains/Strains";
 import {StrainDetails} from "./components/Strains/StrainDetails";
 import {AdminDashboard} from "./components/Admin/AdminDashboard";
-import {CreateStrain} from "./components/Strains/CreateStrain";
+import {CreateStrain} from "./components/Strains/Admin/CreateStrain";
+import {AdminStrains} from "./components/Strains/Admin/AdminStrains";
 
 export const MainRouter = () => {
 
@@ -33,6 +34,7 @@ export const MainRouter = () => {
                 <Route exact path="/strains" component={Strains} />
                 <Route exact path="/strains/:id" component={StrainDetails} />
                 <Route exact path="/admin" component={AdminDashboard} />
+                <Route exact path="/admin/strains" component={AdminStrains} />
                 <Route exact path="/admin/strains/new" component={CreateStrain} />
             </Container>
         </BrowserRouter>

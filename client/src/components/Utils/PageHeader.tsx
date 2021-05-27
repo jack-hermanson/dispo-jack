@@ -5,12 +5,20 @@ interface Props {
     className?: string;
     mb3?: boolean;
     borderBottom?: boolean;
+    children?: React.ReactNode;
 }
 
-export const PageHeader: React.FC<Props> = ({title, className, mb3 = true, borderBottom = true}: Props) => {
+export const PageHeader: React.FC<Props> = ({title, className, children, mb3 = true, borderBottom = true}: Props) => {
     return (
-        <React.Fragment>
-            <h2 className={`${mb3 && "mb-3"} ${borderBottom && "border-bottom"} ${className}`}>{title}</h2>
-        </React.Fragment>
+        <div className={`${mb3 && "mb-3"} ${borderBottom && "border-bottom"} ${children && "pb-2"} ${className}`}>
+            <div className="page-title">
+                <h2 className="title-text">{title}</h2>
+                {children && (
+                    <div className="actions-button">
+                        {children}
+                    </div>
+                )}
+            </div>
+        </div>
     );
 }

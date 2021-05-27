@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {Button, FormGroup, Input, InputGroup, InputGroupText, Label} from "reactstrap";
-import {useStoreState} from "../../store";
-import {StrainRecord, StrainRequest} from "../../data/strain";
-import {stringToNum} from "../../utils/functions";
+import {useStoreState} from "../../../store";
+import {StrainRecord, StrainRequest} from "../../../data/strain";
+import {stringToNum} from "../../../utils/functions";
 
 interface Props {
     onSubmit: (newStrain: Partial<StrainRequest>) => any;
