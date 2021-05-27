@@ -9,11 +9,11 @@ import {AdminTabs} from "../../Admin/AdminTabs";
 import {StrainTypeBadge} from "../StrainTypeBadge";
 import {KeyValPair} from "../../../utils/types";
 import {KeyValTable} from "../../Utils/KeyValTable";
+import {PreviewStrain} from "./PreviewStrain";
 
 
 export const CreateStrain: React.FC = () => {
     const currentUser = useStoreState(state => state.currentUser);
-    const strainTypes = useStoreState(state => state.strainTypes);
     const history = useHistory();
     const [previewStrain, setPreviewStrain] = useState<Partial<StrainRequest>>({});
 
@@ -49,53 +49,14 @@ export const CreateStrain: React.FC = () => {
                         setPreview={setPreviewStrain}
                     />
                 </Col>
-                {renderPreview()}
+                <Col>
+                    <div className="sticky-top">
+                        <PreviewStrain previewStrain={previewStrain} />
+                    </div>
+                </Col>
             </Row>
         </React.Fragment>
     );
-
-    function renderPreview() {
-        console.log(previewStrain.strainTypeId);
-        if (Object.keys(previewStrain).length > 0) {
-            const strainType =  strainTypes?.find(st => st.id === previewStrain.strainTypeId);
-
-            const priceKeyVals: KeyValPair[] = [];
-            if (previewStrain.ouncePrice) {
-                priceKeyVals.push(getPriceKeyVal("Ounce", previewStrain.ouncePrice));
-            }
-            if (previewStrain.quadPrice) {
-                priceKeyVals.push(getPriceKeyVal("Quad", previewStrain.quadPrice));
-            }
-            if (previewStrain.eighthPrice) {
-                priceKeyVals.push(getPriceKeyVal("Eighth", previewStrain.eighthPrice));
-            }
-            if (previewStrain.gramPrice) {
-                priceKeyVals.push(getPriceKeyVal("Gram", previewStrain.gramPrice));
-            }
-
-            return (
-                <Col lg={6}>
-                    <Card>
-                        <CardHeader>
-                            <h5 className="mb-0">
-                                <span className="me-2">
-                                    {previewStrain.name}
-                                </span>
-                                {previewStrain.strainTypeId && (
-                                    <StrainTypeBadge typeName={
-                                        strainType ? strainType.name : "N/A"
-                                    } />
-                                )}
-                            </h5>
-                        </CardHeader>
-                        <CardBody className="py-0 px-2">
-                            <KeyValTable className="table-striped table-borderless mb-0" keyValPairs={priceKeyVals} />
-                        </CardBody>
-                    </Card>
-                </Col>
-            );
-        }
-    }
 }
 
 

@@ -18,7 +18,9 @@ export const CreateEditStrainForm: React.FC<Props> = ({onSubmit, submitBtnText, 
     }, []);
 
     // form values
-    const [newStrain, setNewStrain] = useState<Partial<StrainRequest>>(initialStrain || {});
+    const [newStrain, setNewStrain] = useState<Partial<StrainRequest>>(initialStrain || {
+        name: ""
+    });
 
     const prices = [
         {
