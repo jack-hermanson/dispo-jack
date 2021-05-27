@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Col, Row} from "reactstrap";
-import {useStoreState} from "../../../store";
+import {useStoreActions, useStoreState} from "../../../store";
 import {CreateEditStrainForm} from "./CreateEditStrainForm";
 import {PageHeader} from "../../Utils/PageHeader";
 import {useHistory} from "react-router-dom";
@@ -11,6 +11,7 @@ import {PreviewStrain} from "./PreviewStrain";
 
 export const CreateStrain: React.FC = () => {
     const currentUser = useStoreState(state => state.currentUser);
+    const addStrain = useStoreActions(actions => actions.addStrain);
     const history = useHistory();
     const [previewStrain, setPreviewStrain] = useState<Partial<StrainRequest>>({});
 
@@ -31,17 +32,7 @@ export const CreateStrain: React.FC = () => {
             <Row>
                 <Col lg={6} className="mb-3 mb-lg-0">
                     <CreateEditStrainForm
-                        onSubmit={(newStrain) => {
-                            const strain: StrainRequest = {
-                                name: newStrain.name!,
-                                strainTypeId: newStrain.strainTypeId!,
-                                ouncePrice: newStrain.ouncePrice!,
-                                quadPrice: newStrain.quadPrice!,
-                                eighthPrice: newStrain.gramPrice!,
-                                gramPrice: newStrain.gramPrice!
-                            };
-                            console.log(strain);
-                        }}
+                        onSubmit={(newStrain) => submitForm(newStrain)}
                         submitBtnText="Create"
                         setPreview={setPreviewStrain}
                     />
@@ -54,6 +45,27 @@ export const CreateStrain: React.FC = () => {
             </Row>
         </React.Fragment>
     );
+
+    async function submitForm(newStrain: Partial<StrainRequest>) {
+        if (currentUser && currentUser.account.token) {
+            const strain: StrainRequest = {
+                name: newStrain.name!,
+                strainTypeId: newStrain.strainTypeId!,
+                ouncePrice: newStrain.ouncePrice!,
+                quadPrice: newStrain.quadPrice!,
+                eighthPrice: newStrain.gramPrice!,
+                gramPrice: newStrain.gramPrice!
+            };
+            try {
+                await addStrain({
+                    strain: strain,
+                    token: currentUser.account.token
+                });
+            } catch (error) {
+                window.scrollTo(0, 0);
+            }
+        }
+    }
 }
 
 

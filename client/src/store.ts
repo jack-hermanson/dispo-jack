@@ -1,8 +1,8 @@
 import {createStore, createTypedHooks, action, Action, thunk, Thunk, computed, Computed} from "easy-peasy";
 import {AccountAndPerson, LoginRequest} from "./data/account";
 import {logIn, logOut} from "./api/account";
-import {StrainAndBatch, StrainRecord, StrainTypeRecord} from "./data/strain";
-import {getStrains, getStrainTypes} from "./api/strain";
+import {StrainAndBatch, StrainRecord, StrainRequest, StrainTypeRecord} from "./data/strain";
+import {addStrain, getStrains, getStrainTypes} from "./api/strain";
 import {BatchRecord} from "./data/batch";
 import {getBatches} from "./api/batch";
 import {AlertType} from "./utils/types";
@@ -16,6 +16,7 @@ interface StoreModel {
     strains: StrainRecord[] | undefined;
     setStrains: Action<StoreModel, StrainRecord[]>;
     fetchStrains: Thunk<StoreModel>;
+    addStrain: Thunk<StoreModel, { strain: StrainRequest; token: string; }>;
 
     strainTypes: StrainTypeRecord[] | undefined;
     setStrainTypes: Action<StoreModel, StrainTypeRecord[]>;
@@ -40,11 +41,12 @@ export const store = createStore<StoreModel>({
     logIn: thunk(async (actions, payload) => {
         const accountAndPerson = await logIn(payload);
         actions.setCurrentUser(accountAndPerson);
-        actions.addAlert({text: "Logged in successfully.", color: "info"});
+        actions.addAlert({text: "Logged in successfully.", color: "info", error: false});
     }),
     logOut: thunk(async (actions, token) => {
         await logOut(token);
         actions.setCurrentUser(undefined);
+        actions.addAlert({text: "Logged out successfully.", color: "info", error: false});
     }),
 
     strains: undefined,
@@ -54,6 +56,22 @@ export const store = createStore<StoreModel>({
     fetchStrains: thunk(async (actions) => {
         const strains = await getStrains();
         actions.setStrains(strains);
+    }),
+    addStrain: thunk(async (actions, payload) => {
+        try {
+            await addStrain(payload.strain, payload.token);
+            await actions.fetchStrains();
+        } catch (error) {
+            if (error.response.status === 409) {
+                const conflicts = error.response.data.conflictingProperties;
+                actions.addAlert({
+                    color: "danger",
+                    text: `A record already exists with the same ${conflicts}.`,
+                    error: true
+                });
+                throw error;
+            }
+        }
     }),
 
     strainTypes: undefined,
