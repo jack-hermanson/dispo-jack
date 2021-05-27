@@ -11,6 +11,7 @@ import {StrainDetails} from "./components/Strains/StrainDetails";
 import {AdminDashboard} from "./components/Admin/AdminDashboard";
 import {CreateStrain} from "./components/Strains/Admin/CreateStrain";
 import {AdminStrains} from "./components/Strains/Admin/AdminStrains";
+import {Alerts} from "./components/Alerts/Alerts";
 
 export const MainRouter = () => {
 
@@ -28,6 +29,7 @@ export const MainRouter = () => {
         <BrowserRouter>
             <Navigation />
             <Container className="mb-3">
+                <Alerts />
                 <Route exact path="/" component={Dashboard} />
                 <Route exact path="/account" component={Account} />
                 <Route exact path="/account/login" component={LoginPage} />

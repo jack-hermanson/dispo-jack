@@ -5,6 +5,7 @@ import {StrainAndBatch, StrainRecord, StrainTypeRecord} from "./data/strain";
 import {getStrains, getStrainTypes} from "./api/strain";
 import {BatchRecord} from "./data/batch";
 import {getBatches} from "./api/batch";
+import {AlertType} from "./utils/types";
 
 interface StoreModel {
     currentUser: AccountAndPerson | undefined;
@@ -25,6 +26,10 @@ interface StoreModel {
     fetchBatches: Thunk<StoreModel>;
 
     strainsInStock: Computed<StoreModel, StrainAndBatch[] | undefined>;
+
+    alerts: AlertType[];
+    setAlerts: Action<StoreModel, AlertType[]>;
+    addAlert: Action<StoreModel, AlertType>;
 }
 
 export const store = createStore<StoreModel>({
@@ -35,6 +40,7 @@ export const store = createStore<StoreModel>({
     logIn: thunk(async (actions, payload) => {
         const accountAndPerson = await logIn(payload);
         actions.setCurrentUser(accountAndPerson);
+        actions.addAlert({text: "Logged in successfully.", color: "info"});
     }),
     logOut: thunk(async (actions, token) => {
         await logOut(token);
@@ -84,6 +90,14 @@ export const store = createStore<StoreModel>({
         }
 
         return undefined;
+    }),
+
+    alerts: [],
+    setAlerts: action((state, payload) => {
+        state.alerts = payload;
+    }),
+    addAlert: action((state, payload) => {
+        state.alerts = [payload, ...state.alerts];
     })
 });
 
