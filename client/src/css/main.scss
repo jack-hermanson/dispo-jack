@@ -73,3 +73,11 @@ a.dotted-link {
   height: 300px;
   object-fit: cover;
 }
+
+select option[data-default] {
+  color: #888;
+}
+
+label {
+  margin-bottom: 0.5rem;
+}
