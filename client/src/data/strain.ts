@@ -27,6 +27,13 @@ export interface StrainAndBatch {
     batch: BatchRecord;
 }
 
+export const getPriceKeyVal = (key: string, price: number): KeyValPair => {
+    return {
+        key: key,
+        val: formatMoney(price)
+    };
+}
+
 export const getPriceKeyVals = (strain: StrainRequest): KeyValPair[] => {
     return [
         {key: "Ounce (28g) Price", val: formatMoney(strain.ouncePrice)},
