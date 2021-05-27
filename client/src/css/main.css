@@ -10858,4 +10858,9 @@ a.dotted-link:hover, a.dotted-link:active {
   border: 0 !important;
 }
 
+.strain-picture {
+  height: 300px;
+  object-fit: cover;
+}
+
 /*# sourceMappingURL=main.css.map */

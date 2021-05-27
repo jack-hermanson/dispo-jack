@@ -4,7 +4,6 @@ import {Col, Row} from "reactstrap";
 import {PageHeader} from "../Utils/PageHeader";
 import {useStoreState} from "../../store";
 import {LoadingSpinner} from "../Utils/LoadingSpinner";
-import {StrainPrices} from "./StrainPrices";
 
 interface Props extends RouteComponentProps<{id: string}> {}
 
@@ -22,7 +21,6 @@ export const StrainDetails: React.FC<Props> = ({match}: Props) => {
                     </Row>
                     <Row>
                         <Col>
-                            <StrainPrices strain={strain} />
                         </Col>
                     </Row>
                 </React.Fragment>

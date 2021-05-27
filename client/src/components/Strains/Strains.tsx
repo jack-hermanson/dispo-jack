@@ -5,16 +5,16 @@ import {useStoreState} from "../../store";
 import {LoadingSpinner} from "../Utils/LoadingSpinner";
 import {Strain} from "./Strain";
 import {StrainFilter} from "./StrainFilter";
-import {StrainRecord} from "../../data/strain";
+import {StrainAndBatch} from "../../data/strain";
 import {PopularSidebar} from "./PopularSidebar";
 
 export const Strains: React.FC = () => {
-    const strains = useStoreState(state => state.strains);
-    const [filteredStrains, setFilteredStrains] = useState<StrainRecord[] | undefined>(undefined);
+    const strainsInStock = useStoreState(state => state.strainsInStock);
+    const [filteredStrains, setFilteredStrains] = useState<StrainAndBatch[] | undefined>(undefined);
 
     useEffect(() => {
-        setFilteredStrains(strains);
-    }, [strains, setFilteredStrains]);
+        setFilteredStrains(strainsInStock);
+    }, [strainsInStock, setFilteredStrains]);
 
     return (
         <React.Fragment>
@@ -33,9 +33,9 @@ export const Strains: React.FC = () => {
                 <Col lg={9}>
                     <Row>
                         {filteredStrains ? (
-                            filteredStrains.map(strain => (
-                                <Col lg={6} key={strain.id}>
-                                    <Strain strain={strain} />
+                            filteredStrains.map(strainAndBatch => (
+                                <Col lg={6} key={strainAndBatch.strain.id}>
+                                    <Strain strainAndBatch={strainAndBatch} />
                                 </Col>
                             ))
                         ) : <LoadingSpinner />}

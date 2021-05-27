@@ -1,7 +1,7 @@
-import {createStore, createTypedHooks, action, Action, thunk, Thunk} from "easy-peasy";
+import {createStore, createTypedHooks, action, Action, thunk, Thunk, computed, Computed} from "easy-peasy";
 import {AccountAndPerson, LoginRequest} from "./data/account";
 import {logIn, logOut} from "./api/account";
-import {StrainRecord, StrainTypeRecord} from "./data/strain";
+import {StrainAndBatch, StrainRecord, StrainTypeRecord} from "./data/strain";
 import {getStrains, getStrainTypes} from "./api/strain";
 import {BatchRecord} from "./data/batch";
 import {getBatches} from "./api/batch";
@@ -23,6 +23,8 @@ interface StoreModel {
     batches: BatchRecord[] | undefined;
     setBatches: Action<StoreModel, BatchRecord[]>;
     fetchBatches: Thunk<StoreModel>;
+
+    strainsInStock: Computed<StoreModel, StrainAndBatch[] | undefined>;
 }
 
 export const store = createStore<StoreModel>({
@@ -64,6 +66,24 @@ export const store = createStore<StoreModel>({
     fetchBatches: thunk(async (actions) => {
         const batches = await getBatches();
         actions.setBatches(batches);
+    }),
+
+    strainsInStock: computed(state => {
+        if (state.strains && state.batches) {
+            const strainsAndBatches: StrainAndBatch[] = [];
+
+            for (let batch of state.batches) {
+                const strain = state.strains.find(s => s.id === batch.strainId);
+                strainsAndBatches.push({
+                    strain: strain!,
+                    batch: batch
+                });
+            }
+
+            return strainsAndBatches;
+        }
+
+        return undefined;
     })
 });
 
