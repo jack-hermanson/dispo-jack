@@ -4,6 +4,7 @@ import {useStoreState} from "../../store";
 import {CreateEditStrainForm} from "./CreateEditStrainForm";
 import {PageHeader} from "../Utils/PageHeader";
 import {useHistory} from "react-router-dom";
+import {StrainRequest} from "../../data/strain";
 
 
 export const CreateStrain: React.FC = () => {
@@ -26,9 +27,16 @@ export const CreateStrain: React.FC = () => {
             <Row>
                 <Col lg={6} className="mb-3 mb-lg-0">
                     <CreateEditStrainForm
-                        onSubmit={(event) => {
-                            event.preventDefault();
-                            console.log("submit");
+                        onSubmit={(newStrain) => {
+                            const strain: StrainRequest = {
+                                name: newStrain.name!,
+                                strainTypeId: newStrain.strainTypeId!,
+                                ouncePrice: newStrain.ouncePrice!,
+                                quadPrice: newStrain.quadPrice!,
+                                eighthPrice: newStrain.gramPrice!,
+                                gramPrice: newStrain.gramPrice!
+                            };
+                            console.log(strain);
                         }}
                         submitBtnText="Create"
                     />

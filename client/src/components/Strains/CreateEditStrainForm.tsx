@@ -1,41 +1,46 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, FormGroup, Input, InputGroup, InputGroupText, Label} from "reactstrap";
 import {useStoreState} from "../../store";
-import {StrainRecord} from "../../data/strain";
+import {StrainRecord, StrainRequest} from "../../data/strain";
 import {stringToNum} from "../../utils/functions";
 
 interface Props {
-    onSubmit: (event: React.FormEvent) => any;
+    onSubmit: (newStrain: Partial<StrainRequest>) => any;
     submitBtnText: string;
     initialStrain?: StrainRecord;
 }
 
 export const CreateEditStrainForm: React.FC<Props> = ({onSubmit, submitBtnText, initialStrain}: Props) => {
 
+    useEffect(() => {
+        document.getElementById("name-input")?.focus();
+    });
+
     // form values
-    const [name, setName] = useState(initialStrain ? initialStrain.name : "");
-    const [strainType, setStrainType] = useState(initialStrain ? initialStrain.strainTypeId.toString() : "");
-    const [ouncePrice, setOuncePrice] = useState(initialStrain ? initialStrain.ouncePrice : undefined);
-    const [quadPrice, setQuadPrice] = useState(initialStrain ? initialStrain.quadPrice : undefined);
-    const [eighthPrice, setEighthPrice] = useState(initialStrain ? initialStrain.eighthPrice : undefined);
-    const [gramPrice, setGramPrice] = useState(initialStrain ? initialStrain.gramPrice : undefined);
+    const [newStrain, setNewStrain] = useState<Partial<StrainRequest>>(initialStrain || {});
 
     const prices = [
-        {label: "Ounce (28g)", get: ouncePrice, set: setOuncePrice},
-        {label: "Quad (7g)", get: quadPrice, set: setQuadPrice},
-        {label: "Eighth (3.5g)", get: eighthPrice, set: setEighthPrice},
-        {label: "Gram (1g)", get: gramPrice, set: setGramPrice}
+        {label: "Ounce (28g)", get: newStrain.ouncePrice, set: (value: number) => setNewStrain({...newStrain, ouncePrice: value})},
+        {label: "Quad (7g)", get: newStrain.quadPrice, set: (value: number) => setNewStrain({...newStrain, quadPrice: value})},
+        {label: "Eighth (3.5g)", get: newStrain.eighthPrice, set: (value: number) => setNewStrain({...newStrain, eighthPrice: value})},
+        {label: "Gram (1g)", get: newStrain.gramPrice, set: (value: number) => setNewStrain({...newStrain, gramPrice: value})},
     ];
 
     const strainTypeOptions = useStoreState(state => state.strainTypes);
 
     return (
-        <form onSubmit={onSubmit}>
+        <form onSubmit={(e) => {
+            e.preventDefault();
+            onSubmit(newStrain);
+        }}>
             {renderBasicInfo()}
             {renderPrices()}
             <div className="bottom-buttons">
                 <Button color="primary" type="submit">{submitBtnText}</Button>
-                <Button color="secondary" type="reset">Reset</Button>
+                <Button color="secondary" type="reset" onClick={() => {
+                    setNewStrain(initialStrain || {});
+                    document.getElementById("name-input")?.focus();
+                }}>Reset</Button>
             </div>
         </form>
     );
@@ -49,9 +54,9 @@ export const CreateEditStrainForm: React.FC<Props> = ({onSubmit, submitBtnText, 
                     <Input
                         required
                         onChange={event => {
-                            setName(event.target.value);
+                            setNewStrain({...newStrain, name: event.target.value});
                         }}
-                        value={name}
+                        value={newStrain.name}
                         id="name-input"
                     />
                 </FormGroup>
@@ -60,10 +65,10 @@ export const CreateEditStrainForm: React.FC<Props> = ({onSubmit, submitBtnText, 
                     <Input
                         required
                         name="strain-type-id"
-                        defaultValue={strainType.toString()}
+                        defaultValue={newStrain.strainTypeId}
                         type="select"
                         id="strain-type-id"
-                        onChange={e => setStrainType(e.target.value)}
+                        onChange={e => setNewStrain({...newStrain, strainTypeId: parseInt(e.target.value)})}
                     >
                         <option data-default={true} value="">Please select...</option>
                         {strainTypeOptions?.map(st => (
