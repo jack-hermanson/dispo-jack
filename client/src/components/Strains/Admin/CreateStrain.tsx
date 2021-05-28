@@ -6,7 +6,6 @@ import {PageHeader} from "../../Utils/PageHeader";
 import {useHistory} from "react-router-dom";
 import {StrainRequest} from "../../../data/strain";
 import {AdminTabs} from "../../Admin/AdminTabs";
-import {PreviewStrain} from "./PreviewStrain";
 
 
 export const CreateStrain: React.FC = () => {
@@ -36,11 +35,6 @@ export const CreateStrain: React.FC = () => {
                         submitBtnText="Create"
                         setPreview={setPreviewStrain}
                     />
-                </Col>
-                <Col>
-                    <div className="sticky-top">
-                        <PreviewStrain previewStrain={previewStrain} />
-                    </div>
                 </Col>
             </Row>
         </React.Fragment>

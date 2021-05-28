@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from "react";
-import {Button, FormGroup, Input, InputGroup, InputGroupText, Label} from "reactstrap";
-import {useStoreState} from "../../../store";
 import {StrainRecord, StrainRequest} from "../../../data/strain";
-import {stringToNum} from "../../../utils/functions";
+import {Button, Col, FormGroup, Input, InputGroup, InputGroupText, Label, Row} from "reactstrap";
 
 interface Props {
     onSubmit: (newStrain: Partial<StrainRequest>) => any;
@@ -17,134 +15,69 @@ export const CreateEditStrainForm: React.FC<Props> = ({onSubmit, submitBtnText, 
         document.getElementById("name-input")?.focus();
     }, []);
 
-    // form values
-    const [newStrain, setNewStrain] = useState<Partial<StrainRequest>>(initialStrain || {
-        name: ""
-    });
-
-    const prices = [
-        {
-            label: "Ounce (28g)",
-            get: newStrain.ouncePrice,
-            set: (value: number) => {
-                setNewStrain({...newStrain, ouncePrice: value});
-                setPreview?.({...newStrain, ouncePrice: value});
-            }
-        },
-        {
-            label: "Quad (7g)",
-            get: newStrain.quadPrice,
-            set: (value: number) => {
-                setNewStrain({...newStrain, quadPrice: value});
-                setPreview?.({...newStrain, quadPrice: value});
-            }
-        },
-        {
-            label: "Eighth (3.5g)",
-            get: newStrain.eighthPrice,
-            set: (value: number) => {
-                setNewStrain({...newStrain, eighthPrice: value});
-                setPreview?.({...newStrain, eighthPrice: value});
-            }
-        },
-        {
-            label: "Gram (1g)",
-            get: newStrain.gramPrice,
-            set: (value: number) => {
-                setNewStrain({...newStrain, gramPrice: value});
-                setPreview?.({...newStrain, gramPrice: value});
-            }
-        },
-    ];
-
-    const strainTypeOptions = useStoreState(state => state.strainTypes);
+    const [name, setName] = useState("");
+    const [strainTypeId, setStrainTypeId] = useState("");
+    const [ouncePrice, setOuncePrice] = useState("");
+    const [quadPrice, setQuadPrice] = useState("");
+    const [eighthPrice, setEighthPrice] = useState("");
+    const [gramPrice, setGramPrice] = useState("");
 
     return (
-        <form onSubmit={(e) => {
-            e.preventDefault();
-            onSubmit(newStrain);
-        }}>
-            {renderBasicInfo()}
-            {renderPrices()}
-            <div className="bottom-buttons">
-                <Button color="primary" type="submit">{submitBtnText}</Button>
-                <Button color="secondary" type="reset" onClick={() => {
-                    setNewStrain(initialStrain || {});
-                    setPreview?.(initialStrain || {});
-                    document.getElementById("name-input")?.focus();
-                }}>Reset</Button>
-            </div>
-        </form>
-    );
-
-    function renderBasicInfo() {
-        return (
-            <React.Fragment>
-                <h5 className="border-bottom">Basic Info</h5>
-                <FormGroup>
-                    <Label htmlFor="name-input">Name</Label>
-                    <Input
-                        required
-                        onChange={event => {
-                            setNewStrain({...newStrain, name: event.target.value});
-                            setPreview?.({...newStrain, name: event.target.value});
-                        }}
-                        value={newStrain.name}
-                        id="name-input"
-                    />
-                </FormGroup>
-                <FormGroup>
-                    <Label>Type</Label>
-                    <Input
-                        required
-                        name="strain-type-id"
-                        defaultValue={newStrain.strainTypeId}
-                        type="select"
-                        id="strain-type-id"
-                        onChange={e => {
-                            const strainTypeId = parseInt(e.target.value);
-                            setNewStrain({...newStrain, strainTypeId});
-                            setPreview?.({...newStrain, strainTypeId});
-                        }}
-                    >
-                        <option disabled={newStrain.strainTypeId !== undefined} data-default={true} value="">Please select...</option>
-                        {strainTypeOptions?.map(st => (
-                            <option key={st.id}
-                                    value={st.id}>{st.name}</option>
-                        ))}
-                    </Input>
-                </FormGroup>
-            </React.Fragment>
-        );
-    }
-
-    function renderPrices() {
-        return (
-            <React.Fragment>
-                <h5 className="border-bottom">Prices</h5>
-                {prices.map(priceField => (
-                    <FormGroup key={priceField.label}>
-                        <Label for={`${priceField.label}-input`}>{priceField.label}</Label>
+        <form>
+            <FormGroup>
+                <Label for="name-input">Name</Label>
+                <Input id="name-input" value={name} onChange={e => setName(e.target.value)}/>
+            </FormGroup>
+            <FormGroup>
+                <Label>Type</Label>
+                <Input required defaultValue="" type="select">
+                    <option value="">Please select...</option>
+                </Input>
+            </FormGroup>
+            <FormGroup>
+                <Row>
+                    <Col>
+                        <Label>Ounce (28g)</Label>
                         <InputGroup>
                             <InputGroupText>$</InputGroupText>
                             <Input
-                                required
+                                onChange={e => setOuncePrice(e.target.value)}
                                 type="number"
-                                id={`${priceField.label}-input`}
-                                value={priceField.get}
-                                onChange={e => {
-                                    const num = stringToNum(e.target.value);
-                                    if (!num) {
-                                        e.preventDefault();
-                                    } else {
-                                        priceField.set(num);
-                                    }
-                                }}
+                                value={ouncePrice}
                             />
                         </InputGroup>
-                    </FormGroup>
-                ))}
-            </React.Fragment>
-        );
-    }
+                    </Col>
+                    <Col>
+                        <Label>Quad (7g)</Label>
+                        <InputGroup>
+                            <InputGroupText>$</InputGroupText>
+                            <Input type="number"/>
+                        </InputGroup>
+                    </Col>
+                </Row>
+            </FormGroup>
+            <FormGroup>
+                <Row>
+                    <Col>
+                        <Label>Eighth (3.5g)</Label>
+                        <InputGroup>
+                            <InputGroupText>$</InputGroupText>
+                            <Input type="number"/>
+                        </InputGroup>
+                    </Col>
+                    <Col>
+                        <Label>Gram (1g)</Label>
+                        <InputGroup>
+                            <InputGroupText>$</InputGroupText>
+                            <Input type="number"/>
+                        </InputGroup>
+                    </Col>
+                </Row>
+            </FormGroup>
+            <div className="mt-4 bottom-buttons">
+                <Button color="primary">{submitBtnText}</Button>
+                <Button color="secondary">Reset</Button>
+            </div>
+        </form>
+    )
 }
