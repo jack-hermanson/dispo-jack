@@ -12,7 +12,6 @@ export const CreateStrain: React.FC = () => {
     const currentUser = useStoreState(state => state.currentUser);
     const addStrain = useStoreActions(actions => actions.addStrain);
     const history = useHistory();
-    const [previewStrain, setPreviewStrain] = useState<Partial<StrainRequest>>({});
 
     useEffect(() => {
         if (!currentUser || !currentUser.clearances.some(clearance => clearance >= 5)) {
@@ -33,7 +32,6 @@ export const CreateStrain: React.FC = () => {
                     <CreateEditStrainForm
                         onSubmit={(newStrain) => submitForm(newStrain)}
                         submitBtnText="Create"
-                        setPreview={setPreviewStrain}
                     />
                 </Col>
             </Row>

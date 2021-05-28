@@ -6,10 +6,9 @@ interface Props {
     onSubmit: (newStrain: Partial<StrainRequest>) => any;
     submitBtnText: string;
     initialStrain?: StrainRecord;
-    setPreview?: (newStrain: Partial<StrainRequest>) => any;
 }
 
-export const CreateEditStrainForm: React.FC<Props> = ({onSubmit, submitBtnText, initialStrain, setPreview}: Props) => {
+export const CreateEditStrainForm: React.FC<Props> = ({onSubmit, submitBtnText, initialStrain}: Props) => {
 
     useEffect(() => {
         document.getElementById("name-input")?.focus();
