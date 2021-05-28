@@ -13,7 +13,15 @@ export const CreateEditStrainForm: React.FC<Props> = ({onSubmit, submitBtnText, 
 
     useEffect(() => {
         document.getElementById("name-input")?.focus();
-    }, []);
+        if (initialStrain) {
+            setName(initialStrain.name);
+            setStrainTypeId(initialStrain.strainTypeId.toString());
+            setOuncePrice(initialStrain.ouncePrice.toString());
+            setQuadPrice(initialStrain.quadPrice.toString());
+            setEighthPrice(initialStrain.eighthPrice.toString());
+            setGramPrice(initialStrain.gramPrice.toString());
+        }
+    }, [initialStrain]);
 
     const strainTypes = useStoreState(state => state.strainTypes);
 
@@ -32,7 +40,7 @@ export const CreateEditStrainForm: React.FC<Props> = ({onSubmit, submitBtnText, 
             </FormGroup>
             <FormGroup>
                 <Label>Type</Label>
-                <Input required defaultValue={initialStrain ? initialStrain.strainTypeId : ""} type="select" onChange={e => setStrainTypeId(e.target.value)}>
+                <Input required value={strainTypeId} type="select" onChange={e => setStrainTypeId(e.target.value)}>
                     <option value="">Please select...</option>
                     {strainTypes?.map(st => (
                         <option value={st.id} key={`strain-type-${st.id}`}>{st.name}</option>
@@ -96,5 +104,9 @@ export const CreateEditStrainForm: React.FC<Props> = ({onSubmit, submitBtnText, 
                 <Button color="secondary">Reset</Button>
             </div>
         </form>
-    )
+    );
+
+    function reset() {
+
+    }
 }
