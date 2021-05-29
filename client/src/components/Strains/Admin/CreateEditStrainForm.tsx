@@ -150,6 +150,7 @@ export const CreateEditStrainForm: React.FC<Props> = ({onSubmit, submitBtnText, 
                     text: `Error: ${error.message}.`,
                     error: true
                 });
+                window.scrollTo(0, 0);
             }
         } else {
             addAlert({
@@ -157,6 +158,7 @@ export const CreateEditStrainForm: React.FC<Props> = ({onSubmit, submitBtnText, 
                 text: "Please fill out all required values.",
                 error: true
             });
+            window.scrollTo(0, 0);
         }
     }
 }
