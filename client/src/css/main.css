@@ -10822,7 +10822,6 @@ body {
 
 .bottom-buttons {
   margin-bottom: 0;
-  margin-top: 1.6em;
 }
 .bottom-buttons button:not(last-of-type) {
   margin-right: 0.5em;
@@ -10856,6 +10855,35 @@ a.dotted-link:hover, a.dotted-link:active {
 
 .card {
   border: 0 !important;
+}
+
+.strain-picture {
+  height: 300px;
+  object-fit: cover;
+}
+
+select option[data-default] {
+  color: #888;
+}
+
+.form-check label {
+  margin-bottom: 0;
+}
+
+label {
+  margin-bottom: 0.5rem;
+}
+
+.page-title {
+  display: flex;
+}
+.page-title .actions-button {
+  margin-left: auto;
+  margin-top: auto;
+}
+.page-title .title-text {
+  margin-bottom: 0;
+  margin-top: auto;
 }
 
 /*# sourceMappingURL=main.css.map */

@@ -1,5 +1,5 @@
 import axios from "axios";
-import {StrainRecord, StrainTypeRecord} from "../data/strain";
+import {StrainRecord, StrainRequest, StrainTypeRecord} from "../data/strain";
 
 const baseUrl = "/api/strains";
 
@@ -11,4 +11,12 @@ export const getStrainTypes = async (): Promise<StrainTypeRecord[]> => {
 export const getStrains = async (): Promise<StrainRecord[]> => {
     const response = await axios.get(baseUrl);
     return response.data;
+}
+
+export const addStrain = async (strain: StrainRequest, token: string) => {
+    await axios.post(baseUrl, strain, {
+        headers: {
+            Authentication: `Bearer ${token}`
+        }
+    });
 }

@@ -1,0 +1,55 @@
+import React, {useEffect, useState} from "react";
+import {Col, Row} from "reactstrap";
+import {useStoreActions, useStoreState} from "../../../store";
+import {CreateEditStrainForm} from "./CreateEditStrainForm";
+import {PageHeader} from "../../Utils/PageHeader";
+import {useHistory} from "react-router-dom";
+import {StrainRequest} from "../../../data/strain";
+import {AdminTabs} from "../../Admin/AdminTabs";
+
+
+export const CreateStrain: React.FC = () => {
+    const currentUser = useStoreState(state => state.currentUser);
+    const addStrain = useStoreActions(actions => actions.addStrain);
+    const history = useHistory();
+
+    useEffect(() => {
+        if (!currentUser || !currentUser.clearances.some(clearance => clearance >= 5)) {
+            history.push("/account");
+        }
+    });
+
+    return (
+        <React.Fragment>
+            <AdminTabs />
+            <Row>
+                <Col>
+                    <PageHeader title="New Strain"/>
+                </Col>
+            </Row>
+            <Row>
+                <Col lg={6} className="mb-3 mb-lg-0">
+                    <CreateEditStrainForm
+                        onSubmit={(newStrain) => submitForm(newStrain)}
+                        submitBtnText="Create"
+                    />
+                </Col>
+            </Row>
+        </React.Fragment>
+    );
+
+    async function submitForm(newStrain: StrainRequest) {
+        if (currentUser && currentUser.account.token) {
+            try {
+                await addStrain({
+                    strain: newStrain,
+                    token: currentUser.account.token
+                });
+            } catch (error) {
+                window.scrollTo(0, 0);
+            }
+        }
+    }
+}
+
+

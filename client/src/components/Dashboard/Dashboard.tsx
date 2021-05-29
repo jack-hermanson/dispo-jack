@@ -7,6 +7,7 @@ export const Dashboard: React.FC = () => {
 
     const strainTypes = useStoreState(state => state.strainTypes);
     const strains = useStoreState(state => state.strains);
+    const batches = useStoreState(state => state.batches);
 
     return (
         <div>
@@ -33,7 +34,16 @@ export const Dashboard: React.FC = () => {
                     </ul>
                 ) : <LoadingSpinner />}
             </div>
-
+            <div>
+                <label>Batches</label>
+                {batches ? (
+                    <ul>
+                        {batches.map(batch => (
+                            <li key={batch.id}>{batch.id}</li>
+                        ))}
+                    </ul>
+                ) : <LoadingSpinner />}
+            </div>
         </div>
     );
 }

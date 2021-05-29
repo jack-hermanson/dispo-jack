@@ -11,3 +11,15 @@ export function formatPhoneNumber(phoneNumberString: string): string {
 export function formatMoney(dollarAmt: number): string {
     return `$${dollarAmt.toFixed(2)}`;
 }
+
+export function formatPercent(percentage: number): string {
+    return `${percentage.toFixed(3)}%`;
+}
+
+export function stringToNum(numString: string): number | undefined {
+    try {
+        return parseFloat(numString);
+    } catch (e) {
+        return undefined;
+    }
+}

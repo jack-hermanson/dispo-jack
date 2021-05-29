@@ -12,6 +12,8 @@ import {Role} from "./entities/Role";
 import {Person} from "./entities/Person";
 import {PrimitiveAccount1621529788492} from "./migrations/1621529788492-PrimitiveAccount";
 import {Weed1621922119960} from "./migrations/1621922119960-Weed";
+import {imageUrl1622052796655} from "./migrations/1622052796655-imageUrl";
+import {BatchDate1622055634796} from "./migrations/1622055634796-BatchDate";
 import {roleRouter} from "./routes/roleRouter";
 import {personRouter} from "./routes/personRouter";
 import {accountRouter} from "./routes/accountRouter";
@@ -24,6 +26,7 @@ import {Batch} from "./entities/Batch";
 import {Purchase} from "./entities/Purchase";
 import {PurchaseBatch} from "./entities/PurchaseBatch";
 import {Adjustment} from "./entities/Adjustment";
+import {batchRouter} from "./routes/batchRouter";
 
 // env
 const envPath = path.join(__dirname, "..", ".env");
@@ -46,6 +49,7 @@ app.use(routePrefixes.roles, roleRouter);
 app.use(routePrefixes.people, personRouter);
 app.use(routePrefixes.accounts, accountRouter);
 app.use(routePrefixes.strains, strainRouter);
+app.use(routePrefixes.batches, batchRouter);
 
 // any apps not picked up by the server api will be handled by the react router
 app.use('/*', staticFiles);
@@ -67,7 +71,8 @@ export const dbOptions: ConnectionOptions = {
     },
     migrationsRun: true,
     migrationsTableName: "migrations",
-    migrations: [PrimitiveAccount1621529788492, Weed1621922119960],
+    migrations: [PrimitiveAccount1621529788492, Weed1621922119960, imageUrl1622052796655,
+        BatchDate1622055634796],
     cli: {
         migrationsDir: path.join(__dirname, "migrations")
     }

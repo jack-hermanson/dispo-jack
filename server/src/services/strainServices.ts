@@ -6,8 +6,8 @@ import {doesNotConflict} from "../utils/validation";
 import {HTTP_STATUS} from "../utils/constants";
 
 const getRepos = (): {
-    strainRepo: Repository<Strain>,
-    strainTypeRepo: Repository<StrainType>
+    strainRepo: Repository<Strain>;
+    strainTypeRepo: Repository<StrainType>;
 } => {
     const connection = getConnection();
     const strainRepo = connection.getRepository(Strain);
@@ -78,4 +78,15 @@ export const createStrain = async (requestBody: StrainRequest, res: Response): P
 export const getStrains = async (): Promise<Strain[]> => {
     const {strainRepo} = await getRepos();
     return await strainRepo.find();
+}
+
+export const getOneStrain = async (strainId: number, res: Response): Promise<Strain | undefined> => {
+    const {strainRepo} = getRepos();
+
+    const strain = await strainRepo.findOne({id: strainId});
+    if (!strain) {
+        res.sendStatus(HTTP_STATUS.NOT_FOUND);
+        return undefined;
+    }
+    return strain;
 }

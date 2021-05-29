@@ -2,16 +2,16 @@ import React, {useState} from "react";
 import {Button, FormGroup, Input, Label} from "reactstrap";
 import {LoadingSpinner} from "../Utils/LoadingSpinner";
 import {useStoreState} from "../../store";
-import {StrainRecord} from "../../data/strain";
+import {StrainAndBatch, StrainRecord} from "../../data/strain";
 import {MobileToggleCard} from "../Utils/MobileToggleCard";
 
 interface Props {
-    setFilteredStrains: (strains: StrainRecord[]) => any;
+    setFilteredStrains: (strainAndBatches: StrainAndBatch[]) => any;
 }
 
 export const StrainFilter: React.FC<Props> = ({setFilteredStrains}: Props) => {
     const strainTypes = useStoreState(state => state.strainTypes);
-    const strains = useStoreState(state => state.strains);
+    const strainsAndBatches = useStoreState(state => state.strainsInStock);
 
     const [searchText, setSearchText] = useState("");
     const [selectedTypes, setSelectedTypes] = useState<number[]>([]);
@@ -59,8 +59,8 @@ export const StrainFilter: React.FC<Props> = ({setFilteredStrains}: Props) => {
     );
 
     function reset() {
-        if (strains) {
-            setFilteredStrains(strains);
+        if (strainsAndBatches) {
+            setFilteredStrains(strainsAndBatches);
         }
         setSearchText("");
         setSelectedTypes([]);
@@ -73,10 +73,10 @@ export const StrainFilter: React.FC<Props> = ({setFilteredStrains}: Props) => {
     }
 
     function filterStrains(matchText: string, typeIds: number[]) {
-        if (strains) {
-            const matches = strains
-                .filter(strain => strain.name.toLowerCase().includes(matchText.toLowerCase()))
-                .filter(strain => typeIds.includes(strain.strainTypeId) || !typeIds.length);
+        if (strainsAndBatches) {
+            const matches = strainsAndBatches
+                .filter(s => s.strain.name.toLowerCase().includes(matchText.toLowerCase()))
+                .filter(s => typeIds.includes(s.strain.strainTypeId) || !typeIds.length);
             setFilteredStrains(matches);
         }
     }
