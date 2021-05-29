@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {StrainRecord, StrainRequest} from "../../../data/strain";
 import {Button, Col, FormGroup, Input, InputGroup, InputGroupText, Label, Row} from "reactstrap";
-import {useStoreState} from "../../../store";
+import {useStoreActions, useStoreState} from "../../../store";
 
 interface Props {
-    onSubmit: (newStrain: Partial<StrainRequest>) => any;
+    onSubmit: (newStrain: StrainRequest) => any;
     submitBtnText: string;
     initialStrain?: StrainRecord;
 }
@@ -24,6 +24,7 @@ export const CreateEditStrainForm: React.FC<Props> = ({onSubmit, submitBtnText, 
     }, [initialStrain]);
 
     const strainTypes = useStoreState(state => state.strainTypes);
+    const addAlert = useStoreActions(actions => actions.addAlert);
 
     const [name, setName] = useState("");
     const [strainTypeId, setStrainTypeId] = useState("");
@@ -33,7 +34,10 @@ export const CreateEditStrainForm: React.FC<Props> = ({onSubmit, submitBtnText, 
     const [gramPrice, setGramPrice] = useState("");
 
     return (
-        <form>
+        <form onSubmit={e => {
+            e.preventDefault();
+            submit();
+        }}>
             <FormGroup>
                 <Label for="name-input">Name</Label>
                 <Input id="name-input" value={name} onChange={e => setName(e.target.value)}/>
@@ -54,6 +58,7 @@ export const CreateEditStrainForm: React.FC<Props> = ({onSubmit, submitBtnText, 
                         <InputGroup>
                             <InputGroupText>$</InputGroupText>
                             <Input
+                                required
                                 type="number"
                                 onChange={e => setOuncePrice(e.target.value)}
                                 value={ouncePrice}
@@ -65,6 +70,7 @@ export const CreateEditStrainForm: React.FC<Props> = ({onSubmit, submitBtnText, 
                         <InputGroup>
                             <InputGroupText>$</InputGroupText>
                             <Input
+                                required
                                 type="number"
                                 onChange={e => setQuadPrice(e.target.value)}
                                 value={quadPrice}
@@ -80,6 +86,7 @@ export const CreateEditStrainForm: React.FC<Props> = ({onSubmit, submitBtnText, 
                         <InputGroup>
                             <InputGroupText>$</InputGroupText>
                             <Input
+                                required
                                 type="number"
                                 onChange={e => setEighthPrice(e.target.value)}
                                 value={eighthPrice}
@@ -91,6 +98,7 @@ export const CreateEditStrainForm: React.FC<Props> = ({onSubmit, submitBtnText, 
                         <InputGroup>
                             <InputGroupText>$</InputGroupText>
                             <Input
+                                required
                                 type="number"
                                 onChange={e => setGramPrice(e.target.value)}
                                 value={gramPrice}
@@ -100,13 +108,55 @@ export const CreateEditStrainForm: React.FC<Props> = ({onSubmit, submitBtnText, 
                 </Row>
             </FormGroup>
             <div className="mt-4 bottom-buttons">
-                <Button color="primary">{submitBtnText}</Button>
-                <Button color="secondary">Reset</Button>
+                <Button type="submit" color="primary">{submitBtnText}</Button>
+                <Button type="reset" onClick={reset} color="secondary">Reset</Button>
             </div>
         </form>
     );
 
     function reset() {
+        setName("");
+        setStrainTypeId("");
+        setOuncePrice("");
+        setQuadPrice("");
+        setEighthPrice("");
+        setGramPrice("");
+        document.getElementById("name-input")?.focus();
+    }
 
+    function submit() {
+        const valid = (
+            (name.length) &&
+            (strainTypeId.length) &&
+            (ouncePrice.length) &&
+            (quadPrice.length) &&
+            (eighthPrice.length) &&
+            (quadPrice.length)
+        );
+        if (valid) {
+            try {
+                const newStrain: StrainRequest = {
+                    name: name,
+                    strainTypeId: parseInt(strainTypeId),
+                    ouncePrice: parseFloat(ouncePrice),
+                    quadPrice: parseFloat(quadPrice),
+                    eighthPrice: parseFloat(eighthPrice),
+                    gramPrice: parseFloat(gramPrice)
+                };
+                onSubmit(newStrain);
+            } catch (error) {
+                addAlert({
+                    color: "danger",
+                    text: `Error: ${error.message}.`,
+                    error: true
+                });
+            }
+        } else {
+            addAlert({
+                color: "danger",
+                text: "Please fill out all required values.",
+                error: true
+            });
+        }
     }
 }

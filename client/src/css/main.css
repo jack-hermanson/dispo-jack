@@ -10822,7 +10822,6 @@ body {
 
 .bottom-buttons {
   margin-bottom: 0;
-  margin-top: 1.6em;
 }
 .bottom-buttons button:not(last-of-type) {
   margin-right: 0.5em;
@@ -10865,6 +10864,10 @@ a.dotted-link:hover, a.dotted-link:active {
 
 select option[data-default] {
   color: #888;
+}
+
+.form-check label {
+  margin-bottom: 0;
 }
 
 label {

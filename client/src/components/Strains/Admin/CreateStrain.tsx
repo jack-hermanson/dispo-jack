@@ -38,19 +38,11 @@ export const CreateStrain: React.FC = () => {
         </React.Fragment>
     );
 
-    async function submitForm(newStrain: Partial<StrainRequest>) {
+    async function submitForm(newStrain: StrainRequest) {
         if (currentUser && currentUser.account.token) {
-            const strain: StrainRequest = {
-                name: newStrain.name!,
-                strainTypeId: newStrain.strainTypeId!,
-                ouncePrice: newStrain.ouncePrice!,
-                quadPrice: newStrain.quadPrice!,
-                eighthPrice: newStrain.gramPrice!,
-                gramPrice: newStrain.gramPrice!
-            };
             try {
                 await addStrain({
-                    strain: strain,
+                    strain: newStrain,
                     token: currentUser.account.token
                 });
             } catch (error) {
