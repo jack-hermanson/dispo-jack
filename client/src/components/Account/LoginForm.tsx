@@ -43,7 +43,7 @@ export const LoginForm: React.FC = () => {
                         onChange={e => setPassword(e.target.value)}
                     />
                 </FormGroup>
-                <FormGroup className="bottom-buttons">
+                <FormGroup className="mt-4">
                     <Button type="submit" color="primary">Log In</Button>
                     <Button type="reset" color="secondary" onClick={() => {
                         setUsername("");
