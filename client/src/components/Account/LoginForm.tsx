@@ -10,6 +10,7 @@ export const LoginForm: React.FC = () => {
     const history = useHistory();
 
     const logIn = useStoreActions(actions => actions.logIn);
+    const addAlert = useStoreActions(actions => actions.addAlert);
 
     return (
         <React.Fragment>
@@ -19,6 +20,27 @@ export const LoginForm: React.FC = () => {
                     await logIn({username, password});
                     history.push("/account");
                 } catch (error) {
+                    let message = "Error";
+                    if (error.response) {
+                        switch (error.response.status) {
+                            case 400:
+                            case 404:
+                                message = "Incorrect login information.";
+                                break;
+                            case 500:
+                                message = "Server error.";
+                                break;
+                            default:
+                                message = `Error with status code ${error.response.status}.`;
+                        }
+                    } else {
+                        message = error.message;
+                    }
+                    addAlert({
+                        error: true,
+                        text: message,
+                        color: "danger"
+                    });
                     console.error(error);
                 }
             }}>
@@ -43,7 +65,7 @@ export const LoginForm: React.FC = () => {
                         onChange={e => setPassword(e.target.value)}
                     />
                 </FormGroup>
-                <FormGroup className="mt-4">
+                <FormGroup className="mt-4 bottom-buttons">
                     <Button type="submit" color="primary">Log In</Button>
                     <Button type="reset" color="secondary" onClick={() => {
                         setUsername("");
