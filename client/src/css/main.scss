@@ -13,6 +13,12 @@ body {
   color: white;
 }
 
+.no-mb-last {
+  &:last-of-type {
+    margin-bottom: 0 !important;
+  }
+}
+
 .hover-mouse {
   &:hover {
     cursor: pointer;
