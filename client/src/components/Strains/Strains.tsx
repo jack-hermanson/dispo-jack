@@ -3,10 +3,10 @@ import {Col, Row} from "reactstrap";
 import {PageHeader} from "../Utils/PageHeader";
 import {useStoreState} from "../../store";
 import {LoadingSpinner} from "../Utils/LoadingSpinner";
-import {Strain} from "./Strain";
 import {StrainFilter} from "./StrainFilter";
 import {StrainAndBatch} from "../../data/strain";
 import {PopularSidebar} from "./PopularSidebar";
+import {StrainAndBatchDetails} from "./StrainAndBatchDetails";
 
 export const Strains: React.FC = () => {
     const strainsInStock = useStoreState(state => state.strainsInStock);
@@ -35,7 +35,7 @@ export const Strains: React.FC = () => {
                         {filteredStrains ? (
                             filteredStrains.map(strainAndBatch => (
                                 <Col lg={6} key={strainAndBatch.strain.id}>
-                                    <Strain strainAndBatch={strainAndBatch} />
+                                    <StrainAndBatchDetails strainAndBatch={strainAndBatch} />
                                 </Col>
                             ))
                         ) : <LoadingSpinner />}
