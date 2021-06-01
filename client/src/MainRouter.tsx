@@ -12,6 +12,7 @@ import {AdminDashboard} from "./components/Admin/AdminDashboard";
 import {CreateStrain} from "./components/Strains/Admin/CreateStrain";
 import {AdminStrains} from "./components/Strains/Admin/AdminStrains";
 import {Alerts} from "./components/Alerts/Alerts";
+import {EditStrain} from "./components/Strains/Admin/EditStrain";
 
 export const MainRouter = () => {
 
@@ -38,6 +39,7 @@ export const MainRouter = () => {
                 <Route exact path="/admin" component={AdminDashboard} />
                 <Route exact path="/admin/strains" component={AdminStrains} />
                 <Route exact path="/admin/strains/new" component={CreateStrain} />
+                <Route exact path="/admin/strains/edit/:id" component={EditStrain} />
             </Container>
         </BrowserRouter>
     );
