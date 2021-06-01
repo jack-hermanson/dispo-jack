@@ -6,6 +6,7 @@ import {MobileToggleCard} from "../../Utils/MobileToggleCard";
 import {FilterTypes} from "./FilterTypes";
 import {FilterSearchText} from "./FilterSearchText";
 import {ResetFilters} from "./ResetFilters";
+import {handleCheckChange} from "../../../utils/functions";
 
 interface Props {
     setFilteredStrains: (strainAndBatches: StrainAndBatch[]) => any;
@@ -51,16 +52,7 @@ export const StrainAndBatchFilter: React.FC<Props> = ({setFilteredStrains}: Prop
     }
 
     function handleTypeChange(event: React.ChangeEvent<HTMLInputElement>, strainTypeId: number) {
-        const checked = event.target.checked;
-        const alreadyInList = selectedTypes.some(s => s === strainTypeId);
-        let newSelectedTypes: number[] = [];
-
-        if (checked && !alreadyInList) {
-            newSelectedTypes = [...selectedTypes, strainTypeId];
-        } else if (!checked && alreadyInList) {
-            newSelectedTypes = selectedTypes.filter(n => n !== strainTypeId);
-        }
-
+        const newSelectedTypes = handleCheckChange(event, selectedTypes, strainTypeId);
         filterStrains(searchText, newSelectedTypes);
         setSelectedTypes(newSelectedTypes);
     }
