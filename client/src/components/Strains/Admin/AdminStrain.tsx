@@ -19,7 +19,12 @@ export const AdminStrain: React.FC<Props> = ({strain}: Props) => {
         <Card className="mb-3 no-mb-last">
             <CardHeader className="d-flex align-items-center">
                 <h5 className="mb-0 me-auto">{strain.name}</h5>
-                <Button size="sm" color="primary">Test</Button>
+                <AgnosticLink
+                    linkType="internal"
+                    className="btn btn-sm btn-primary"
+                    linkText="Edit"
+                    path={`/admin/strains/edit/${strain.id}`}
+                />
             </CardHeader>
             {renderCardBody()}
         </Card>
