@@ -26,7 +26,12 @@ export const AdminStrains: React.FC = () => {
                 </Col>
             </Row>
             <Row>
-                <Col>
+                <Col lg={3}>
+                    <div className="sticky-top mb-4 mb-lg-0">
+
+                    </div>
+                </Col>
+                <Col lg={9}>
                     {strains ? (
                         strains.map(strain => <AdminStrain key={strain.id} strain={strain} />)
                     ) : <LoadingSpinner />}
