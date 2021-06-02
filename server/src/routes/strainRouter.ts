@@ -8,6 +8,7 @@ import {hasMinClearance} from "../services/roleServices";
 import {HTTP_STATUS} from "../utils/constants";
 import {createStrain, createStrainType, getStrains, getStrainTypes} from "../services/strainServices";
 import {StrainRequest, strainSchema} from "../entities/Strain";
+import {StrainRecord} from "../../../client/src/data/strain";
 
 export const strainRouter = express.Router();
 
@@ -55,4 +56,8 @@ strainRouter.post("/", auth, async (req: AuthRequest<StrainRequest>, res: Respon
 
 strainRouter.get("/", async (req: AuthRequest<any>, res: Response) => {
     res.json(await getStrains());
+});
+
+strainRouter.put("/:id", auth, async (req: AuthRequest<StrainRequest>, res: Response) => {
+    res.json({});
 });
