@@ -28,17 +28,19 @@ export const Batch: React.FC<Props> = ({batch, showDetailsBtn = true}: Props) =>
 
     const history = useHistory();
 
+    const dateReceived = new Date(batch.dateReceived);
+
     return (
         <React.Fragment>
             {strain ? (
                 <Card className="mb-3">
                     <CardHeader className="d-flex align-items-center">
-                        <h5 className="mb-0 me-auto">{strain.name}</h5>
+                        <h5 className="mb-0 me-auto">{strain.name} - {dateReceived.toLocaleDateString()}</h5>
                         {renderActionsDropdown()}
                     </CardHeader>
                     {renderCardBody()}
                 </Card>
-            ) : <LoadingSpinner />}
+            ) : <LoadingSpinner/>}
         </React.Fragment>
     );
 
@@ -59,7 +61,7 @@ export const Batch: React.FC<Props> = ({batch, showDetailsBtn = true}: Props) =>
                     <DropdownItem>
                         Edit
                     </DropdownItem>
-                    <DropdownItem divider />
+                    <DropdownItem divider/>
                     <DropdownItem>
                         Delete
                     </DropdownItem>
@@ -69,25 +71,36 @@ export const Batch: React.FC<Props> = ({batch, showDetailsBtn = true}: Props) =>
     }
 
     function renderCardBody() {
-        return (
-            <CardBody className="p-0">
-                <KeyValTable
-                    className="same-width card-table mb-0"
-                    keyValPairs={[
-                        {key: "Date Received", val: `${new Date(batch.dateReceived).toLocaleString()}`},
-                        {key: "Image", val: <AgnosticLink
-                                linkType="external"
-                                linkText={`${batch.imageUrl?.slice(8, 35)}...` || ""}
-                                path={batch.imageUrl || ""}
-                            />
-                        },
-                        {key: "Size", val: `${batch.size} grams`},
-                        {key: "THC", val: formatPercent(batch.thcPotency)},
-                        {key: "CBD", val: formatPercent(batch.cbdPotency)},
-                        {key: "Notes", val: batch.notes}
-                    ]}
-                />
-            </CardBody>
-        );
+        if (strain) {
+            return (
+                <CardBody className="p-0">
+                    <KeyValTable
+                        className="same-width card-table mb-0"
+                        keyValPairs={[
+                            {key: "ID Number", val: `${batch.id}`},
+                            {key: "Received", val: `${dateReceived.toLocaleString()}`},
+                            {
+                                key: "Strain", val: <AgnosticLink
+                                    linkType="internal"
+                                    linkText={strain.name}
+                                    path={`/admin/strains/edit/${strain.id}`}
+                                />
+                            },
+                            {
+                                key: "Image", val: <AgnosticLink
+                                    linkType="external"
+                                    linkText={`${batch.imageUrl?.slice(8, 35)}...` || ""}
+                                    path={batch.imageUrl || ""}
+                                />
+                            },
+                            {key: "Size", val: `${batch.size} grams`},
+                            {key: "THC", val: formatPercent(batch.thcPotency)},
+                            {key: "CBD", val: formatPercent(batch.cbdPotency)},
+                            {key: "Notes", val: batch.notes}
+                        ]}
+                    />
+                </CardBody>
+            );
+        }
     }
 }
