@@ -18,9 +18,10 @@ import {useHistory} from "react-router-dom";
 
 interface Props {
     batch: BatchRecord;
+    showDetailsBtn?: boolean;
 }
 
-export const Batch: React.FC<Props> = ({batch}: Props) => {
+export const Batch: React.FC<Props> = ({batch, showDetailsBtn = true}: Props) => {
 
     const strain = useStoreState(state => state.strains?.find(s => s.id === batch.strainId));
     const [showActions, setShowActions] = useState(false);
@@ -48,11 +49,13 @@ export const Batch: React.FC<Props> = ({batch}: Props) => {
                     Actions
                 </DropdownToggle>
                 <DropdownMenu end>
-                    <DropdownItem onClick={() => {
-                        history.push(`/admin/batches/${batch.id}`)
-                    }}>
-                        Details
-                    </DropdownItem>
+                    {showDetailsBtn && (
+                        <DropdownItem onClick={() => {
+                            history.push(`/admin/batches/${batch.id}`)
+                        }}>
+                            Details
+                        </DropdownItem>
+                    )}
                     <DropdownItem>
                         Edit
                     </DropdownItem>

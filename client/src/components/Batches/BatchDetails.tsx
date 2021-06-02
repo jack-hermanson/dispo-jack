@@ -6,6 +6,7 @@ import {Col, Row} from "reactstrap";
 import {PageHeader} from "../Utils/PageHeader";
 import {LoadingSpinner} from "../Utils/LoadingSpinner";
 import {AdminTabs} from "../Admin/AdminTabs";
+import {Batch} from "./Batch";
 
 interface Props extends RouteComponentProps<{id: string}> {}
 
@@ -34,13 +35,15 @@ export const BatchDetails: React.FC<Props> = ({match}: Props) => {
                     <PageHeader title="Batch Details" borderBottom />
                 </Col>
             </Row>
-            <Row>
-                <Col>
-                    {batch ? (
-                        <p>{batch.id}</p>
-                    ) : <LoadingSpinner />}
-                </Col>
-            </Row>
+            {batch ? (
+                <React.Fragment>
+                    <Row>
+                        <Col>
+                            <Batch batch={batch} showDetailsBtn={false} />
+                        </Col>
+                    </Row>
+                </React.Fragment>
+            ) : <LoadingSpinner />}
         </React.Fragment>
     );
 }
