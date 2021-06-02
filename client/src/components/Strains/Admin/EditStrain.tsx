@@ -1,11 +1,13 @@
 import React, {useEffect} from "react";
-import {StrainRecord} from "../../../data/strain";
+import {StrainRecord, StrainRequest} from "../../../data/strain";
 import {AdminTabs} from "../../Admin/AdminTabs";
 import {Col, Row} from "reactstrap";
 import {PageHeader} from "../../Utils/PageHeader";
 import {useStoreActions, useStoreState} from "../../../store";
 import {useHistory} from "react-router-dom";
 import {RouteComponentProps} from "react-router";
+import {CreateEditStrainForm} from "./CreateEditStrainForm";
+import {LoadingSpinner} from "../../Utils/LoadingSpinner";
 
 interface Props extends RouteComponentProps<{id: string}> {}
 
@@ -30,6 +32,21 @@ export const EditStrain: React.FC<Props> = ({match}: Props) => {
                     <PageHeader title="Edit Strain" />
                 </Col>
             </Row>
+            <Row>
+                <Col>
+                    {existingStrain ? (
+                        <CreateEditStrainForm
+                            onSubmit={submit}
+                            submitBtnText="Save"
+                            initialStrain={existingStrain}
+                        />
+                    ) : <LoadingSpinner />}
+                </Col>
+            </Row>
         </React.Fragment>
-    )
+    );
+
+    function submit(editedStrain: StrainRequest) {
+
+    }
 }
