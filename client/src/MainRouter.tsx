@@ -13,6 +13,7 @@ import {CreateStrain} from "./components/Strains/Admin/CreateStrain";
 import {AdminStrains} from "./components/Strains/Admin/AdminStrains";
 import {Alerts} from "./components/Alerts/Alerts";
 import {EditStrain} from "./components/Strains/Admin/EditStrain";
+import {SocketConnection} from "./components/SocketConnection";
 
 export const MainRouter = () => {
 
@@ -28,6 +29,7 @@ export const MainRouter = () => {
 
     return (
         <BrowserRouter>
+            <SocketConnection />
             <Navigation />
             <Container className="mb-3">
                 <Alerts />

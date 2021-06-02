@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import * as http from "http";
+import * as socketio from "socket.io";
 import {mainRouter} from "./routes/mainRouter";
 import {routePrefixes} from "./utils/constants";
 import {config} from "dotenv";
@@ -18,6 +19,7 @@ import {roleRouter} from "./routes/roleRouter";
 import {personRouter} from "./routes/personRouter";
 import {accountRouter} from "./routes/accountRouter";
 import {strainRouter} from "./routes/strainRouter";
+import {batchRouter} from "./routes/batchRouter";
 import {AccountRole} from "./entities/AccountRole";
 import {AccountPerson} from "./entities/AccountPerson";
 import {StrainType} from "./entities/StrainType";
@@ -26,7 +28,6 @@ import {Batch} from "./entities/Batch";
 import {Purchase} from "./entities/Purchase";
 import {PurchaseBatch} from "./entities/PurchaseBatch";
 import {Adjustment} from "./entities/Adjustment";
-import {batchRouter} from "./routes/batchRouter";
 
 // env
 const envPath = path.join(__dirname, "..", ".env");
@@ -81,8 +82,21 @@ createConnection(dbOptions).then(connection => {
     console.log(`Connected to database type: ${connection.options.type}`);
 }).catch(error => console.error(error));
 
-// http server
+// http server and socket
 const server: http.Server = http.createServer(app);
+const io: socketio.Server = new socketio.Server({
+    cors: {
+        origin: "*"
+    }
+});
+io.attach(server);
+app.set("socketio", io);
+
+io.on("connection", (socket: socketio.Socket) => {
+    console.log("new socket connection on back end");
+    socket.emit("status", "New connection made");
+    socket.on("disconnect", () => console.log("connection broken"));
+});
 
 // listen
 server.listen(app.get("port"), () => {
