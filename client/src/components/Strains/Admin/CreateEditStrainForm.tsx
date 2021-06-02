@@ -47,7 +47,7 @@ export const CreateEditStrainForm: React.FC<Props> = ({onSubmit, submitBtnText, 
                 <Input required value={strainTypeId} type="select" onChange={e => setStrainTypeId(e.target.value)}>
                     <option value="">Please select...</option>
                     {strainTypes?.map(st => (
-                        <option value={st.id} key={`strain-type-${st.id}`}>{st.name}</option>
+                        <option value={`${st.id}`} key={`strain-type-${st.id}`}>{st.name}</option>
                     ))}
                 </Input>
             </FormGroup>
@@ -109,18 +109,31 @@ export const CreateEditStrainForm: React.FC<Props> = ({onSubmit, submitBtnText, 
             </FormGroup>
             <div className="mt-4 bottom-buttons">
                 <Button type="submit" color="primary">{submitBtnText}</Button>
-                <Button type="reset" onClick={reset} color="secondary">Reset</Button>
+                <Button type="reset" onClick={e => {
+                    e.preventDefault();
+                    reset();
+                }} color="secondary">Reset</Button>
             </div>
         </form>
     );
 
     function reset() {
-        setName("");
-        setStrainTypeId("");
-        setOuncePrice("");
-        setQuadPrice("");
-        setEighthPrice("");
-        setGramPrice("");
+        if (initialStrain) {
+            setName(initialStrain.name);
+            setStrainTypeId(initialStrain.strainTypeId.toString());
+            setOuncePrice(initialStrain.ouncePrice.toString());
+            setQuadPrice(initialStrain.quadPrice.toString());
+            setEighthPrice(initialStrain.eighthPrice.toString());
+            setGramPrice(initialStrain.gramPrice.toString());
+        } else {
+            setName("");
+            setStrainTypeId("");
+            setOuncePrice("");
+            setQuadPrice("");
+            setEighthPrice("");
+            setGramPrice("");
+        }
+
         document.getElementById("name-input")?.focus();
     }
 
