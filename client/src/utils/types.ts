@@ -16,3 +16,8 @@ export interface AlertType {
     text: string;
     error: boolean;
 }
+
+export enum SocketEvent {
+    STATUS = "status",
+    STRAINS_UPDATE = "strainsUpdate"
+}

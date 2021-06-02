@@ -9,9 +9,13 @@ export interface AuthRequest<T> extends Request<T> {
     account?: Account;
 }
 
-
 export interface AccountAndPerson {
     account: Account;
     person: Person;
     clearances: number[];
+}
+
+export enum SocketEvent {
+    STATUS = "status",
+    STRAINS_UPDATE = "strainsUpdate"
 }

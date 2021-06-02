@@ -1,5 +1,5 @@
 import express, {Response} from "express";
-import {AuthRequest} from "../utils/types";
+import {AuthRequest, SocketEvent} from "../utils/types";
 import {StrainTypeRequest, strainTypeSchema} from "../entities/StrainType";
 import {auth} from "../middleware/auth";
 import {sendError} from "../utils/functions";
@@ -9,6 +9,7 @@ import {HTTP_STATUS} from "../utils/constants";
 import {createStrain, createStrainType, editStrain, getStrains, getStrainTypes} from "../services/strainServices";
 import {StrainRequest, strainSchema} from "../entities/Strain";
 import {StrainRecord} from "../../../client/src/data/strain";
+import {Socket} from "socket.io";
 
 export const strainRouter = express.Router();
 
@@ -71,6 +72,11 @@ strainRouter.put("/:id", auth, async (req: AuthRequest<StrainRequest & { id: num
         const editedStrain = await editStrain(req.params.id, requestBody, res);
         if (!editedStrain) return;
 
+        // socket
+        const socket: Socket = req.app.get("socketio");
+        socket.emit(SocketEvent.STRAINS_UPDATE);
+
+        // return data
         res.json(editedStrain);
     } catch (e) {
         sendError(e, res);
