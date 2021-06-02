@@ -1,11 +1,20 @@
-import React from "react";
-import {Card, CardBody, CardHeader} from "reactstrap";
+import React, {useState} from "react";
+import {
+    ButtonDropdown,
+    Card,
+    CardBody,
+    CardHeader,
+    DropdownItem,
+    DropdownMenu,
+    DropdownToggle
+} from "reactstrap";
 import {BatchRecord} from "../../data/batch";
 import {useStoreState} from "../../store";
 import {LoadingSpinner} from "../Utils/LoadingSpinner";
 import {KeyValTable} from "../Utils/KeyValTable";
 import {AgnosticLink} from "../Utils/AgnosticLink";
 import {formatPercent} from "../../utils/functions";
+import {useHistory} from "react-router-dom";
 
 interface Props {
     batch: BatchRecord;
@@ -14,34 +23,68 @@ interface Props {
 export const Batch: React.FC<Props> = ({batch}: Props) => {
 
     const strain = useStoreState(state => state.strains?.find(s => s.id === batch.strainId));
+    const [showActions, setShowActions] = useState(false);
+
+    const history = useHistory();
 
     return (
         <React.Fragment>
             {strain ? (
                 <Card className="mb-3">
-                    <CardHeader>
-                        <h5 className="mb-0">{strain.name}</h5>
+                    <CardHeader className="d-flex align-items-center">
+                        <h5 className="mb-0 me-auto">{strain.name}</h5>
+                        {renderActionsDropdown()}
                     </CardHeader>
-                    <CardBody className="p-0">
-                        <KeyValTable
-                            className="same-width card-table mb-0"
-                            keyValPairs={[
-                                {key: "Date Received", val: `${new Date(batch.dateReceived).toLocaleString()}`},
-                                {key: "Image", val: <AgnosticLink
-                                        linkType="external"
-                                        linkText={`${batch.imageUrl?.slice(8, 35)}...` || ""}
-                                        path={batch.imageUrl || ""}
-                                    />
-                                },
-                                {key: "Size", val: `${batch.size} grams`},
-                                {key: "THC", val: formatPercent(batch.thcPotency)},
-                                {key: "CBD", val: formatPercent(batch.cbdPotency)},
-                                {key: "Notes", val: batch.notes}
-                            ]}
-                        />
-                    </CardBody>
+                    {renderCardBody()}
                 </Card>
             ) : <LoadingSpinner />}
         </React.Fragment>
     );
+
+    function renderActionsDropdown() {
+        return (
+            <ButtonDropdown isOpen={showActions} toggle={() => setShowActions(s => !s)}>
+                <DropdownToggle size="sm" color="primary" caret>
+                    Actions
+                </DropdownToggle>
+                <DropdownMenu end>
+                    <DropdownItem onClick={() => {
+                        history.push(`/admin/batches/${batch.id}`)
+                    }}>
+                        Details
+                    </DropdownItem>
+                    <DropdownItem>
+                        Edit
+                    </DropdownItem>
+                    <DropdownItem divider />
+                    <DropdownItem>
+                        Delete
+                    </DropdownItem>
+                </DropdownMenu>
+            </ButtonDropdown>
+        );
+    }
+
+    function renderCardBody() {
+        return (
+            <CardBody className="p-0">
+                <KeyValTable
+                    className="same-width card-table mb-0"
+                    keyValPairs={[
+                        {key: "Date Received", val: `${new Date(batch.dateReceived).toLocaleString()}`},
+                        {key: "Image", val: <AgnosticLink
+                                linkType="external"
+                                linkText={`${batch.imageUrl?.slice(8, 35)}...` || ""}
+                                path={batch.imageUrl || ""}
+                            />
+                        },
+                        {key: "Size", val: `${batch.size} grams`},
+                        {key: "THC", val: formatPercent(batch.thcPotency)},
+                        {key: "CBD", val: formatPercent(batch.cbdPotency)},
+                        {key: "Notes", val: batch.notes}
+                    ]}
+                />
+            </CardBody>
+        );
+    }
 }
