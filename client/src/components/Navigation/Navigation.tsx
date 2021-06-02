@@ -58,7 +58,7 @@ export const Navigation: React.FC = () => {
 
     function renderUser() {
         return (
-            <NavLink className="nav-link py-0 pe-0" to="/account" onClick={e => {
+            <NavLink className="nav-link py-0 pe-0 mt-2 mt-lg-0" to="/account" onClick={e => {
                 if (account) {
                     e.preventDefault();
                 }

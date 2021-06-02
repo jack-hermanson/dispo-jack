@@ -9,6 +9,7 @@ export interface BatchRequest {
     cbdPotency: number;
     notes?: string;
     imageUrl?: string;
+    dateReceived: Date;
 }
 
 export interface BatchRecord extends BatchRequest, BaseModel {}
