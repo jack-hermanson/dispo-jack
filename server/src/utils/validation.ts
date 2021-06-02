@@ -45,6 +45,8 @@ export const doesNotConflict = async <T>(
             // a match exists
             if (existingRecord) {
                 // are the match and the existing record the same thing?
+                console.log("matching record id", matchingRecord["id"]);
+                console.log("existing record id", existingRecord["id"]);
                 conflict = (matchingRecord["id"] !== existingRecord["id"]);
             } else {
                 // there is no existing record to compare against, and this is not unique

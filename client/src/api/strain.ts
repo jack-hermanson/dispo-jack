@@ -14,9 +14,19 @@ export const getStrains = async (): Promise<StrainRecord[]> => {
 }
 
 export const addStrain = async (strain: StrainRequest, token: string) => {
-    await axios.post(baseUrl, strain, {
+    const response = await axios.post(baseUrl, strain, {
         headers: {
             Authentication: `Bearer ${token}`
         }
     });
+    return response.data;
+}
+
+export const editStrain = async (strainId: number, strain: StrainRequest, token: string): Promise<StrainRecord> => {
+    const response = await axios.put(`${baseUrl}/${strainId}`, strain, {
+        headers: {
+            Authentication: `Bearer ${token}`
+        }
+    });
+    return response.data;
 }

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {Col, Row} from "reactstrap";
 import {useStoreActions, useStoreState} from "../../../store";
 import {CreateEditStrainForm} from "./CreateEditStrainForm";
@@ -28,7 +28,7 @@ export const CreateStrain: React.FC = () => {
                 </Col>
             </Row>
             <Row>
-                <Col lg={6} className="mb-3 mb-lg-0">
+                <Col>
                     <CreateEditStrainForm
                         onSubmit={(newStrain) => submitForm(newStrain)}
                         submitBtnText="Create"

@@ -6,8 +6,9 @@ import {sendError} from "../utils/functions";
 import {validateRequest} from "../utils/validation";
 import {hasMinClearance} from "../services/roleServices";
 import {HTTP_STATUS} from "../utils/constants";
-import {createStrain, createStrainType, getStrains, getStrainTypes} from "../services/strainServices";
+import {createStrain, createStrainType, editStrain, getStrains, getStrainTypes} from "../services/strainServices";
 import {StrainRequest, strainSchema} from "../entities/Strain";
+import {StrainRecord} from "../../../client/src/data/strain";
 
 export const strainRouter = express.Router();
 
@@ -55,4 +56,23 @@ strainRouter.post("/", auth, async (req: AuthRequest<StrainRequest>, res: Respon
 
 strainRouter.get("/", async (req: AuthRequest<any>, res: Response) => {
     res.json(await getStrains());
+});
+
+strainRouter.put("/:id", auth, async (req: AuthRequest<StrainRequest & { id: number }>, res: Response) => {
+    try {
+        // check permissions
+        if (!await hasMinClearance(req.account.id, 5, res)) return;
+
+        // check required parameters
+        if (!await validateRequest(strainSchema, req, res)) return;
+        const requestBody: StrainRequest = req.body;
+
+        // edit
+        const editedStrain = await editStrain(req.params.id, requestBody, res);
+        if (!editedStrain) return;
+
+        res.json(editedStrain);
+    } catch (e) {
+        sendError(e, res);
+    }
 });

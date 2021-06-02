@@ -90,3 +90,24 @@ export const getOneStrain = async (strainId: number, res: Response): Promise<Str
     }
     return strain;
 }
+
+export const editStrain = async (strainId: number, requestBody: StrainRequest, res: Response): Promise<Strain | undefined> => {
+    const {strainRepo} = getRepos();
+
+    // get the strain to edit
+    const strain = await getOneStrain(strainId, res);
+    if (!strain) return undefined;
+
+    // check for conflicts
+    if (!await doesNotConflict({
+        repo: strainRepo,
+        properties: [{name: "name", value: requestBody.name}],
+        res: res,
+        existingRecord: strain
+    })) return undefined;
+
+    // save edits
+    await strainRepo.update(strain, requestBody);
+
+    return await getOneStrain(strainId, res);
+}
