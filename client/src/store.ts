@@ -80,6 +80,7 @@ export const store = createStore<StoreModel>({
     editStrain: thunk(async (actions, payload) => {
         try {
             const newStrain = await editStrain(payload.strainId, payload.strain, payload.token);
+            console.log({newStrain});
             await actions.fetchStrains();
             actions.addSuccessAlert(`Strain "${newStrain.name}" edited successfully.`);
         } catch (error) {

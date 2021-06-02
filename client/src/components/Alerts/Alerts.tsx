@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {Col, Row} from "reactstrap";
 import {useStoreState} from "../../store";
 import {AlertPanel} from "./AlertPanel";

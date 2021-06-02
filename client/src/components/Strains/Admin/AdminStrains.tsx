@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {PageHeader} from "../../Utils/PageHeader";
-import {Button, Col, Row} from "reactstrap";
+import {Col, Row} from "reactstrap";
 import {AdminTabs} from "../../Admin/AdminTabs";
 import {AgnosticLink} from "../../Utils/AgnosticLink";
 import {useStoreState} from "../../../store";
@@ -23,7 +23,7 @@ export const AdminStrains: React.FC = () => {
             history.push("/account");
         }
         setFilteredStrains(strains);
-    }, [setFilteredStrains, strains, currentUser]);
+    }, [setFilteredStrains, strains, currentUser, history]);
 
     return (
         <React.Fragment>

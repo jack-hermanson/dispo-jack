@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {StrainRecord, StrainRequest} from "../../../data/strain";
+import {StrainRequest} from "../../../data/strain";
 import {AdminTabs} from "../../Admin/AdminTabs";
 import {Col, Row} from "reactstrap";
 import {PageHeader} from "../../Utils/PageHeader";
@@ -12,8 +12,8 @@ import {LoadingSpinner} from "../../Utils/LoadingSpinner";
 interface Props extends RouteComponentProps<{id: string}> {}
 
 export const EditStrain: React.FC<Props> = ({match}: Props) => {
+    const editStrain = useStoreActions(actions => actions.editStrain);
     const currentUser = useStoreState(state => state.currentUser);
-    const strains = useStoreState(state => state.strains);
     const existingStrain = useStoreState(state => state.strains?.find(s => s.id === parseInt(match.params.id)));
     const history = useHistory();
 
@@ -46,7 +46,18 @@ export const EditStrain: React.FC<Props> = ({match}: Props) => {
         </React.Fragment>
     );
 
-    function submit(editedStrain: StrainRequest) {
+    async function submit(editedStrain: StrainRequest) {
+        if (currentUser && existingStrain && currentUser.account.token) {
+            try {
+                await editStrain({
+                    strain: editedStrain,
+                    strainId: existingStrain.id,
+                    token: currentUser.account.token
+                });
+            } catch (error) {
+                window.scrollTo(0, 0);
+            }
 
+        }
     }
 }

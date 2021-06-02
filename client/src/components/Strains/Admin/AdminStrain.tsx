@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Card, CardBody, CardHeader} from "reactstrap";
+import {Card, CardBody, CardHeader} from "reactstrap";
 import {getPriceKeyVals, StrainRecord} from "../../../data/strain";
 import {KeyValTable} from "../../Utils/KeyValTable";
 import {useStoreState} from "../../../store";

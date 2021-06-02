@@ -1,6 +1,6 @@
 import React from "react";
 import {Col, Nav, NavItem, Row} from "reactstrap";
-import {NavLink, useHistory} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 
 export const AdminTabs: React.FC = () => {
     return (

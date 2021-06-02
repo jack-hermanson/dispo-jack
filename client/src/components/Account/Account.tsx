@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {PageHeader} from "../Utils/PageHeader";
 import {useStoreState} from "../../store";
 import {useHistory} from "react-router-dom";
-import {Badge, Col, ListGroupItem, Row} from "reactstrap";
+import {Col, Row} from "reactstrap";
 import {KeyValListGroup} from "../Utils/KeyValListGroup";
 import {LoadingSpinner} from "../Utils/LoadingSpinner";
 import {formatPhoneNumber} from "../../utils/functions";
