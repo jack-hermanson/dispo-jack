@@ -1,4 +1,5 @@
 import React from "react";
+import {AxiosError} from "axios";
 
 export function formatPhoneNumber(phoneNumberString: string): string {
     const cleaned = ('' + phoneNumberString).replace(/\D/g, '');
@@ -32,4 +33,20 @@ export function handleCheckChange<T>(event: React.ChangeEvent<HTMLInputElement>,
     }
 
     return newSelectedItems;
+}
+
+export function handleResponseError(error: AxiosError): string {
+    let text;
+    if (error.response) {
+        if (error.response.status === 409) {
+            const conflicts = error.response.data.conflictingProperties;
+            text = `A record already exists with the same ${conflicts}.`;
+        } else {
+            text = error.response.data;
+        }
+    } else {
+        text = error.message;
+    }
+    console.error(error);
+    return text;
 }

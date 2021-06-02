@@ -20,3 +20,11 @@ export const addStrain = async (strain: StrainRequest, token: string) => {
         }
     });
 }
+
+export const editStrain = async (strainId: number, strain: StrainRequest, token: string): Promise<StrainRecord> => {
+    return await axios.put(`${baseUrl}/${strainId}`, strain, {
+        headers: {
+            Authentication: `Bearer ${token}`
+        }
+    });
+}
