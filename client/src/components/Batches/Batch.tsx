@@ -13,7 +13,7 @@ import {useStoreState} from "../../store";
 import {LoadingSpinner} from "../Utils/LoadingSpinner";
 import {KeyValTable} from "../Utils/KeyValTable";
 import {AgnosticLink} from "../Utils/AgnosticLink";
-import {formatPercent} from "../../utils/functions";
+import {formatPercent} from "jack-hermanson-ts-utils";
 import {useHistory} from "react-router-dom";
 
 interface Props {

@@ -1,7 +1,6 @@
 import {BaseModel} from "./_baseModel";
 import {BatchRecord} from "./batch";
-import {KeyValPair} from "../utils/types";
-import {formatMoney} from "../utils/functions";
+import {formatMoney, KeyValPair} from "jack-hermanson-ts-utils";
 
 export interface StrainRequest {
     name: string;
