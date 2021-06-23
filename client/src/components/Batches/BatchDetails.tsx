@@ -19,7 +19,7 @@ export const BatchDetails: React.FC<Props> = ({match}: Props) => {
 
     useEffect(() => {
         if (!currentUser?.clearances.some(c => c >= 5)) {
-            history.push("/account");
+            history.replace("/account");
         }
     }, [history, currentUser]);
 

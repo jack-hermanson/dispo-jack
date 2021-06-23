@@ -18,7 +18,7 @@ export const LoginForm: React.FC = () => {
                 event.preventDefault();
                 try {
                     await logIn({username, password});
-                    history.push("/account");
+                    history.replace("/account");
                 } catch (error) {
                     let message = "Error";
                     if (error.response) {

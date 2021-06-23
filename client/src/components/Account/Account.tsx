@@ -14,7 +14,7 @@ export const Account: React.FC = () => {
 
     useEffect(() => {
         if (!currentUser) {
-            history.push("/account/login");
+            history.replace("/account/login");
         }
         console.log(currentUser);
     });

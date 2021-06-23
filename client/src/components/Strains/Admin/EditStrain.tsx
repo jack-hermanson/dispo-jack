@@ -19,7 +19,7 @@ export const EditStrain: React.FC<Props> = ({match}: Props) => {
 
     useEffect(() => {
         if (!currentUser || !currentUser.clearances.some(clearance => clearance >= 5)) {
-            history.push("/account");
+            history.replace("/account");
         }
     }, [currentUser, history]);
 

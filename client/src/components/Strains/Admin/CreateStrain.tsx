@@ -15,7 +15,7 @@ export const CreateStrain: React.FC = () => {
 
     useEffect(() => {
         if (!currentUser || !currentUser.clearances.some(clearance => clearance >= 5)) {
-            history.push("/account");
+            history.replace("/account");
         }
     });
 
