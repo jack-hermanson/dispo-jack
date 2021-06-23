@@ -1,6 +1,6 @@
 import {BaseModel} from "./_baseModel";
-import {KeyValPair} from "../utils/types";
-import {formatPercent} from "../utils/functions";
+import {KeyValPair} from "jack-hermanson-ts-utils";
+import {formatPercent} from "jack-hermanson-ts-utils";
 
 export interface BatchRequest {
     strainId: number;
@@ -9,6 +9,7 @@ export interface BatchRequest {
     cbdPotency: number;
     notes?: string;
     imageUrl?: string;
+    dateReceived: Date;
 }
 
 export interface BatchRecord extends BatchRequest, BaseModel {}

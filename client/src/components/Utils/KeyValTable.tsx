@@ -1,6 +1,6 @@
 import React from "react";
 import {Table} from "reactstrap";
-import {KeyValPair} from "../../utils/types";
+import {KeyValPair} from "jack-hermanson-ts-utils";
 
 interface Props {
     keyValPairs: KeyValPair[];

@@ -14,6 +14,8 @@ import {AdminStrains} from "./components/Strains/Admin/AdminStrains";
 import {Alerts} from "./components/Alerts/Alerts";
 import {EditStrain} from "./components/Strains/Admin/EditStrain";
 import {SocketConnection} from "./components/SocketConnection";
+import {Batches} from "./components/Batches/Batches";
+import {BatchDetails} from "./components/Batches/BatchDetails";
 
 export const MainRouter = () => {
 
@@ -42,6 +44,8 @@ export const MainRouter = () => {
                 <Route exact path="/admin/strains" component={AdminStrains} />
                 <Route exact path="/admin/strains/new" component={CreateStrain} />
                 <Route exact path="/admin/strains/edit/:id" component={EditStrain} />
+                <Route exact path="/admin/batches" component={Batches} />
+                <Route exact path="/admin/batches/:id" component={BatchDetails} />
             </Container>
         </BrowserRouter>
     );

@@ -1,6 +1,6 @@
 import React from "react";
 import {ListGroup, ListGroupItem} from "reactstrap";
-import {KeyValPair} from "../../utils/types";
+import {KeyValPair} from "jack-hermanson-ts-utils";
 import {AgnosticLink} from "./AgnosticLink";
 
 interface Props {

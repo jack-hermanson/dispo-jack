@@ -5,7 +5,7 @@ import {useHistory} from "react-router-dom";
 import {Col, Row} from "reactstrap";
 import {KeyValListGroup} from "../Utils/KeyValListGroup";
 import {LoadingSpinner} from "../Utils/LoadingSpinner";
-import {formatPhoneNumber} from "../../utils/functions";
+import {formatPhoneNumber} from "jack-hermanson-ts-utils";
 
 export const Account: React.FC = () => {
     const currentUser = useStoreState(state => state.currentUser);
@@ -14,7 +14,7 @@ export const Account: React.FC = () => {
 
     useEffect(() => {
         if (!currentUser) {
-            history.push("/account/login");
+            history.replace("/account/login");
         }
         console.log(currentUser);
     });

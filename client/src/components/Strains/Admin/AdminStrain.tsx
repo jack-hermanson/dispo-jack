@@ -38,7 +38,19 @@ export const AdminStrain: React.FC<Props> = ({strain}: Props) => {
                         <KeyValTable className="table-striped card-table same-width mb-0" keyValPairs={[
                             {key: "Strain Type", val: <StrainTypeBadge typeName={strainType.name} />},
                             ...getPriceKeyVals(strain),
-                            {key: "Batches", val: strainBatches?.length}
+                            {key: "Batches", val: (
+                                <React.Fragment>
+                                    {strainBatches?.filter(sb => sb.size >= 1).map(sb => (
+                                        <AgnosticLink
+                                            key={sb.id}
+                                            linkType="internal"
+                                            linkText={`${new Date(sb.dateReceived).toLocaleDateString()} (${sb.size}g)`}
+                                            path={`/admin/batches/${sb.id}`}
+                                            className="me-2"
+                                        />
+                                    ))}
+                                </React.Fragment>
+                            )}
                         ]} />
                     </CardBody>
                 ) : <LoadingSpinner />}

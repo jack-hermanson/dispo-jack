@@ -13,6 +13,9 @@ export const AdminTabs: React.FC = () => {
                     <NavItem>
                         <NavLink className="nav-link" to="/admin/strains">Strains</NavLink>
                     </NavItem>
+                    <NavItem>
+                        <NavLink className="nav-link" to="/admin/batches">Batches</NavLink>
+                    </NavItem>
                 </Nav>
             </Col>
         </Row>
