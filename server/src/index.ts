@@ -28,6 +28,7 @@ import {Batch} from "./entities/Batch";
 import {Purchase} from "./entities/Purchase";
 import {PurchaseBatch} from "./entities/PurchaseBatch";
 import {Adjustment} from "./entities/Adjustment";
+import sslRedirect from "heroku-ssl-redirect";
 
 // env
 const envPath = path.join(__dirname, "..", ".env");
@@ -39,6 +40,9 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.set("port", (process.env.PORT || 5000));
+
+// ssl
+app.use(sslRedirect(["production"]));
 
 // static
 const staticFiles = express.static(path.join(__dirname, '../../client/build'));
