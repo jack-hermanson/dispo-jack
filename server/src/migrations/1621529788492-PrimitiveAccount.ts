@@ -16,7 +16,7 @@ export class PrimitiveAccount1621529788492 implements MigrationInterface {
             },
             {
                 name: "clearance",
-                type: "integer",
+                type: "int",
                 isNullable: false,
                 default: 0
             }
@@ -80,12 +80,12 @@ export class PrimitiveAccount1621529788492 implements MigrationInterface {
             idColumn,
             {
                 name: "accountId",
-                type: "integer",
+                type: "int",
                 isNullable: false
             },
             {
                 name: "roleId",
-                type: "integer",
+                type: "int",
                 isNullable: true
             }
         ]
@@ -97,13 +97,13 @@ export class PrimitiveAccount1621529788492 implements MigrationInterface {
             idColumn,
             {
                 name: "accountId",
-                type: "integer",
+                type: "int",
                 isNullable: false,
                 isUnique: true
             },
             {
                 name: "personId",
-                type: "integer",
+                type: "int",
                 isNullable: false,
                 isUnique: true
             }

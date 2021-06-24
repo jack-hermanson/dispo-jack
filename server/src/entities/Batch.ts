@@ -25,7 +25,7 @@ export class Batch {
     @Column()
     imageUrl?: string;
 
-    @Column({type: "datetime", nullable: false, default: () => "CURRENT_TIMESTAMP"})
+    @Column({type: "timestamp", nullable: false, default: () => "CURRENT_TIMESTAMP"})
     dateReceived: Date;
 }
 

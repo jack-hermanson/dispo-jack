@@ -9,7 +9,7 @@
     "build": "cd client && yarn build",
     "heroku-postbuild": "yarn build",
     "install": "(cd client && yarn install) && (cd server && yarn install)",
-    "start": "concurrently \"cd client && PORT=3000 npm run start\" \"cd server && PORT=5000 npm run start\"",
+    "start": "concurrently \"cd client && PORT=3000 npm run start\" \"kill-port 5000 && cd server && PORT=5000 npm run start\"",
     "start:prod": "cd server && yarn start:prod"
   },
   "repository": {
@@ -20,6 +20,7 @@
     "sass": "^1.34.0"
   },
   "dependencies": {
-    "concurrently": "^6.1.0"
+    "concurrently": "^6.1.0",
+    "kill-port": "^1.6.1"
   }
 }

@@ -86,8 +86,9 @@ export class Weed1621922119960 implements MigrationInterface {
             idColumn,
             {
                 name: "dateAndTime",
-                type: "datetime",
-                isNullable: false
+                type: "timestamp",
+                isNullable: false,
+                default: "CURRENT_TIMESTAMP"
             },
             {
                 name: "employeeId",
@@ -118,7 +119,7 @@ export class Weed1621922119960 implements MigrationInterface {
             },
             {
                 name: "purchaseId",
-                type: "float",
+                type: "int",
                 isNullable: false
             }
         ]
@@ -130,12 +131,12 @@ export class Weed1621922119960 implements MigrationInterface {
             idColumn,
             {
                 name: "purchaseId",
-                type: "integer",
+                type: "int",
                 isNullable: false
             },
             {
                 name: "batchId",
-                type: "integer",
+                type: "int",
                 isNullable: false
             },
             {
