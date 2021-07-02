@@ -1,17 +1,19 @@
 import express, { Response } from "express";
 import { AuthRequest } from "../utils/types";
 import {
-    LoginRequest,
     loginSchema,
-    NewAccountRequest,
     newAccountSchema,
-    RegisterRequest,
     registerSchema,
 } from "../models/Account";
 import { validateRequest, HTTP, sendError } from "jack-hermanson-ts-utils";
 import { AccountService } from "../services/AccountService";
 import { auth } from "../middleware/auth";
 import { AccountAndPerson } from "../../../shared/resource_models/account";
+import {
+    LoginRequest,
+    NewAccountRequest,
+    RegisterRequest,
+} from "../../../shared/resource_models/account";
 
 export const accountRouter = express.Router();
 

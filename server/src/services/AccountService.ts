@@ -1,9 +1,4 @@
-import {
-    Account,
-    LoginRequest,
-    NewAccountRequest,
-    RegisterRequest,
-} from "../models/Account";
+import { Account } from "../models/Account";
 import * as bcrypt from "bcryptjs";
 import { getConnection, Repository } from "typeorm";
 import { AccountPerson } from "../models/AccountPerson";
@@ -15,7 +10,12 @@ import { Response } from "express";
 import { PersonService } from "./PersonService";
 import { AccountAndPersonType, AuthRequest } from "../utils/types";
 import * as jwt from "jsonwebtoken";
-import { getUserClearances } from "./RoleService";
+import { RoleService } from "./RoleService";
+import {
+    LoginRequest,
+    NewAccountRequest,
+    RegisterRequest,
+} from "../../../shared/resource_models/account";
 
 const getRepos = (): {
     accountRepo: Repository<Account>;
@@ -97,7 +97,7 @@ export abstract class AccountService {
         await accountPersonRepo.save(accountPerson);
 
         // get clearances
-        const clearances = await getUserClearances(newAccount.id);
+        const clearances = await RoleService.getUserClearances(newAccount.id);
 
         // return account and person
         return {
@@ -120,7 +120,9 @@ export abstract class AccountService {
             const account = await accountRepo.findOne({
                 id: accountPerson.accountId,
             });
-            const clearances = await getUserClearances(accountPerson.accountId);
+            const clearances = await RoleService.getUserClearances(
+                accountPerson.accountId
+            );
             output.push({ account, person, clearances });
         }
 
@@ -144,7 +146,7 @@ export abstract class AccountService {
             id: accountPerson.accountId,
         });
         const person = await personRepo.findOne({ id: accountPerson.personId });
-        const clearances = await getUserClearances(account.id);
+        const clearances = await RoleService.getUserClearances(account.id);
 
         return { account, person, clearances };
     }
@@ -203,7 +205,7 @@ export abstract class AccountService {
             accountId: account.id,
         });
         const person = await personRepo.findOne({ id: accountPerson.personId });
-        const clearances = await getUserClearances(account.id);
+        const clearances = await RoleService.getUserClearances(account.id);
 
         return {
             account: editedAccount,

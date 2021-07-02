@@ -13,10 +13,11 @@ import {
     getStrains,
     getStrainTypes,
 } from "../services/strainServices";
-import { StrainRequest, strainSchema } from "../models/Strain";
+import { strainSchema } from "../models/Strain";
 import { Socket } from "socket.io";
 import { StrainTypeRecord } from "../../../shared/resource_models/strainType";
 import { StrainRecord } from "../../../shared/resource_models/strain";
+import { StrainRequest } from "../../../shared/resource_models/strain";
 
 export const strainRouter = express.Router();
 
