@@ -4,7 +4,7 @@ import {
     Table,
     TableForeignKey,
 } from "typeorm";
-import { idColumn } from "../utils/constants";
+import { idColumn } from "jack-hermanson-ts-utils";
 
 export class Weed1621922119960 implements MigrationInterface {
     strainType = new Table({

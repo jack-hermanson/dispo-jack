@@ -4,7 +4,7 @@ import {
     Table,
     TableForeignKey,
 } from "typeorm";
-import { idColumn } from "../utils/constants";
+import { idColumn } from "jack-hermanson-ts-utils";
 
 export class PrimitiveAccount1621529788492 implements MigrationInterface {
     // new tables

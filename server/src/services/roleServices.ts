@@ -1,8 +1,7 @@
 import { getConnection, Repository } from "typeorm";
 import { RoleRequest, Role } from "../entities/Role";
-import { doesNotConflict } from "jack-hermanson-ts-utils";
+import { doesNotConflict, HTTP } from "jack-hermanson-ts-utils";
 import { Response } from "express";
-import { HTTP_STATUS } from "../utils/constants";
 import { AccountRole } from "../entities/AccountRole";
 import { Account } from "../entities/Account";
 import { getOneAccount } from "./accountServices";
@@ -55,7 +54,7 @@ export const getOneRole = async (
     const { roleRepo } = getRepos();
     const role = await roleRepo.findOne({ id: id });
     if (!role) {
-        res.sendStatus(HTTP_STATUS.NOT_FOUND);
+        res.sendStatus(HTTP.NOT_FOUND);
         return undefined;
     }
     return role;
@@ -114,7 +113,7 @@ export const applyRole = async (
         accountId: accountId,
     });
     if (existingAccountRole) {
-        res.status(HTTP_STATUS.CONFLICT).json({
+        res.status(HTTP.CONFLICT).json({
             message: "User already has that role.",
             existingAccountRole: existingAccountRole,
         });
@@ -143,17 +142,17 @@ export const applyRole = async (
 
     // is current user allowed to modify roles?
     if (!currentUserIsAdmin) {
-        res.status(HTTP_STATUS.FORBIDDEN).send("Only admins can apply roles.");
+        res.status(HTTP.FORBIDDEN).send("Only admins can apply roles.");
         return undefined;
     }
     if (affectedUserIsSuperAdmin && !currentUserIsSuperAdmin) {
-        res.status(HTTP_STATUS.FORBIDDEN).send(
+        res.status(HTTP.FORBIDDEN).send(
             "Only super admins can apply roles to super admins."
         );
         return undefined;
     }
     if (!currentUserIsSuperAdmin && role.clearance >= 5) {
-        res.status(HTTP_STATUS.FORBIDDEN).send(
+        res.status(HTTP.FORBIDDEN).send(
             "Only super admins can make other users admins."
         );
         return undefined;
@@ -200,7 +199,7 @@ export const hasMinClearance = async (
     if (okay) {
         return true;
     } else {
-        res.sendStatus(HTTP_STATUS.FORBIDDEN);
+        res.sendStatus(HTTP.FORBIDDEN);
         return false;
     }
 };

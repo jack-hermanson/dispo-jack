@@ -2,8 +2,7 @@ import { getConnection, Repository } from "typeorm";
 import { Strain, StrainRequest } from "../entities/Strain";
 import { StrainType, StrainTypeRequest } from "../entities/StrainType";
 import { Response } from "express";
-import { doesNotConflict } from "jack-hermanson-ts-utils";
-import { HTTP_STATUS } from "../utils/constants";
+import { doesNotConflict, HTTP } from "jack-hermanson-ts-utils";
 
 const getRepos = (): {
     strainRepo: Repository<Strain>;
@@ -67,7 +66,7 @@ export const createStrain = async (
         id: requestBody.strainTypeId,
     });
     if (!strainType) {
-        res.sendStatus(HTTP_STATUS.NOT_FOUND);
+        res.sendStatus(HTTP.NOT_FOUND);
         return undefined;
     }
 
@@ -96,7 +95,7 @@ export const getOneStrain = async (
 
     const strain = await strainRepo.findOne({ id: strainId });
     if (!strain) {
-        res.sendStatus(HTTP_STATUS.NOT_FOUND);
+        res.sendStatus(HTTP.NOT_FOUND);
         return undefined;
     }
     return strain;

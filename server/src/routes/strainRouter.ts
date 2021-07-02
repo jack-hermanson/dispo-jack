@@ -3,10 +3,8 @@ import { AuthRequest } from "../utils/types";
 import { SocketEvent } from "../../../shared/enums";
 import { StrainTypeRequest, strainTypeSchema } from "../entities/StrainType";
 import { auth } from "../middleware/auth";
-import { sendError } from "../utils/functions";
-import { validateRequest } from "jack-hermanson-ts-utils";
+import { validateRequest, HTTP, sendError } from "jack-hermanson-ts-utils";
 import { hasMinClearance } from "../services/roleServices";
-import { HTTP_STATUS } from "../utils/constants";
 import {
     createStrain,
     createStrainType,
@@ -35,7 +33,7 @@ strainRouter.post(
             const newStrainType = await createStrainType(requestBody, res);
             if (!newStrainType) return;
 
-            res.status(HTTP_STATUS.CREATED).json(newStrainType);
+            res.status(HTTP.CREATED).json(newStrainType);
         } catch (error) {
             sendError(error, res);
         }
@@ -65,7 +63,7 @@ strainRouter.post(
             const newStrain = await createStrain(requestBody, res);
             if (!newStrain) return;
 
-            res.status(HTTP_STATUS.CREATED).json(newStrain);
+            res.status(HTTP.CREATED).json(newStrain);
         } catch (error) {
             sendError(error, res);
         }

@@ -4,14 +4,13 @@ import {
     NewAccountRequest,
     RegisterRequest,
 } from "../entities/Account";
-import { HTTP_STATUS } from "../utils/constants";
 import * as bcrypt from "bcryptjs";
 import { getConnection, Repository } from "typeorm";
 import { AccountPerson } from "../entities/AccountPerson";
 import { Person } from "../entities/Person";
 import { Role } from "../entities/Role";
 import { AccountRole } from "../entities/AccountRole";
-import { doesNotConflict } from "jack-hermanson-ts-utils";
+import { doesNotConflict, HTTP } from "jack-hermanson-ts-utils";
 import { Response } from "express";
 import { createPerson, getOnePerson } from "./personServices";
 import { AccountAndPerson, AuthRequest } from "../utils/types";
@@ -130,7 +129,7 @@ export const getOneAccount = async (
     const { accountRepo, personRepo, accountPersonRepo } = getRepos();
     const accountPerson = await accountPersonRepo.findOne({ accountId: id });
     if (!accountPerson) {
-        res.sendStatus(HTTP_STATUS.NOT_FOUND);
+        res.sendStatus(HTTP.NOT_FOUND);
         return undefined;
     }
 
@@ -168,7 +167,7 @@ export const login = async (
         username: requestBody.username,
     });
     if (!account) {
-        res.sendStatus(HTTP_STATUS.NOT_FOUND);
+        res.sendStatus(HTTP.NOT_FOUND);
         return undefined;
     }
     const validPassword: boolean = await bcrypt.compare(
@@ -176,7 +175,7 @@ export const login = async (
         account.password
     );
     if (!validPassword) {
-        res.status(HTTP_STATUS.BAD_REQUEST).send("Wrong password.");
+        res.status(HTTP.BAD_REQUEST).send("Wrong password.");
         return undefined;
     }
 
@@ -208,7 +207,7 @@ export const logout = async (
     const { accountRepo } = getRepos();
     const account = await accountRepo.findOne({ id: req.account.id });
     if (!account) {
-        res.sendStatus(HTTP_STATUS.NOT_FOUND);
+        res.sendStatus(HTTP.NOT_FOUND);
         return false;
     }
     await accountRepo.update(account, { token: null });
@@ -216,7 +215,7 @@ export const logout = async (
     if (updatedAccount.token === null) {
         return true;
     } else {
-        res.sendStatus(HTTP_STATUS.SERVER_ERROR);
+        res.sendStatus(HTTP.SERVER_ERROR);
         return false;
     }
 };

@@ -1,7 +1,6 @@
 import { getConnection, Repository } from "typeorm";
-import { doesNotConflict } from "jack-hermanson-ts-utils";
+import { doesNotConflict, HTTP } from "jack-hermanson-ts-utils";
 import { Response } from "express";
-import { HTTP_STATUS } from "../utils/constants";
 import { Person, PersonRequest } from "../entities/Person";
 
 const getRepos = (): { personRepo: Repository<Person> } => {
@@ -46,7 +45,7 @@ export const getOnePerson = async (
     const { personRepo } = getRepos();
     const person = await personRepo.findOne({ id: id });
     if (!person) {
-        res.sendStatus(HTTP_STATUS.NOT_FOUND);
+        res.sendStatus(HTTP.NOT_FOUND);
         return undefined;
     }
     return person;

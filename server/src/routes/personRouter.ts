@@ -6,10 +6,8 @@ import {
     getOnePerson,
     getPeople,
 } from "../services/personServices";
-import { sendError } from "../utils/functions";
 import { PersonRequest, personSchema } from "../entities/Person";
-import { validateRequest } from "jack-hermanson-ts-utils";
-import { HTTP_STATUS } from "../utils/constants";
+import { validateRequest, HTTP, sendError } from "jack-hermanson-ts-utils";
 
 export const personRouter = express.Router();
 
@@ -25,7 +23,7 @@ personRouter.post(
             const newPerson = await createPerson(requestBody, res);
             if (!newPerson) return;
 
-            res.status(HTTP_STATUS.CREATED).json(newPerson);
+            res.status(HTTP.CREATED).json(newPerson);
         } catch (error) {
             sendError(error, res);
         }

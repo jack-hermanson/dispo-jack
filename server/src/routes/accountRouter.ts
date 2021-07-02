@@ -1,6 +1,5 @@
 import express, { Response } from "express";
 import { AuthRequest } from "../utils/types";
-import { HTTP_STATUS } from "../utils/constants";
 import {
     LoginRequest,
     loginSchema,
@@ -9,7 +8,7 @@ import {
     RegisterRequest,
     registerSchema,
 } from "../entities/Account";
-import { validateRequest } from "jack-hermanson-ts-utils";
+import { validateRequest, HTTP, sendError } from "jack-hermanson-ts-utils";
 import {
     createAccount,
     getAccounts,
@@ -18,7 +17,6 @@ import {
     logout,
     register,
 } from "../services/accountServices";
-import { sendError } from "../utils/functions";
 import { auth } from "../middleware/auth";
 
 export const accountRouter = express.Router();
@@ -32,7 +30,7 @@ accountRouter.post(
             const requestBody: NewAccountRequest = req.body;
             const accountAndPerson = await createAccount(requestBody, res);
             if (!accountAndPerson) return;
-            res.status(HTTP_STATUS.CREATED).json(accountAndPerson);
+            res.status(HTTP.CREATED).json(accountAndPerson);
         } catch (error) {
             sendError(error, res);
         }
@@ -69,7 +67,7 @@ accountRouter.post(
             const requestBody: RegisterRequest = req.body;
             const accountAndPerson = await register(requestBody, res);
             if (!accountAndPerson) return;
-            res.status(HTTP_STATUS.CREATED).json(accountAndPerson);
+            res.status(HTTP.CREATED).json(accountAndPerson);
         } catch (error) {
             sendError(error, res);
         }
@@ -99,7 +97,7 @@ accountRouter.post(
         try {
             const successfulLogout = await logout(req, res);
             if (!successfulLogout) return;
-            res.sendStatus(HTTP_STATUS.OK);
+            res.sendStatus(HTTP.OK);
         } catch (error) {
             sendError(error, res);
         }

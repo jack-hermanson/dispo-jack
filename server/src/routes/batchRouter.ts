@@ -1,10 +1,8 @@
 import express, { Response } from "express";
 import { AuthRequest } from "../utils/types";
 import { auth } from "../middleware/auth";
-import { validateRequest } from "jack-hermanson-ts-utils";
+import { validateRequest, HTTP, sendError } from "jack-hermanson-ts-utils";
 import { hasMinClearance } from "../services/roleServices";
-import { HTTP_STATUS } from "../utils/constants";
-import { sendError } from "../utils/functions";
 import { createBatch, getBatches } from "../services/batchServices";
 import { BatchRequest, batchSchema } from "../entities/Batch";
 
@@ -30,7 +28,7 @@ batchRouter.post(
             const newBatch = await createBatch(requestBody, res);
             if (!newBatch) return;
 
-            res.status(HTTP_STATUS.CREATED).json(newBatch);
+            res.status(HTTP.CREATED).json(newBatch);
         } catch (error) {
             sendError(error, res);
         }

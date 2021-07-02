@@ -1,8 +1,7 @@
 import express, { Response } from "express";
 import { AuthRequest } from "../utils/types";
 import { RoleRequest, Role, roleSchema } from "../entities/Role";
-import { validateRequest } from "jack-hermanson-ts-utils";
-import { HTTP_STATUS } from "../utils/constants";
+import { validateRequest, HTTP, sendError } from "jack-hermanson-ts-utils";
 import {
     applyRole,
     createRole,
@@ -11,7 +10,6 @@ import {
     getRoles,
     getUserRoles,
 } from "../services/roleServices";
-import { sendError } from "../utils/functions";
 import { auth } from "../middleware/auth";
 import { applyRoleSchema } from "../entities/AccountRole";
 
@@ -27,7 +25,7 @@ roleRouter.post("/", async (req: AuthRequest<Role>, res: Response) => {
         const newRole = await createRole(requestBody, res);
         if (!newRole) return;
 
-        res.status(HTTP_STATUS.CREATED).json(newRole);
+        res.status(HTTP.CREATED).json(newRole);
     } catch (error) {
         sendError(error, res);
     }
@@ -84,7 +82,7 @@ roleRouter.post(
                 req.account
             );
             if (!newAccountRole) return;
-            res.status(HTTP_STATUS.CREATED).json(newAccountRole);
+            res.status(HTTP.CREATED).json(newAccountRole);
         } catch (error) {
             sendError(error, res);
         }
