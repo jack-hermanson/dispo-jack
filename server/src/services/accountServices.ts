@@ -3,17 +3,17 @@ import {
     LoginRequest,
     NewAccountRequest,
     RegisterRequest,
-} from "../entities/Account";
+} from "../models/Account";
 import * as bcrypt from "bcryptjs";
 import { getConnection, Repository } from "typeorm";
-import { AccountPerson } from "../entities/AccountPerson";
-import { Person } from "../entities/Person";
-import { Role } from "../entities/Role";
-import { AccountRole } from "../entities/AccountRole";
+import { AccountPerson } from "../models/AccountPerson";
+import { Person } from "../models/Person";
+import { Role } from "../models/Role";
+import { AccountRole } from "../models/AccountRole";
 import { doesNotConflict, HTTP } from "jack-hermanson-ts-utils";
 import { Response } from "express";
 import { createPerson, getOnePerson } from "./personServices";
-import { AccountAndPerson, AuthRequest } from "../utils/types";
+import { AccountAndPersonType, AuthRequest } from "../utils/types";
 import * as jwt from "jsonwebtoken";
 import { getUserClearances } from "./roleServices";
 
@@ -43,7 +43,7 @@ const getRepos = (): {
 export const createAccount = async (
     requestBody: NewAccountRequest,
     res: Response
-): Promise<AccountAndPerson | undefined> => {
+): Promise<AccountAndPersonType | undefined> => {
     const { accountRepo, accountPersonRepo } = getRepos();
 
     // is this personId a real person?
@@ -104,8 +104,8 @@ export const createAccount = async (
     };
 };
 
-export const getAccounts = async (): Promise<AccountAndPerson[]> => {
-    const output: AccountAndPerson[] = [];
+export const getAccounts = async (): Promise<AccountAndPersonType[]> => {
+    const output: AccountAndPersonType[] = [];
 
     const { accountRepo, personRepo, accountPersonRepo } = getRepos();
     const accountPeople = await accountPersonRepo.find();
@@ -125,7 +125,7 @@ export const getAccounts = async (): Promise<AccountAndPerson[]> => {
 export const getOneAccount = async (
     id: number,
     res: Response
-): Promise<AccountAndPerson | undefined> => {
+): Promise<AccountAndPersonType | undefined> => {
     const { accountRepo, personRepo, accountPersonRepo } = getRepos();
     const accountPerson = await accountPersonRepo.findOne({ accountId: id });
     if (!accountPerson) {
@@ -144,7 +144,7 @@ export const getOneAccount = async (
 export const register = async (
     requestBody: RegisterRequest,
     res: Response
-): Promise<AccountAndPerson | undefined> => {
+): Promise<AccountAndPersonType | undefined> => {
     const person = await createPerson(requestBody, res);
     if (!person) return undefined;
     const accountAndPerson = await createAccount(
@@ -161,7 +161,7 @@ export const register = async (
 export const login = async (
     requestBody: LoginRequest,
     res: Response
-): Promise<AccountAndPerson> => {
+): Promise<AccountAndPersonType> => {
     const { accountRepo, personRepo, accountPersonRepo } = getRepos();
     const account = await accountRepo.findOne({
         username: requestBody.username,

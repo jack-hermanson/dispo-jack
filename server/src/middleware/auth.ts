@@ -3,7 +3,7 @@ import { Response } from "express";
 import { HTTP } from "jack-hermanson-ts-utils";
 import * as jwt from "jsonwebtoken";
 import { getConnection } from "typeorm";
-import { Account } from "../entities/Account";
+import { Account } from "../models/Account";
 
 export const auth = async (
     req: AuthRequest<any>,

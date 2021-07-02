@@ -1,9 +1,9 @@
 import { getConnection, Repository } from "typeorm";
-import { RoleRequest, Role } from "../entities/Role";
+import { RoleRequest, Role } from "../models/Role";
 import { doesNotConflict, HTTP } from "jack-hermanson-ts-utils";
 import { Response } from "express";
-import { AccountRole } from "../entities/AccountRole";
-import { Account } from "../entities/Account";
+import { AccountRole } from "../models/AccountRole";
+import { Account } from "../models/Account";
 import { getOneAccount } from "./accountServices";
 
 const getRepos = (): {

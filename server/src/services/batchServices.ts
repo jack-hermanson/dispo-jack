@@ -1,6 +1,6 @@
 import { getConnection, Repository } from "typeorm";
 import { Response } from "express";
-import { Batch, BatchRequest } from "../entities/Batch";
+import { Batch, BatchRequest } from "../models/Batch";
 import { getOneStrain } from "./strainServices";
 
 const getRepos = (): {

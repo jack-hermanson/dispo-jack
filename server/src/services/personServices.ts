@@ -1,7 +1,7 @@
 import { getConnection, Repository } from "typeorm";
 import { doesNotConflict, HTTP } from "jack-hermanson-ts-utils";
 import { Response } from "express";
-import { Person, PersonRequest } from "../entities/Person";
+import { Person, PersonRequest } from "../models/Person";
 
 const getRepos = (): { personRepo: Repository<Person> } => {
     const connection = getConnection();
