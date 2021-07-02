@@ -8,7 +8,7 @@ import {
     DropdownMenu,
     DropdownToggle,
 } from "reactstrap";
-import { BatchRecord } from "../../data/batch";
+import { BatchRecord } from "../../../../shared/resource_models/batch";
 import { useStoreState } from "../../store";
 import { KeyValTable, LoadingSpinner } from "jack-hermanson-component-lib";
 import { AgnosticLink } from "../Utils/AgnosticLink";

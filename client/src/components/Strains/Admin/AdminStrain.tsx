@@ -1,6 +1,9 @@
 import React from "react";
 import { Card, CardBody, CardHeader } from "reactstrap";
-import { getPriceKeyVals, StrainRecord } from "../../../data/strain";
+import {
+    getPriceKeyVals,
+    StrainRecord,
+} from "../../../../../shared/resource_models/strain";
 import { KeyValTable, LoadingSpinner } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../../store";
 import { StrainTypeBadge } from "../StrainTypeBadge";

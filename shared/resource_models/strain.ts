@@ -1,4 +1,4 @@
-import { BaseModel } from "./_baseModel";
+import { ResourceModel } from "./_base";
 import { BatchRecord } from "./batch";
 import { formatMoney, KeyValPair } from "jack-hermanson-ts-utils";
 
@@ -11,25 +11,12 @@ export interface StrainRequest {
     gramPrice: number;
 }
 
-export interface StrainRecord extends BaseModel, StrainRequest {}
-
-export interface StrainTypeRequest {
-    name: string;
-}
-
-export interface StrainTypeRecord extends BaseModel, StrainTypeRequest {}
+export interface StrainRecord extends ResourceModel, StrainRequest {}
 
 export interface StrainAndBatch {
     strain: StrainRecord;
     batch: BatchRecord;
 }
-
-export const getPriceKeyVal = (key: string, price: number): KeyValPair => {
-    return {
-        key: key,
-        val: formatMoney(price),
-    };
-};
 
 export const getPriceKeyVals = (strain: StrainRequest): KeyValPair[] => {
     return [

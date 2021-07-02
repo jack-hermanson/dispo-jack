@@ -3,7 +3,7 @@ import { Col, Row } from "reactstrap";
 import { useStoreState } from "../../store";
 import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
 import { StrainAndBatchFilter } from "./Filter/StrainAndBatchFilter";
-import { StrainAndBatch } from "../../data/strain";
+import { StrainAndBatch } from "../../../../shared/resource_models/strain";
 import { PopularSidebar } from "./PopularSidebar";
 import { StrainAndBatchDetails } from "./StrainAndBatchDetails";
 

@@ -1,5 +1,9 @@
 import axios from "axios";
-import { StrainRecord, StrainRequest, StrainTypeRecord } from "../data/strain";
+import {
+    StrainRecord,
+    StrainRequest,
+} from "../../../shared/resource_models/strain";
+import { StrainTypeRecord } from "../../../shared/resource_models/strainType";
 
 const baseUrl = "/api/strains";
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useStoreState } from "../../../store";
-import { StrainAndBatch } from "../../../data/strain";
+import { StrainAndBatch } from "../../../../../shared/resource_models/strain";
 import { MobileToggleCard } from "jack-hermanson-component-lib";
 import { FilterTypes } from "./FilterTypes";
 import { FilterSearchText } from "./FilterSearchText";

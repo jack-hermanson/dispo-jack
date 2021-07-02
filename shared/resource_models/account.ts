@@ -1,4 +1,4 @@
-import { BaseModel } from "./_baseModel";
+import { ResourceModel } from "./_base";
 import { PersonRecord } from "./person";
 
 export interface AccountRequest {
@@ -8,7 +8,7 @@ export interface AccountRequest {
     token?: string;
 }
 
-export interface AccountRecord extends AccountRequest, BaseModel {}
+export interface AccountRecord extends AccountRequest, ResourceModel {}
 
 export interface AccountAndPerson {
     account: AccountRecord;

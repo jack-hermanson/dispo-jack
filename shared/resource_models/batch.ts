@@ -1,6 +1,5 @@
-import { BaseModel } from "./_baseModel";
-import { KeyValPair } from "jack-hermanson-ts-utils";
-import { formatPercent } from "jack-hermanson-ts-utils";
+import { ResourceModel } from "./_base";
+import { formatPercent, KeyValPair } from "jack-hermanson-ts-utils";
 
 export interface BatchRequest {
     strainId: number;
@@ -12,7 +11,7 @@ export interface BatchRequest {
     dateReceived: Date;
 }
 
-export interface BatchRecord extends BatchRequest, BaseModel {}
+export interface BatchRecord extends BatchRequest, ResourceModel {}
 
 export const getPotencyKeyVals = (batch: BatchRecord): KeyValPair[] => {
     return [

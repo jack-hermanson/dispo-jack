@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { StrainRequest } from "../../../data/strain";
+import { StrainRequest } from "../../../../../shared/resource_models/strain";
 import { AdminTabs } from "../../Admin/AdminTabs";
 import { Col, Row } from "reactstrap";
 import { useStoreActions, useStoreState } from "../../../store";

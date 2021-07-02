@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { StrainRecord, StrainRequest } from "../../../data/strain";
+import {
+    StrainRecord,
+    StrainRequest,
+} from "../../../../../shared/resource_models/strain";
 import {
     Button,
     Col,

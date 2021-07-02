@@ -1,4 +1,7 @@
-import { AccountAndPerson, LoginRequest } from "../data/account";
+import {
+    AccountAndPerson,
+    LoginRequest,
+} from "../../../shared/resource_models/account";
 import axios from "axios";
 
 const baseUrl = "/api/account";

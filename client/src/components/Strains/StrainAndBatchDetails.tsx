@@ -10,8 +10,11 @@ import {
 import { AgnosticLink } from "../Utils/AgnosticLink";
 import { StrainTypeBadge } from "./StrainTypeBadge";
 import { KeyValTable } from "jack-hermanson-component-lib";
-import { getPotencyKeyVals } from "../../data/batch";
-import { getPriceKeyVals, StrainAndBatch } from "../../data/strain";
+import { getPotencyKeyVals } from "../../../../shared/resource_models/batch";
+import {
+    getPriceKeyVals,
+    StrainAndBatch,
+} from "../../../../shared/resource_models/strain";
 import { FontAwesomeIcon as FA } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useStoreState } from "../../store";

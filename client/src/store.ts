@@ -8,21 +8,24 @@ import {
     computed,
     Computed,
 } from "easy-peasy";
-import { AccountAndPerson, LoginRequest } from "./data/account";
+import {
+    AccountAndPerson,
+    LoginRequest,
+} from "../../shared/resource_models/account";
 import { logIn, logOut } from "./api/account";
 import {
     StrainAndBatch,
     StrainRecord,
     StrainRequest,
-    StrainTypeRecord,
-} from "./data/strain";
+} from "../../shared/resource_models/strain";
+import { StrainTypeRecord } from "../../shared/resource_models/strainType";
 import {
     addStrain,
     editStrain,
     getStrains,
     getStrainTypes,
 } from "./api/strain";
-import { BatchRecord } from "./data/batch";
+import { BatchRecord } from "../../shared/resource_models/batch";
 import { getBatches } from "./api/batch";
 import { AlertType } from "./utils/types";
 import { handleResponseError } from "./utils/functions";

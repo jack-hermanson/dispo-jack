@@ -1,4 +1,4 @@
-import { BatchRecord } from "../data/batch";
+import { BatchRecord } from "../../../shared/resource_models/batch";
 import axios from "axios";
 
 const baseUrl = "/api/batches";

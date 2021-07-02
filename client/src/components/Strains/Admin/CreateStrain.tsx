@@ -4,7 +4,7 @@ import { useStoreActions, useStoreState } from "../../../store";
 import { CreateEditStrainForm } from "./CreateEditStrainForm";
 import { PageHeader } from "jack-hermanson-component-lib";
 import { useHistory } from "react-router-dom";
-import { StrainRequest } from "../../../data/strain";
+import { StrainRequest } from "../../../../../shared/resource_models/strain";
 import { AdminTabs } from "../../Admin/AdminTabs";
 
 export const CreateStrain: React.FC = () => {

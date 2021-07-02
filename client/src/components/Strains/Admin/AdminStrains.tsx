@@ -6,7 +6,7 @@ import { useStoreState } from "../../../store";
 import { AdminStrain } from "./AdminStrain";
 import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
 import { StrainFilter } from "../Filter/StrainFilter";
-import { StrainRecord } from "../../../data/strain";
+import { StrainRecord } from "../../../../../shared/resource_models/strain";
 import { useHistory } from "react-router-dom";
 
 export const AdminStrains: React.FC = () => {

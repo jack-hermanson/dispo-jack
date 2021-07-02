@@ -2,7 +2,7 @@ import React from "react";
 import { RouteComponentProps } from "react-router";
 import { Col, Row } from "reactstrap";
 import { useStoreState } from "../../store";
-import { getPriceKeyVals } from "../../data/strain";
+import { getPriceKeyVals } from "../../../../shared/resource_models/strain";
 import {
     KeyValTable,
     LoadingSpinner,
