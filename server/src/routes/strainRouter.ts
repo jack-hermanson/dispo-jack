@@ -1,5 +1,6 @@
 import express, { Response } from "express";
-import { AuthRequest, SocketEvent } from "../utils/types";
+import { AuthRequest } from "../utils/types";
+import { SocketEvent } from "../../../shared/enums";
 import { StrainTypeRequest, strainTypeSchema } from "../entities/StrainType";
 import { auth } from "../middleware/auth";
 import { sendError } from "../utils/functions";
@@ -14,7 +15,6 @@ import {
     getStrainTypes,
 } from "../services/strainServices";
 import { StrainRequest, strainSchema } from "../entities/Strain";
-import { StrainRecord } from "../../../client/src/data/strain";
 import { Socket } from "socket.io";
 
 export const strainRouter = express.Router();
@@ -98,7 +98,7 @@ strainRouter.put(
 
             // socket
             const socket: Socket = req.app.get("socketio");
-            socket.emit(SocketEvent.STRAINS_UPDATE);
+            socket.emit(SocketEvent.UPDATE_STRAINS);
 
             // return data
             res.json(editedStrain);
