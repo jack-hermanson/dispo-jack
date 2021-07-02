@@ -11,7 +11,7 @@ import {
 import {BatchRecord} from "../../data/batch";
 import {useStoreState} from "../../store";
 import {LoadingSpinner} from "../Utils/LoadingSpinner";
-import {KeyValTable} from "../Utils/KeyValTable";
+import {KeyValTable} from "jack-hermanson-component-lib";
 import {AgnosticLink} from "../Utils/AgnosticLink";
 import {formatPercent} from "jack-hermanson-ts-utils";
 import {useHistory} from "react-router-dom";

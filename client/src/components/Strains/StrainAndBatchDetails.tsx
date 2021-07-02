@@ -2,7 +2,7 @@ import React from "react";
 import {Button, Card, CardBody, CardFooter, CardHeader, CardImg} from "reactstrap";
 import {AgnosticLink} from "../Utils/AgnosticLink";
 import {StrainTypeBadge} from "./StrainTypeBadge";
-import {KeyValTable} from "../Utils/KeyValTable";
+import {KeyValTable} from "jack-hermanson-component-lib";
 import {getPotencyKeyVals} from "../../data/batch";
 import {getPriceKeyVals, StrainAndBatch} from "../../data/strain";
 import {FontAwesomeIcon as FA} from "@fortawesome/react-fontawesome";

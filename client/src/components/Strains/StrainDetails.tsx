@@ -4,8 +4,8 @@ import {Col, Row} from "reactstrap";
 import {PageHeader} from "../Utils/PageHeader";
 import {useStoreState} from "../../store";
 import {LoadingSpinner} from "../Utils/LoadingSpinner";
-import {KeyValTable} from "../Utils/KeyValTable";
 import {getPriceKeyVals} from "../../data/strain";
+import {KeyValTable} from "jack-hermanson-component-lib";
 
 interface Props extends RouteComponentProps<{id: string}> {}
 

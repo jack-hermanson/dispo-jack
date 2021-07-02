@@ -3,7 +3,7 @@ import {PageHeader} from "../Utils/PageHeader";
 import {useStoreState} from "../../store";
 import {useHistory} from "react-router-dom";
 import {Col, Row} from "reactstrap";
-import {KeyValListGroup} from "../Utils/KeyValListGroup";
+import {KeyValTable} from "jack-hermanson-component-lib";
 import {LoadingSpinner} from "../Utils/LoadingSpinner";
 import {formatPhoneNumber} from "jack-hermanson-ts-utils";
 
@@ -61,7 +61,7 @@ export const Account: React.FC = () => {
                     val: currentUser.clearances.toString()
                 });
             }
-            return (<KeyValListGroup keyValPairs={keyValPairs} />);
+            return (<KeyValTable keyValPairs={keyValPairs} />);
         } else {
             return (<LoadingSpinner />);
         }
