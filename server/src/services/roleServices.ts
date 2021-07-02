@@ -1,11 +1,11 @@
-import {getConnection, Repository} from "typeorm";
-import {RoleRequest, Role} from "../entities/Role";
-import {doesNotConflict} from "../utils/validation";
-import {Response} from "express";
-import {HTTP_STATUS} from "../utils/constants";
-import {AccountRole} from "../entities/AccountRole";
-import {Account} from "../entities/Account";
-import {getOneAccount} from "./accountServices";
+import { getConnection, Repository } from "typeorm";
+import { RoleRequest, Role } from "../entities/Role";
+import { doesNotConflict } from "../utils/validation";
+import { Response } from "express";
+import { HTTP_STATUS } from "../utils/constants";
+import { AccountRole } from "../entities/AccountRole";
+import { Account } from "../entities/Account";
+import { getOneAccount } from "./accountServices";
 
 const getRepos = (): {
     roleRepo: Repository<Role>;
@@ -14,21 +14,24 @@ const getRepos = (): {
     const connection = getConnection();
     const roleRepo = connection.getRepository(Role);
     const accountRoleRepo = connection.getRepository(AccountRole);
-    return {roleRepo, accountRoleRepo};
+    return { roleRepo, accountRoleRepo };
 };
 
-export const createRole = async (requestBody: RoleRequest, res: Response): Promise<Role | undefined> => {
+export const createRole = async (
+    requestBody: RoleRequest,
+    res: Response
+): Promise<Role | undefined> => {
     // get repository
-    const {roleRepo} = getRepos();
+    const { roleRepo } = getRepos();
 
     // check uniqueness
-    if (!await doesNotConflict<Role>({
-        repo: roleRepo,
-        properties: [
-            {name: "name", value: requestBody.name}
-        ],
-        res: res
-    })) {
+    if (
+        !(await doesNotConflict<Role>({
+            repo: roleRepo,
+            properties: [{ name: "name", value: requestBody.name }],
+            res: res,
+        }))
+    ) {
         return undefined;
     }
 
@@ -41,13 +44,16 @@ export const createRole = async (requestBody: RoleRequest, res: Response): Promi
 };
 
 export const getRoles = async (): Promise<Role[]> => {
-    const {roleRepo} = getRepos();
+    const { roleRepo } = getRepos();
     return await roleRepo.find();
 };
 
-export const getOneRole = async (id: number, res: Response): Promise<Role | undefined> => {
-    const {roleRepo} = getRepos();
-    const role = await roleRepo.findOne({id: id});
+export const getOneRole = async (
+    id: number,
+    res: Response
+): Promise<Role | undefined> => {
+    const { roleRepo } = getRepos();
+    const role = await roleRepo.findOne({ id: id });
     if (!role) {
         res.sendStatus(HTTP_STATUS.NOT_FOUND);
         return undefined;
@@ -55,32 +61,38 @@ export const getOneRole = async (id: number, res: Response): Promise<Role | unde
     return role;
 };
 
-export const editRole = async (id: number, requestBody: RoleRequest, res: Response): Promise<Role | undefined> => {
+export const editRole = async (
+    id: number,
+    requestBody: RoleRequest,
+    res: Response
+): Promise<Role | undefined> => {
     const role = await getOneRole(id, res);
     if (!role) return undefined;
 
     // check uniqueness
-    const {roleRepo} = getRepos();
-    if (!await doesNotConflict<Role>({
-        repo: roleRepo,
-        properties: [
-            {name: "name", value: requestBody.name}
-        ],
-        res: res,
-        existingRecord: role
-    })) {
+    const { roleRepo } = getRepos();
+    if (
+        !(await doesNotConflict<Role>({
+            repo: roleRepo,
+            properties: [{ name: "name", value: requestBody.name }],
+            res: res,
+            existingRecord: role,
+        }))
+    ) {
         return undefined;
     }
 
     // save edits
     await roleRepo.update(role, requestBody);
-    return await roleRepo.findOne({id: id});
+    return await roleRepo.findOne({ id: id });
 };
 
 export const applyRole = async (
-    accountId: number, roleId: number, res: Response, currentUser: Account
+    accountId: number,
+    roleId: number,
+    res: Response,
+    currentUser: Account
 ): Promise<AccountRole | undefined> => {
-
     // is the account id legit?
     const account = await getOneAccount(accountId, res);
     if (!account) {
@@ -94,31 +106,40 @@ export const applyRole = async (
     }
 
     // repos
-    const {accountRoleRepo} = getRepos();
+    const { accountRoleRepo } = getRepos();
 
     // does this already exist?
-    const existingAccountRole = await accountRoleRepo.findOne({roleId: roleId, accountId: accountId});
+    const existingAccountRole = await accountRoleRepo.findOne({
+        roleId: roleId,
+        accountId: accountId,
+    });
     if (existingAccountRole) {
         res.status(HTTP_STATUS.CONFLICT).json({
             message: "User already has that role.",
-            existingAccountRole: existingAccountRole
+            existingAccountRole: existingAccountRole,
         });
         return undefined;
     }
 
     // check clearance
     const currentAccountRoles = await accountRoleRepo.find({
-        accountId: currentUser.id
+        accountId: currentUser.id,
     });
 
     // current user
     const currentUserClearances = await getUserClearances(currentUser.id);
-    const currentUserIsAdmin: boolean = currentUserClearances.some(clearance => clearance >= 5);
-    const currentUserIsSuperAdmin: boolean = currentUserClearances.some(clearance => clearance === 10);
+    const currentUserIsAdmin: boolean = currentUserClearances.some(
+        clearance => clearance >= 5
+    );
+    const currentUserIsSuperAdmin: boolean = currentUserClearances.some(
+        clearance => clearance === 10
+    );
 
     // affected user
     const affectedUserClearances = await getUserClearances(accountId);
-    const affectedUserIsSuperAdmin: boolean = affectedUserClearances.some(clearance => clearance === 10);
+    const affectedUserIsSuperAdmin: boolean = affectedUserClearances.some(
+        clearance => clearance === 10
+    );
 
     // is current user allowed to modify roles?
     if (!currentUserIsAdmin) {
@@ -126,11 +147,15 @@ export const applyRole = async (
         return undefined;
     }
     if (affectedUserIsSuperAdmin && !currentUserIsSuperAdmin) {
-        res.status(HTTP_STATUS.FORBIDDEN).send("Only super admins can apply roles to super admins.");
+        res.status(HTTP_STATUS.FORBIDDEN).send(
+            "Only super admins can apply roles to super admins."
+        );
         return undefined;
     }
-    if (!currentUserIsSuperAdmin && (role.clearance >= 5)) {
-        res.status(HTTP_STATUS.FORBIDDEN).send("Only super admins can make other users admins.");
+    if (!currentUserIsSuperAdmin && role.clearance >= 5) {
+        res.status(HTTP_STATUS.FORBIDDEN).send(
+            "Only super admins can make other users admins."
+        );
         return undefined;
     }
 
@@ -144,18 +169,19 @@ export const applyRole = async (
 };
 
 // get list of user clearances
-export const getUserClearances = async (accountId: number): Promise<number[]> => {
-
+export const getUserClearances = async (
+    accountId: number
+): Promise<number[]> => {
     // repos
-    const {accountRoleRepo, roleRepo} = getRepos();
+    const { accountRoleRepo, roleRepo } = getRepos();
 
     // get accountRoles
-    const accountRoles = await accountRoleRepo.find({accountId: accountId});
+    const accountRoles = await accountRoleRepo.find({ accountId: accountId });
 
     // get roles / clearances
     const clearances: number[] = [];
     for (let accountRole of accountRoles) {
-        const role = await roleRepo.findOne({id: accountRole.roleId});
+        const role = await roleRepo.findOne({ id: accountRole.roleId });
         clearances.push(role.clearance);
     }
 
@@ -163,7 +189,11 @@ export const getUserClearances = async (accountId: number): Promise<number[]> =>
 };
 
 // does user have this clearance or above?
-export const hasMinClearance = async (accountId: number, clearance: number, res: Response): Promise<boolean> => {
+export const hasMinClearance = async (
+    accountId: number,
+    clearance: number,
+    res: Response
+): Promise<boolean> => {
     // clearances
     const clearances = await getUserClearances(accountId);
     const okay = clearances.some(c => c >= clearance);
@@ -173,21 +203,22 @@ export const hasMinClearance = async (accountId: number, clearance: number, res:
         res.sendStatus(HTTP_STATUS.FORBIDDEN);
         return false;
     }
-}
+};
 
 // get user roles
 export const getUserRoles = async (accountId: number) => {
-
     // repos
-    const {accountRoleRepo, roleRepo} = getRepos();
+    const { accountRoleRepo, roleRepo } = getRepos();
 
     // get user accountRoles
-    const accountRoles: AccountRole[] = await accountRoleRepo.find({accountId: accountId});
+    const accountRoles: AccountRole[] = await accountRoleRepo.find({
+        accountId: accountId,
+    });
 
     // get roles
     const roles: Role[] = [];
     for (let accountRole of accountRoles) {
-        const role = await roleRepo.findOne({id: accountRole.roleId});
+        const role = await roleRepo.findOne({ id: accountRole.roleId });
         roles.push(role);
     }
 

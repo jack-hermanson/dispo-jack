@@ -1,9 +1,11 @@
-import {AxiosError} from "axios";
+import { AxiosError } from "axios";
 import React from "react";
 
-export function handleCheckChange<T>(event: React.ChangeEvent<HTMLInputElement>,
-                                     existingData: T[],
-                                     newItem: T): T[] {
+export function handleCheckChange<T>(
+    event: React.ChangeEvent<HTMLInputElement>,
+    existingData: T[],
+    newItem: T
+): T[] {
     const checked = event.target.checked;
     const alreadyInList = existingData.some(s => s === newItem);
     let newSelectedItems: T[] = [];

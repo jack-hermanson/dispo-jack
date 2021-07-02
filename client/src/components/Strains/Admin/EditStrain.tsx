@@ -1,28 +1,32 @@
-import React, {useEffect} from "react";
-import {StrainRequest} from "../../../data/strain";
-import {AdminTabs} from "../../Admin/AdminTabs";
-import {Col, Row} from "reactstrap";
-import {PageHeader} from "../../Utils/PageHeader";
-import {useStoreActions, useStoreState} from "../../../store";
-import {useHistory} from "react-router-dom";
-import {RouteComponentProps} from "react-router";
-import {CreateEditStrainForm} from "./CreateEditStrainForm";
-import {LoadingSpinner} from "../../Utils/LoadingSpinner";
+import React, { useEffect } from "react";
+import { StrainRequest } from "../../../data/strain";
+import { AdminTabs } from "../../Admin/AdminTabs";
+import { Col, Row } from "reactstrap";
+import { PageHeader } from "../../Utils/PageHeader";
+import { useStoreActions, useStoreState } from "../../../store";
+import { useHistory } from "react-router-dom";
+import { RouteComponentProps } from "react-router";
+import { CreateEditStrainForm } from "./CreateEditStrainForm";
+import { LoadingSpinner } from "../../Utils/LoadingSpinner";
 
-interface Props extends RouteComponentProps<{id: string}> {}
+interface Props extends RouteComponentProps<{ id: string }> {}
 
-export const EditStrain: React.FC<Props> = ({match}: Props) => {
+export const EditStrain: React.FC<Props> = ({ match }: Props) => {
     const editStrain = useStoreActions(actions => actions.editStrain);
     const currentUser = useStoreState(state => state.currentUser);
-    const existingStrain = useStoreState(state => state.strains?.find(s => s.id === parseInt(match.params.id)));
+    const existingStrain = useStoreState(state =>
+        state.strains?.find(s => s.id === parseInt(match.params.id))
+    );
     const history = useHistory();
 
     useEffect(() => {
-        if (!currentUser || !currentUser.clearances.some(clearance => clearance >= 5)) {
+        if (
+            !currentUser ||
+            !currentUser.clearances.some(clearance => clearance >= 5)
+        ) {
             history.replace("/account");
         }
     }, [currentUser, history]);
-
 
     return (
         <React.Fragment>
@@ -40,7 +44,9 @@ export const EditStrain: React.FC<Props> = ({match}: Props) => {
                             submitBtnText="Save"
                             initialStrain={existingStrain}
                         />
-                    ) : <LoadingSpinner />}
+                    ) : (
+                        <LoadingSpinner />
+                    )}
                 </Col>
             </Row>
         </React.Fragment>
@@ -52,12 +58,11 @@ export const EditStrain: React.FC<Props> = ({match}: Props) => {
                 await editStrain({
                     strain: editedStrain,
                     strainId: existingStrain.id,
-                    token: currentUser.account.token
+                    token: currentUser.account.token,
                 });
             } catch (error) {
                 window.scrollTo(0, 0);
             }
-
         }
     }
-}
+};

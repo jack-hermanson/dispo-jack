@@ -1,12 +1,31 @@
-import {createStore, createTypedHooks, action, Action, thunk, Thunk, computed, Computed} from "easy-peasy";
-import {AccountAndPerson, LoginRequest} from "./data/account";
-import {logIn, logOut} from "./api/account";
-import {StrainAndBatch, StrainRecord, StrainRequest, StrainTypeRecord} from "./data/strain";
-import {addStrain, editStrain, getStrains, getStrainTypes} from "./api/strain";
-import {BatchRecord} from "./data/batch";
-import {getBatches} from "./api/batch";
-import {AlertType} from "./utils/types";
-import {handleResponseError} from "./utils/functions";
+import {
+    createStore,
+    createTypedHooks,
+    action,
+    Action,
+    thunk,
+    Thunk,
+    computed,
+    Computed,
+} from "easy-peasy";
+import { AccountAndPerson, LoginRequest } from "./data/account";
+import { logIn, logOut } from "./api/account";
+import {
+    StrainAndBatch,
+    StrainRecord,
+    StrainRequest,
+    StrainTypeRecord,
+} from "./data/strain";
+import {
+    addStrain,
+    editStrain,
+    getStrains,
+    getStrainTypes,
+} from "./api/strain";
+import { BatchRecord } from "./data/batch";
+import { getBatches } from "./api/batch";
+import { AlertType } from "./utils/types";
+import { handleResponseError } from "./utils/functions";
 
 interface StoreModel {
     currentUser: AccountAndPerson | undefined;
@@ -17,8 +36,11 @@ interface StoreModel {
     strains: StrainRecord[] | undefined;
     setStrains: Action<StoreModel, StrainRecord[]>;
     fetchStrains: Thunk<StoreModel>;
-    addStrain: Thunk<StoreModel, { strain: StrainRequest; token: string; }>;
-    editStrain: Thunk<StoreModel, { strainId: number; strain: StrainRequest, token: string;}>
+    addStrain: Thunk<StoreModel, { strain: StrainRequest; token: string }>;
+    editStrain: Thunk<
+        StoreModel,
+        { strainId: number; strain: StrainRequest; token: string }
+    >;
 
     strainTypes: StrainTypeRecord[] | undefined;
     setStrainTypes: Action<StoreModel, StrainTypeRecord[]>;
@@ -56,14 +78,13 @@ export const store = createStore<StoreModel>({
             actions.setCurrentUser(undefined);
             console.error(error);
         }
-
     }),
 
     strains: undefined,
     setStrains: action((state, payload) => {
         state.strains = payload;
     }),
-    fetchStrains: thunk(async (actions) => {
+    fetchStrains: thunk(async actions => {
         const strains = await getStrains();
         actions.setStrains(strains);
     }),
@@ -79,10 +100,16 @@ export const store = createStore<StoreModel>({
     }),
     editStrain: thunk(async (actions, payload) => {
         try {
-            const newStrain = await editStrain(payload.strainId, payload.strain, payload.token);
-            console.log({newStrain});
+            const newStrain = await editStrain(
+                payload.strainId,
+                payload.strain,
+                payload.token
+            );
+            console.log({ newStrain });
             await actions.fetchStrains();
-            actions.addSuccessAlert(`Strain "${newStrain.name}" edited successfully.`);
+            actions.addSuccessAlert(
+                `Strain "${newStrain.name}" edited successfully.`
+            );
         } catch (error) {
             actions.addError(handleResponseError(error));
             throw error;
@@ -93,7 +120,7 @@ export const store = createStore<StoreModel>({
     setStrainTypes: action((state, payload) => {
         state.strainTypes = payload;
     }),
-    fetchStrainTypes: thunk(async (actions) => {
+    fetchStrainTypes: thunk(async actions => {
         const strainTypes = await getStrainTypes();
         actions.setStrainTypes(strainTypes);
     }),
@@ -102,7 +129,7 @@ export const store = createStore<StoreModel>({
     setBatches: action((state, payload) => {
         state.batches = payload;
     }),
-    fetchBatches: thunk(async (actions) => {
+    fetchBatches: thunk(async actions => {
         const batches = await getBatches();
         actions.setBatches(batches);
     }),
@@ -115,7 +142,7 @@ export const store = createStore<StoreModel>({
                 const strain = state.strains.find(s => s.id === batch.strainId);
                 strainsAndBatches.push({
                     strain: strain!,
-                    batch: batch
+                    batch: batch,
                 });
             }
 
@@ -133,19 +160,25 @@ export const store = createStore<StoreModel>({
         state.alerts = [payload, ...state.alerts];
     }),
     addError: action((state, payload) => {
-        state.alerts = [{
-            error: true,
-            text: payload,
-            color: "danger"
-        }, ...state.alerts];
+        state.alerts = [
+            {
+                error: true,
+                text: payload,
+                color: "danger",
+            },
+            ...state.alerts,
+        ];
     }),
     addSuccessAlert: action((state, payload) => {
-        state.alerts = [{
-            error: false,
-            text: payload,
-            color: "info"
-        }, ...state.alerts];
-    })
+        state.alerts = [
+            {
+                error: false,
+                text: payload,
+                color: "info",
+            },
+            ...state.alerts,
+        ];
+    }),
 });
 
 const typedHooks = createTypedHooks<StoreModel>();

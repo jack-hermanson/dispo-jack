@@ -1,6 +1,6 @@
-import {StoreProvider} from "easy-peasy";
-import {store} from "./store";
-import {MainRouter} from "./MainRouter";
+import { StoreProvider } from "easy-peasy";
+import { store } from "./store";
+import { MainRouter } from "./MainRouter";
 
 function App() {
     return (

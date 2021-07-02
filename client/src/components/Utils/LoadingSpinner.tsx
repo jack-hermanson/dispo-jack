@@ -5,13 +5,8 @@ interface Props {
     className?: string;
 }
 
-export const LoadingSpinner = ({className}: Props) => (
+export const LoadingSpinner = ({ className }: Props) => (
     <div className={className}>
-        <Loader
-            type="Bars"
-            height={30}
-            width={40}
-            color="#fff"
-        />
+        <Loader type="Bars" height={30} width={40} color="#fff" />
     </div>
 );

@@ -1,13 +1,15 @@
 import React from "react";
-import {FormGroup, Input, Label} from "reactstrap";
+import { FormGroup, Input, Label } from "reactstrap";
 
 interface Props {
     checked: boolean;
     handleChange: (checked: boolean) => any;
 }
 
-export const FilterBatches: React.FC<Props> = ({checked, handleChange}: Props) => {
-
+export const FilterBatches: React.FC<Props> = ({
+    checked,
+    handleChange,
+}: Props) => {
     return (
         <FormGroup>
             <Label>Batches</Label>
@@ -23,4 +25,4 @@ export const FilterBatches: React.FC<Props> = ({checked, handleChange}: Props) =
             </FormGroup>
         </FormGroup>
     );
-}
+};

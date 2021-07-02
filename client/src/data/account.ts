@@ -1,5 +1,5 @@
-import {BaseModel} from "./_baseModel";
-import {PersonRecord} from "./person";
+import { BaseModel } from "./_baseModel";
+import { PersonRecord } from "./person";
 
 export interface AccountRequest {
     username: string;

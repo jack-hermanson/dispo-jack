@@ -1,26 +1,29 @@
-import {getConnection, Repository} from "typeorm";
-import {Response} from "express";
-import {doesNotConflict} from "../utils/validation";
-import {HTTP_STATUS} from "../utils/constants";
-import {Batch, BatchRequest} from "../entities/Batch";
-import {getOneStrain} from "./strainServices";
+import { getConnection, Repository } from "typeorm";
+import { Response } from "express";
+import { doesNotConflict } from "../utils/validation";
+import { HTTP_STATUS } from "../utils/constants";
+import { Batch, BatchRequest } from "../entities/Batch";
+import { getOneStrain } from "./strainServices";
 
 const getRepos = (): {
     batchRepo: Repository<Batch>;
 } => {
     const connection = getConnection();
     const batchRepo = connection.getRepository(Batch);
-    return {batchRepo};
+    return { batchRepo };
 };
 
 export const getBatches = async (): Promise<Batch[]> => {
-    const {batchRepo} = getRepos();
+    const { batchRepo } = getRepos();
     return await batchRepo.find();
 };
 
-export const createBatch = async (requestBody: BatchRequest, res: Response): Promise<Batch | undefined> => {
+export const createBatch = async (
+    requestBody: BatchRequest,
+    res: Response
+): Promise<Batch | undefined> => {
     // get repo
-    const {batchRepo} = getRepos();
+    const { batchRepo } = getRepos();
 
     // is strainId legit?
     const strain = await getOneStrain(requestBody.strainId, res);
@@ -36,4 +39,4 @@ export const createBatch = async (requestBody: BatchRequest, res: Response): Pro
     batch.imageUrl = requestBody.imageUrl;
 
     return await batchRepo.save(batch);
-}
+};

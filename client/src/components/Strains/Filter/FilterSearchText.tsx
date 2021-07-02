@@ -1,12 +1,15 @@
 import React from "react";
-import {FormGroup, Input, Label} from "reactstrap";
+import { FormGroup, Input, Label } from "reactstrap";
 
 interface Props {
     searchText: string;
     handleSearchTextChange: (text: string) => any;
 }
 
-export const FilterSearchText: React.FC<Props> = ({searchText, handleSearchTextChange}: Props) => {
+export const FilterSearchText: React.FC<Props> = ({
+    searchText,
+    handleSearchTextChange,
+}: Props) => {
     return (
         <FormGroup>
             <FormGroup>
@@ -15,9 +18,11 @@ export const FilterSearchText: React.FC<Props> = ({searchText, handleSearchTextC
                     type="search"
                     id="search-input"
                     value={searchText}
-                    onChange={event => handleSearchTextChange(event.target.value)}
+                    onChange={event =>
+                        handleSearchTextChange(event.target.value)
+                    }
                 />
             </FormGroup>
         </FormGroup>
     );
-}
+};

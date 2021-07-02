@@ -8,5 +8,5 @@ export interface AlertType {
 
 export enum SocketEvent {
     STATUS = "status",
-    STRAINS_UPDATE = "strainsUpdate"
+    STRAINS_UPDATE = "strainsUpdate",
 }

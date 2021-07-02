@@ -1,26 +1,29 @@
-import {getConnection, Repository} from "typeorm";
-import {doesNotConflict} from "../utils/validation";
-import {Response} from "express";
-import {HTTP_STATUS} from "../utils/constants";
-import {Person, PersonRequest} from "../entities/Person";
-import {Role} from "../entities/Role";
+import { getConnection, Repository } from "typeorm";
+import { doesNotConflict } from "../utils/validation";
+import { Response } from "express";
+import { HTTP_STATUS } from "../utils/constants";
+import { Person, PersonRequest } from "../entities/Person";
+import { Role } from "../entities/Role";
 
-const getRepos = (): {personRepo: Repository<Person>} => {
+const getRepos = (): { personRepo: Repository<Person> } => {
     const connection = getConnection();
     const personRepo = connection.getRepository(Person);
-    return {personRepo};
+    return { personRepo };
 };
 
-export const createPerson = async (requestBody: PersonRequest, res: Response): Promise<Person | undefined> => {
-    const {personRepo} = getRepos();
+export const createPerson = async (
+    requestBody: PersonRequest,
+    res: Response
+): Promise<Person | undefined> => {
+    const { personRepo } = getRepos();
 
-    if (!await doesNotConflict<Person>({
-        repo: personRepo,
-        properties: [
-            {name: "phone", value: requestBody.phone}
-        ],
-        res: res
-    })) {
+    if (
+        !(await doesNotConflict<Person>({
+            repo: personRepo,
+            properties: [{ name: "phone", value: requestBody.phone }],
+            res: res,
+        }))
+    ) {
         return undefined;
     }
 
@@ -33,13 +36,16 @@ export const createPerson = async (requestBody: PersonRequest, res: Response): P
 };
 
 export const getPeople = async (): Promise<Person[]> => {
-    const {personRepo} = getRepos();
+    const { personRepo } = getRepos();
     return await personRepo.find();
 };
 
-export const getOnePerson = async (id: number, res: Response): Promise<Person | undefined> => {
-    const {personRepo} = getRepos();
-    const person = await personRepo.findOne({id: id});
+export const getOnePerson = async (
+    id: number,
+    res: Response
+): Promise<Person | undefined> => {
+    const { personRepo } = getRepos();
+    const person = await personRepo.findOne({ id: id });
     if (!person) {
         res.sendStatus(HTTP_STATUS.NOT_FOUND);
         return undefined;
@@ -47,22 +53,26 @@ export const getOnePerson = async (id: number, res: Response): Promise<Person | 
     return person;
 };
 
-export const editPerson = async (id: number, requestBody: PersonRequest, res: Response): Promise<Person | undefined> => {
+export const editPerson = async (
+    id: number,
+    requestBody: PersonRequest,
+    res: Response
+): Promise<Person | undefined> => {
     const person = await getOnePerson(id, res);
     if (!person) return undefined;
 
-    const {personRepo} = getRepos();
-    if (!await doesNotConflict<Person>({
-        repo: personRepo,
-        properties: [
-            {name: "phone", value: requestBody.phone}
-        ],
-        res: res,
-        existingRecord: person
-    })) {
+    const { personRepo } = getRepos();
+    if (
+        !(await doesNotConflict<Person>({
+            repo: personRepo,
+            properties: [{ name: "phone", value: requestBody.phone }],
+            res: res,
+            existingRecord: person,
+        }))
+    ) {
         return undefined;
     }
 
     await personRepo.update(person, requestBody);
-    return await personRepo.findOne({id: id});
+    return await personRepo.findOne({ id: id });
 };

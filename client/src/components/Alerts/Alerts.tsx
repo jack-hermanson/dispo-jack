@@ -1,7 +1,7 @@
 import React from "react";
-import {Col, Row} from "reactstrap";
-import {useStoreState} from "../../store";
-import {AlertPanel} from "./AlertPanel";
+import { Col, Row } from "reactstrap";
+import { useStoreState } from "../../store";
+import { AlertPanel } from "./AlertPanel";
 
 export const Alerts: React.FC = () => {
     const alerts = useStoreState(state => state.alerts);
@@ -12,13 +12,14 @@ export const Alerts: React.FC = () => {
                 <Row>
                     <Col>
                         {alerts.map(alert => (
-                            <AlertPanel key={`alert.text${Math.random()}`} alert={alert} />
+                            <AlertPanel
+                                key={`alert.text${Math.random()}`}
+                                alert={alert}
+                            />
                         ))}
                     </Col>
                 </Row>
             )}
-
         </React.Fragment>
-
     );
-}
+};

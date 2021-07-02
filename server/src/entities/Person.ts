@@ -1,19 +1,18 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import Joi from "joi";
 
-@Entity({name: "person"})
+@Entity({ name: "person" })
 export class Person {
-
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({nullable: false})
+    @Column({ nullable: false })
     firstName: string;
 
-    @Column({nullable: false})
+    @Column({ nullable: false })
     lastName: string;
 
-    @Column({nullable: false})
+    @Column({ nullable: false })
     phone: string;
 }
 
@@ -23,9 +22,8 @@ export interface PersonRequest {
     phone: string;
 }
 
-export const personSchema = Joi.object().options({abortEarly: false}).keys({
+export const personSchema = Joi.object().options({ abortEarly: false }).keys({
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
-    phone: Joi.string().required()
+    phone: Joi.string().required(),
 });
-

@@ -1,17 +1,22 @@
-import {Account, LoginRequest, NewAccountRequest, RegisterRequest} from "../entities/Account";
-import {HTTP_STATUS} from "../utils/constants";
+import {
+    Account,
+    LoginRequest,
+    NewAccountRequest,
+    RegisterRequest,
+} from "../entities/Account";
+import { HTTP_STATUS } from "../utils/constants";
 import * as bcrypt from "bcryptjs";
-import {getConnection, Repository} from "typeorm";
-import {AccountPerson} from "../entities/AccountPerson";
-import {Person} from "../entities/Person";
-import {Role} from "../entities/Role";
-import {AccountRole} from "../entities/AccountRole";
-import {doesNotConflict} from "../utils/validation";
-import {Response} from "express";
-import {createPerson, getOnePerson} from "./personServices";
-import {AccountAndPerson, AuthRequest} from "../utils/types";
+import { getConnection, Repository } from "typeorm";
+import { AccountPerson } from "../entities/AccountPerson";
+import { Person } from "../entities/Person";
+import { Role } from "../entities/Role";
+import { AccountRole } from "../entities/AccountRole";
+import { doesNotConflict } from "../utils/validation";
+import { Response } from "express";
+import { createPerson, getOnePerson } from "./personServices";
+import { AccountAndPerson, AuthRequest } from "../utils/types";
 import * as jwt from "jsonwebtoken";
-import {getUserClearances} from "./roleServices";
+import { getUserClearances } from "./roleServices";
 
 const getRepos = (): {
     accountRepo: Repository<Account>;
@@ -26,13 +31,21 @@ const getRepos = (): {
     const accountPersonRepo = connection.getRepository(AccountPerson);
     const roleRepo = connection.getRepository(Role);
     const accountRoleRepo = connection.getRepository(AccountRole);
-    return {accountRepo, personRepo, accountPersonRepo, roleRepo, accountRoleRepo};
+    return {
+        accountRepo,
+        personRepo,
+        accountPersonRepo,
+        roleRepo,
+        accountRoleRepo,
+    };
 };
 
-
 // create account for existing person
-export const createAccount = async (requestBody: NewAccountRequest, res: Response): Promise<AccountAndPerson | undefined> => {
-    const {accountRepo, accountPersonRepo} = getRepos();
+export const createAccount = async (
+    requestBody: NewAccountRequest,
+    res: Response
+): Promise<AccountAndPerson | undefined> => {
+    const { accountRepo, accountPersonRepo } = getRepos();
 
     // is this personId a real person?
     const person = await getOnePerson(requestBody.personId, res);
@@ -41,25 +54,27 @@ export const createAccount = async (requestBody: NewAccountRequest, res: Respons
     }
 
     // does an account already belong to this personId?
-    if (!await doesNotConflict<AccountPerson>({
-        repo: accountPersonRepo,
-        properties: [
-            {name: "personId", value: requestBody.personId}
-        ],
-        res: res
-    })) {
+    if (
+        !(await doesNotConflict<AccountPerson>({
+            repo: accountPersonRepo,
+            properties: [{ name: "personId", value: requestBody.personId }],
+            res: res,
+        }))
+    ) {
         return undefined;
     }
 
     // does an account already exist with this username or email?
-    if (!await doesNotConflict<Account>({
-        repo: accountRepo,
-        properties: [
-            {name: "username", value: requestBody.username},
-            {name: "email", value: requestBody.email}
-        ],
-        res: res
-    })) {
+    if (
+        !(await doesNotConflict<Account>({
+            repo: accountRepo,
+            properties: [
+                { name: "username", value: requestBody.username },
+                { name: "email", value: requestBody.email },
+            ],
+            res: res,
+        }))
+    ) {
         return undefined;
     }
 
@@ -86,40 +101,45 @@ export const createAccount = async (requestBody: NewAccountRequest, res: Respons
     return {
         account: newAccount,
         person: person,
-        clearances: clearances
+        clearances: clearances,
     };
 };
 
 export const getAccounts = async (): Promise<AccountAndPerson[]> => {
     const output: AccountAndPerson[] = [];
 
-    const {accountRepo, personRepo, accountPersonRepo} = getRepos();
+    const { accountRepo, personRepo, accountPersonRepo } = getRepos();
     const accountPeople = await accountPersonRepo.find();
 
     for (let accountPerson of accountPeople) {
-        const person = await personRepo.findOne({id: accountPerson.personId});
-        const account = await accountRepo.findOne({id: accountPerson.accountId});
+        const person = await personRepo.findOne({ id: accountPerson.personId });
+        const account = await accountRepo.findOne({
+            id: accountPerson.accountId,
+        });
         const clearances = await getUserClearances(accountPerson.accountId);
-        output.push({account, person, clearances});
+        output.push({ account, person, clearances });
     }
 
     return output;
 };
 
-export const getOneAccount = async (id: number, res: Response): Promise<AccountAndPerson | undefined> => {
-    const {accountRepo, personRepo, accountPersonRepo} = getRepos();
-    const accountPerson = await accountPersonRepo.findOne({accountId: id});
+export const getOneAccount = async (
+    id: number,
+    res: Response
+): Promise<AccountAndPerson | undefined> => {
+    const { accountRepo, personRepo, accountPersonRepo } = getRepos();
+    const accountPerson = await accountPersonRepo.findOne({ accountId: id });
     if (!accountPerson) {
         res.sendStatus(HTTP_STATUS.NOT_FOUND);
         return undefined;
     }
 
-    const account = await accountRepo.findOne({id: accountPerson.accountId});
-    const person = await personRepo.findOne({id: accountPerson.personId});
+    const account = await accountRepo.findOne({ id: accountPerson.accountId });
+    const person = await personRepo.findOne({ id: accountPerson.personId });
     const clearances = await getUserClearances(account.id);
 
-    return {account, person, clearances};
-}
+    return { account, person, clearances };
+};
 
 // register (create new person and new account)
 export const register = async (
@@ -128,63 +148,75 @@ export const register = async (
 ): Promise<AccountAndPerson | undefined> => {
     const person = await createPerson(requestBody, res);
     if (!person) return undefined;
-    const accountAndPerson = await createAccount({
-        personId: person.id,
-        ...requestBody
-    }, res);
+    const accountAndPerson = await createAccount(
+        {
+            personId: person.id,
+            ...requestBody,
+        },
+        res
+    );
     if (!accountAndPerson) return undefined;
     return accountAndPerson;
 };
 
-export const login = async (requestBody: LoginRequest, res: Response): Promise<AccountAndPerson> => {
-    const {accountRepo, personRepo, accountPersonRepo} = getRepos();
-    const account = await accountRepo.findOne({username: requestBody.username});
+export const login = async (
+    requestBody: LoginRequest,
+    res: Response
+): Promise<AccountAndPerson> => {
+    const { accountRepo, personRepo, accountPersonRepo } = getRepos();
+    const account = await accountRepo.findOne({
+        username: requestBody.username,
+    });
     if (!account) {
         res.sendStatus(HTTP_STATUS.NOT_FOUND);
         return undefined;
     }
-    const validPassword: boolean = await bcrypt.compare(requestBody.password, account.password);
+    const validPassword: boolean = await bcrypt.compare(
+        requestBody.password,
+        account.password
+    );
     if (!validPassword) {
         res.status(HTTP_STATUS.BAD_REQUEST).send("Wrong password.");
         return undefined;
     }
 
-    const token = jwt.sign(
-        {id: account.id},
-        process.env.SECRET_KEY,
-        {
-            expiresIn: "60 minutes"
-        }
-    );
+    const token = jwt.sign({ id: account.id }, process.env.SECRET_KEY, {
+        expiresIn: "60 minutes",
+    });
 
-    await accountRepo.update(account, {token: token});
-    const editedAccount = await accountRepo.findOne({id: account.id});
+    await accountRepo.update(account, { token: token });
+    const editedAccount = await accountRepo.findOne({ id: account.id });
 
-    const accountPerson = await accountPersonRepo.findOne({accountId: account.id});
-    const person = await personRepo.findOne({id: accountPerson.personId});
+    const accountPerson = await accountPersonRepo.findOne({
+        accountId: account.id,
+    });
+    const person = await personRepo.findOne({ id: accountPerson.personId });
     const clearances = await getUserClearances(account.id);
 
     return {
         account: editedAccount,
         person: person,
-        clearances: clearances
+        clearances: clearances,
     };
 };
 
 // return true if logout was successful
-export const logout = async (req: AuthRequest<any>, res: Response): Promise<boolean> => {
-    const {accountRepo} = getRepos();
-    const account = await accountRepo.findOne({id: req.account.id});
+export const logout = async (
+    req: AuthRequest<any>,
+    res: Response
+): Promise<boolean> => {
+    const { accountRepo } = getRepos();
+    const account = await accountRepo.findOne({ id: req.account.id });
     if (!account) {
         res.sendStatus(HTTP_STATUS.NOT_FOUND);
         return false;
     }
-    await accountRepo.update(account, {token: null});
-    const updatedAccount = await accountRepo.findOne({id: account.id});
+    await accountRepo.update(account, { token: null });
+    const updatedAccount = await accountRepo.findOne({ id: account.id });
     if (updatedAccount.token === null) {
         return true;
     } else {
         res.sendStatus(HTTP_STATUS.SERVER_ERROR);
         return false;
     }
-}
+};

@@ -1,10 +1,9 @@
 import React from "react";
-import {PageHeader} from "../Utils/PageHeader";
-import {useStoreState} from "../../store";
-import {LoadingSpinner} from "../Utils/LoadingSpinner";
+import { PageHeader } from "../Utils/PageHeader";
+import { useStoreState } from "../../store";
+import { LoadingSpinner } from "../Utils/LoadingSpinner";
 
 export const Dashboard: React.FC = () => {
-
     const strainTypes = useStoreState(state => state.strainTypes);
     const strains = useStoreState(state => state.strains);
     const batches = useStoreState(state => state.batches);
@@ -21,8 +20,9 @@ export const Dashboard: React.FC = () => {
                             <li key={strain.id}>{strain.name}</li>
                         ))}
                     </ul>
-                ) : <LoadingSpinner />}
-
+                ) : (
+                    <LoadingSpinner />
+                )}
             </div>
             <div>
                 <label>Strains</label>
@@ -32,7 +32,9 @@ export const Dashboard: React.FC = () => {
                             <li key={strainType.id}>{strainType.name}</li>
                         ))}
                     </ul>
-                ) : <LoadingSpinner />}
+                ) : (
+                    <LoadingSpinner />
+                )}
             </div>
             <div>
                 <label>Batches</label>
@@ -42,8 +44,10 @@ export const Dashboard: React.FC = () => {
                             <li key={batch.id}>{batch.id}</li>
                         ))}
                     </ul>
-                ) : <LoadingSpinner />}
+                ) : (
+                    <LoadingSpinner />
+                )}
             </div>
         </div>
     );
-}
+};

@@ -1,4 +1,4 @@
-import {BaseModel} from "./_baseModel";
+import { BaseModel } from "./_baseModel";
 
 export interface PersonRequest {
     firstName: string;

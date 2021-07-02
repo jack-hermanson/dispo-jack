@@ -1,7 +1,7 @@
-import {Request} from "express";
-import {HTTP_STATUS} from "./constants";
-import {Person} from "../entities/Person";
-import {Account} from "../entities/Account";
+import { Request } from "express";
+import { HTTP_STATUS } from "./constants";
+import { Person } from "../entities/Person";
+import { Account } from "../entities/Account";
 
 export type DbDialect = "sqlite" | "postgres";
 
@@ -17,5 +17,5 @@ export interface AccountAndPerson {
 
 export enum SocketEvent {
     STATUS = "status",
-    STRAINS_UPDATE = "strainsUpdate"
+    STRAINS_UPDATE = "strainsUpdate",
 }

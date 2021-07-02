@@ -1,10 +1,9 @@
-import React, {Fragment, useEffect} from "react";
-import {io, Socket} from "socket.io-client";
-import {useStoreActions} from "../store";
-import {SocketEvent} from "../utils/types";
+import React, { Fragment, useEffect } from "react";
+import { io, Socket } from "socket.io-client";
+import { useStoreActions } from "../store";
+import { SocketEvent } from "../utils/types";
 
 export const SocketConnection: React.FC = () => {
-
     const fetchStrains = useStoreActions(actions => actions.fetchStrains);
 
     useEffect(() => {
@@ -18,10 +17,7 @@ export const SocketConnection: React.FC = () => {
             console.log("strains update");
             fetchStrains();
         });
-
     }, [fetchStrains]);
 
-    return (
-        <Fragment />
-    )
-}
+    return <Fragment />;
+};

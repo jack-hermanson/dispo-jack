@@ -1,7 +1,7 @@
 import React from "react";
-import {MobileToggleCard} from "../Utils/MobileToggleCard";
-import {ListGroup, ListGroupItem} from "reactstrap";
-import {AgnosticLink} from "../Utils/AgnosticLink";
+import { MobileToggleCard } from "../Utils/MobileToggleCard";
+import { ListGroup, ListGroupItem } from "reactstrap";
+import { AgnosticLink } from "../Utils/AgnosticLink";
 
 export const PopularSidebar: React.FC = () => {
     return (
@@ -19,5 +19,5 @@ export const PopularSidebar: React.FC = () => {
                 </ListGroup>
             </MobileToggleCard>
         </React.Fragment>
-    )
-}
+    );
+};

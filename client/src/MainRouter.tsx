@@ -1,25 +1,26 @@
-import {BrowserRouter, Route} from "react-router-dom";
-import {Navigation} from "./components/Navigation/Navigation";
-import {Container} from "reactstrap";
-import {Account} from "./components/Account/Account";
-import {LoginPage} from "./components/Account/LoginPage";
-import {useEffect} from "react";
-import {useStoreActions} from "./store";
-import {Dashboard} from "./components/Dashboard/Dashboard";
-import {Strains} from "./components/Strains/Strains";
-import {StrainDetails} from "./components/Strains/StrainDetails";
-import {AdminDashboard} from "./components/Admin/AdminDashboard";
-import {CreateStrain} from "./components/Strains/Admin/CreateStrain";
-import {AdminStrains} from "./components/Strains/Admin/AdminStrains";
-import {Alerts} from "./components/Alerts/Alerts";
-import {EditStrain} from "./components/Strains/Admin/EditStrain";
-import {SocketConnection} from "./components/SocketConnection";
-import {Batches} from "./components/Batches/Batches";
-import {BatchDetails} from "./components/Batches/BatchDetails";
+import { BrowserRouter, Route } from "react-router-dom";
+import { Navigation } from "./components/Navigation/Navigation";
+import { Container } from "reactstrap";
+import { Account } from "./components/Account/Account";
+import { LoginPage } from "./components/Account/LoginPage";
+import { useEffect } from "react";
+import { useStoreActions } from "./store";
+import { Dashboard } from "./components/Dashboard/Dashboard";
+import { Strains } from "./components/Strains/Strains";
+import { StrainDetails } from "./components/Strains/StrainDetails";
+import { AdminDashboard } from "./components/Admin/AdminDashboard";
+import { CreateStrain } from "./components/Strains/Admin/CreateStrain";
+import { AdminStrains } from "./components/Strains/Admin/AdminStrains";
+import { Alerts } from "./components/Alerts/Alerts";
+import { EditStrain } from "./components/Strains/Admin/EditStrain";
+import { SocketConnection } from "./components/SocketConnection";
+import { Batches } from "./components/Batches/Batches";
+import { BatchDetails } from "./components/Batches/BatchDetails";
 
 export const MainRouter = () => {
-
-    const fetchStrainTypes = useStoreActions(actions => actions.fetchStrainTypes);
+    const fetchStrainTypes = useStoreActions(
+        actions => actions.fetchStrainTypes
+    );
     const fetchStrains = useStoreActions(actions => actions.fetchStrains);
     const fetchBatches = useStoreActions(actions => actions.fetchBatches);
 
@@ -42,11 +43,23 @@ export const MainRouter = () => {
                 <Route exact path="/strains/:id" component={StrainDetails} />
                 <Route exact path="/admin" component={AdminDashboard} />
                 <Route exact path="/admin/strains" component={AdminStrains} />
-                <Route exact path="/admin/strains/new" component={CreateStrain} />
-                <Route exact path="/admin/strains/edit/:id" component={EditStrain} />
+                <Route
+                    exact
+                    path="/admin/strains/new"
+                    component={CreateStrain}
+                />
+                <Route
+                    exact
+                    path="/admin/strains/edit/:id"
+                    component={EditStrain}
+                />
                 <Route exact path="/admin/batches" component={Batches} />
-                <Route exact path="/admin/batches/:id" component={BatchDetails} />
+                <Route
+                    exact
+                    path="/admin/batches/:id"
+                    component={BatchDetails}
+                />
             </Container>
         </BrowserRouter>
     );
-}
+};

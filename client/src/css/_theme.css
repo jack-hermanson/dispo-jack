@@ -1,13 +1,13 @@
 .blockquote-footer {
-  color: #888;
+    color: #888;
 }
 
 .input-group-addon {
-  color: #fff;
+    color: #fff;
 }
 
 .form-floating > label {
-  color: #444;
+    color: #444;
 }
 
 .nav-tabs .nav-link,
@@ -24,49 +24,49 @@
 .nav-pills .nav-item.open .nav-link,
 .nav-pills .nav-item.open .nav-link:focus,
 .nav-pills .nav-item.open .nav-link:hover {
-  color: #fff;
+    color: #fff;
 }
 
 .breadcrumb a {
-  color: #fff;
+    color: #fff;
 }
 
 .pagination a:hover {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 .alert {
-  border: none;
-  color: #fff;
+    border: none;
+    color: #fff;
 }
 .alert a,
 .alert .alert-link {
-  color: #fff;
-  text-decoration: underline;
+    color: #fff;
+    text-decoration: underline;
 }
 .alert-primary {
-  background-color: #00bc8c;
+    background-color: #00bc8c;
 }
 .alert-secondary {
-  background-color: #444;
+    background-color: #444;
 }
 .alert-success {
-  background-color: #20c997;
+    background-color: #20c997;
 }
 .alert-info {
-  background-color: #3498db;
+    background-color: #3498db;
 }
 .alert-warning {
-  background-color: #f39c12;
+    background-color: #f39c12;
 }
 .alert-danger {
-  background-color: #e74c3c;
+    background-color: #e74c3c;
 }
 .alert-light {
-  background-color: #adb5bd;
+    background-color: #adb5bd;
 }
 .alert-dark {
-  background-color: #303030;
+    background-color: #303030;
 }
 
 /*# sourceMappingURL=_theme.css.map */
