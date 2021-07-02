@@ -1,7 +1,5 @@
 import { getConnection, Repository } from "typeorm";
 import { Response } from "express";
-import { doesNotConflict } from "../utils/validation";
-import { HTTP_STATUS } from "../utils/constants";
 import { Batch, BatchRequest } from "../entities/Batch";
 import { getOneStrain } from "./strainServices";
 

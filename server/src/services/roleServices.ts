@@ -1,6 +1,6 @@
 import { getConnection, Repository } from "typeorm";
 import { RoleRequest, Role } from "../entities/Role";
-import { doesNotConflict } from "../utils/validation";
+import { doesNotConflict } from "jack-hermanson-ts-utils";
 import { Response } from "express";
 import { HTTP_STATUS } from "../utils/constants";
 import { AccountRole } from "../entities/AccountRole";

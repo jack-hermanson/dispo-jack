@@ -1,7 +1,7 @@
 import express, { Response } from "express";
 import { AuthRequest } from "../utils/types";
 import { RoleRequest, Role, roleSchema } from "../entities/Role";
-import { validateRequest } from "../utils/validation";
+import { validateRequest } from "jack-hermanson-ts-utils";
 import { HTTP_STATUS } from "../utils/constants";
 import {
     applyRole,

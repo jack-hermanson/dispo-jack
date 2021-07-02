@@ -1,7 +1,7 @@
 import express, { Response } from "express";
 import { AuthRequest } from "../utils/types";
 import { auth } from "../middleware/auth";
-import { validateRequest } from "../utils/validation";
+import { validateRequest } from "jack-hermanson-ts-utils";
 import { hasMinClearance } from "../services/roleServices";
 import { HTTP_STATUS } from "../utils/constants";
 import { sendError } from "../utils/functions";

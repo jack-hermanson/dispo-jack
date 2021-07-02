@@ -2,7 +2,7 @@ import { getConnection, Repository } from "typeorm";
 import { Strain, StrainRequest } from "../entities/Strain";
 import { StrainType, StrainTypeRequest } from "../entities/StrainType";
 import { Response } from "express";
-import { doesNotConflict } from "../utils/validation";
+import { doesNotConflict } from "jack-hermanson-ts-utils";
 import { HTTP_STATUS } from "../utils/constants";
 
 const getRepos = (): {

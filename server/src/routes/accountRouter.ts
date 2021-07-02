@@ -9,7 +9,7 @@ import {
     RegisterRequest,
     registerSchema,
 } from "../entities/Account";
-import { validateRequest } from "../utils/validation";
+import { validateRequest } from "jack-hermanson-ts-utils";
 import {
     createAccount,
     getAccounts,

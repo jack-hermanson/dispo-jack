@@ -4,7 +4,7 @@ import { SocketEvent } from "../../../shared/enums";
 import { StrainTypeRequest, strainTypeSchema } from "../entities/StrainType";
 import { auth } from "../middleware/auth";
 import { sendError } from "../utils/functions";
-import { validateRequest } from "../utils/validation";
+import { validateRequest } from "jack-hermanson-ts-utils";
 import { hasMinClearance } from "../services/roleServices";
 import { HTTP_STATUS } from "../utils/constants";
 import {

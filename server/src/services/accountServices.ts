@@ -11,7 +11,7 @@ import { AccountPerson } from "../entities/AccountPerson";
 import { Person } from "../entities/Person";
 import { Role } from "../entities/Role";
 import { AccountRole } from "../entities/AccountRole";
-import { doesNotConflict } from "../utils/validation";
+import { doesNotConflict } from "jack-hermanson-ts-utils";
 import { Response } from "express";
 import { createPerson, getOnePerson } from "./personServices";
 import { AccountAndPerson, AuthRequest } from "../utils/types";

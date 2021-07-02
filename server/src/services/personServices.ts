@@ -1,9 +1,8 @@
 import { getConnection, Repository } from "typeorm";
-import { doesNotConflict } from "../utils/validation";
+import { doesNotConflict } from "jack-hermanson-ts-utils";
 import { Response } from "express";
 import { HTTP_STATUS } from "../utils/constants";
 import { Person, PersonRequest } from "../entities/Person";
-import { Role } from "../entities/Role";
 
 const getRepos = (): { personRepo: Repository<Person> } => {
     const connection = getConnection();

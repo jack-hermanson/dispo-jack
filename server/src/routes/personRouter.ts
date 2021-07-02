@@ -8,7 +8,7 @@ import {
 } from "../services/personServices";
 import { sendError } from "../utils/functions";
 import { PersonRequest, personSchema } from "../entities/Person";
-import { validateRequest } from "../utils/validation";
+import { validateRequest } from "jack-hermanson-ts-utils";
 import { HTTP_STATUS } from "../utils/constants";
 
 export const personRouter = express.Router();
