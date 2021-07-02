@@ -12,7 +12,7 @@ import { Role } from "../models/Role";
 import { AccountRole } from "../models/AccountRole";
 import { doesNotConflict, HTTP } from "jack-hermanson-ts-utils";
 import { Response } from "express";
-import { createPerson, getOnePerson } from "./personServices";
+import { PersonService } from "./PersonService";
 import { AccountAndPersonType, AuthRequest } from "../utils/types";
 import * as jwt from "jsonwebtoken";
 import { getUserClearances } from "./roleServices";
@@ -47,7 +47,10 @@ export abstract class AccountService {
         const { accountRepo, accountPersonRepo } = getRepos();
 
         // is this personId a real person?
-        const person = await getOnePerson(requestBody.personId, res);
+        const person = await PersonService.getOnePerson(
+            requestBody.personId,
+            res
+        );
         if (!person) {
             return;
         }
@@ -155,7 +158,7 @@ export abstract class AccountService {
         requestBody: RegisterRequest,
         res: Response
     ): Promise<AccountAndPersonType | undefined> {
-        const person = await createPerson(requestBody, res);
+        const person = await PersonService.createPerson(requestBody, res);
         if (!person) return undefined;
         const accountAndPerson = await this.createAccount(
             {

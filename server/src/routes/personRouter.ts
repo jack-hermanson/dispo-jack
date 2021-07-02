@@ -1,11 +1,6 @@
 import express, { Response } from "express";
 import { AuthRequest } from "../utils/types";
-import {
-    createPerson,
-    editPerson,
-    getOnePerson,
-    getPeople,
-} from "../services/personServices";
+import { PersonService } from "../services/PersonService";
 import { PersonRequest, personSchema } from "../models/Person";
 import { validateRequest, HTTP, sendError } from "jack-hermanson-ts-utils";
 import { PersonRecord } from "../../../shared/resource_models/person";
@@ -21,7 +16,10 @@ personRouter.post(
             const requestBody: PersonRequest = req.body;
 
             // create record
-            const newPerson = await createPerson(requestBody, res);
+            const newPerson = await PersonService.createPerson(
+                requestBody,
+                res
+            );
             if (!newPerson) return;
 
             res.status(HTTP.CREATED).json(newPerson);
@@ -35,7 +33,7 @@ personRouter.get(
     "/",
     async (req: AuthRequest<any>, res: Response<PersonRecord[]>) => {
         try {
-            res.json(await getPeople());
+            res.json(await PersonService.getPeople());
         } catch (error) {
             sendError(error, res);
         }
@@ -46,7 +44,7 @@ personRouter.get(
     "/:id",
     async (req: AuthRequest<{ id: number }>, res: Response<PersonRecord>) => {
         try {
-            const person = await getOnePerson(req.params.id, res);
+            const person = await PersonService.getOnePerson(req.params.id, res);
             if (!person) return;
             res.json(person);
         } catch (error) {
@@ -67,7 +65,7 @@ personRouter.put(
             const requestBody: PersonRequest = req.body;
 
             // edit record
-            const editedPerson = await editPerson(
+            const editedPerson = await PersonService.editPerson(
                 req.params.id,
                 requestBody,
                 res
