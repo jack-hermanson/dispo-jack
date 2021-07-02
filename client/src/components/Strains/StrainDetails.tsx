@@ -1,10 +1,13 @@
 import React from "react";
 import { RouteComponentProps } from "react-router";
 import { Col, Row } from "reactstrap";
-import { PageHeader } from "../Utils/PageHeader";
 import { useStoreState } from "../../store";
 import { getPriceKeyVals } from "../../data/strain";
-import { KeyValTable, LoadingSpinner } from "jack-hermanson-component-lib";
+import {
+    KeyValTable,
+    LoadingSpinner,
+    PageHeader,
+} from "jack-hermanson-component-lib";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 

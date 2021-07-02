@@ -1,5 +1,5 @@
 import React from "react";
-import { PageHeader } from "../Utils/PageHeader";
+import { PageHeader } from "jack-hermanson-component-lib";
 import { Col, Row } from "reactstrap";
 import { LoginForm } from "./LoginForm";
 

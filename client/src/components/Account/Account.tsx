@@ -1,9 +1,12 @@
 import React, { useEffect } from "react";
-import { PageHeader } from "../Utils/PageHeader";
 import { useStoreState } from "../../store";
 import { useHistory } from "react-router-dom";
 import { Col, Row } from "reactstrap";
-import { KeyValTable, LoadingSpinner } from "jack-hermanson-component-lib";
+import {
+    KeyValTable,
+    LoadingSpinner,
+    PageHeader,
+} from "jack-hermanson-component-lib";
 import { formatPhoneNumber } from "jack-hermanson-ts-utils";
 
 export const Account: React.FC = () => {

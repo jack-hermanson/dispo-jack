@@ -3,8 +3,7 @@ import { RouteComponentProps } from "react-router";
 import { useStoreState } from "../../store";
 import { useHistory } from "react-router-dom";
 import { Col, Row } from "reactstrap";
-import { PageHeader } from "../Utils/PageHeader";
-import { LoadingSpinner } from "jack-hermanson-component-lib";
+import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
 import { AdminTabs } from "../Admin/AdminTabs";
 import { Batch } from "./Batch";
 
@@ -33,7 +32,7 @@ export const BatchDetails: React.FC<Props> = ({ match }: Props) => {
             </Row>
             <Row>
                 <Col>
-                    <PageHeader title="Batch Details" borderBottom />
+                    <PageHeader title="Batch Details" />
                 </Col>
             </Row>
             {batch ? (

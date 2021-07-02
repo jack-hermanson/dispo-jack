@@ -2,12 +2,11 @@ import React, { useEffect } from "react";
 import { StrainRequest } from "../../../data/strain";
 import { AdminTabs } from "../../Admin/AdminTabs";
 import { Col, Row } from "reactstrap";
-import { PageHeader } from "../../Utils/PageHeader";
 import { useStoreActions, useStoreState } from "../../../store";
 import { useHistory } from "react-router-dom";
 import { RouteComponentProps } from "react-router";
 import { CreateEditStrainForm } from "./CreateEditStrainForm";
-import { LoadingSpinner } from "jack-hermanson-component-lib";
+import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 

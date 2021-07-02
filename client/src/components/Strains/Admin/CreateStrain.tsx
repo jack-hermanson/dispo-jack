@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Col, Row } from "reactstrap";
 import { useStoreActions, useStoreState } from "../../../store";
 import { CreateEditStrainForm } from "./CreateEditStrainForm";
-import { PageHeader } from "../../Utils/PageHeader";
+import { PageHeader } from "jack-hermanson-component-lib";
 import { useHistory } from "react-router-dom";
 import { StrainRequest } from "../../../data/strain";
 import { AdminTabs } from "../../Admin/AdminTabs";

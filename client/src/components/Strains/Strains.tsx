@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row } from "reactstrap";
-import { PageHeader } from "../Utils/PageHeader";
 import { useStoreState } from "../../store";
-import { LoadingSpinner } from "jack-hermanson-component-lib";
+import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
 import { StrainAndBatchFilter } from "./Filter/StrainAndBatchFilter";
 import { StrainAndBatch } from "../../data/strain";
 import { PopularSidebar } from "./PopularSidebar";

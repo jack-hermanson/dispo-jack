@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { PageHeader } from "../../Utils/PageHeader";
 import { Col, Row } from "reactstrap";
 import { AdminTabs } from "../../Admin/AdminTabs";
 import { AgnosticLink } from "../../Utils/AgnosticLink";
 import { useStoreState } from "../../../store";
 import { AdminStrain } from "./AdminStrain";
-import { LoadingSpinner } from "jack-hermanson-component-lib";
+import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
 import { StrainFilter } from "../Filter/StrainFilter";
 import { StrainRecord } from "../../../data/strain";
 import { useHistory } from "react-router-dom";
@@ -37,7 +36,7 @@ export const AdminStrains: React.FC = () => {
                 <Col>
                     <PageHeader title="Manage Strains">
                         <AgnosticLink
-                            className="btn btn-primary"
+                            className="btn btn-primary btn-sm"
                             linkType="internal"
                             path="/admin/strains/new"
                             linkText="New"

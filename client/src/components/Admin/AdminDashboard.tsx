@@ -10,7 +10,7 @@ import {
     ListGroupItem,
     Row,
 } from "reactstrap";
-import { PageHeader } from "../Utils/PageHeader";
+import { PageHeader } from "jack-hermanson-component-lib";
 import { AgnosticLink } from "../Utils/AgnosticLink";
 import { AdminTabs } from "./AdminTabs";
 

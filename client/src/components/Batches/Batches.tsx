@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Col, Row } from "reactstrap";
-import { PageHeader } from "../Utils/PageHeader";
+import { PageHeader } from "jack-hermanson-component-lib";
 import { AdminTabs } from "../Admin/AdminTabs";
 import { useStoreState } from "../../store";
 import { LoadingSpinner } from "jack-hermanson-component-lib";
@@ -27,7 +27,7 @@ export const Batches: React.FC = () => {
             <AdminTabs />
             <Row>
                 <Col>
-                    <PageHeader title="Manage Batches" borderBottom />
+                    <PageHeader title="Manage Batches" />
                 </Col>
             </Row>
             <Row>
