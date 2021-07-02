@@ -3,14 +3,14 @@ import { AuthRequest } from "../utils/types";
 import { auth } from "../middleware/auth";
 import { validateRequest, HTTP, sendError } from "jack-hermanson-ts-utils";
 import { hasMinClearance } from "../services/roleServices";
-import { createBatch, getBatches } from "../services/batchServices";
+import { BatchService } from "../services/BatchService";
 import { BatchRequest, batchSchema } from "../models/Batch";
 import { BatchRecord } from "../../../shared/resource_models/batch";
 
 export const batchRouter = express.Router();
 
 batchRouter.get("/", async (req: AuthRequest<any>, res: Response) => {
-    res.json(await getBatches());
+    res.json(await BatchService.getBatches());
 });
 
 batchRouter.post(
@@ -26,7 +26,7 @@ batchRouter.post(
             const requestBody: BatchRequest = req.body;
 
             // create new record
-            const newBatch = await createBatch(requestBody, res);
+            const newBatch = await BatchService.createBatch(requestBody, res);
             if (!newBatch) return;
 
             res.status(HTTP.CREATED).json(newBatch);
