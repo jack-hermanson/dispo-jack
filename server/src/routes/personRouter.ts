@@ -1,7 +1,8 @@
 import express, { Response } from "express";
 import { AuthRequest } from "../utils/types";
 import { PersonService } from "../services/PersonService";
-import { PersonRequest, personSchema } from "../models/Person";
+import { personSchema } from "../models/Person";
+import { PersonRequest } from "../../../shared/resource_models/person";
 import { validateRequest, HTTP, sendError } from "jack-hermanson-ts-utils";
 import { PersonRecord } from "../../../shared/resource_models/person";
 

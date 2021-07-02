@@ -15,7 +15,7 @@ import { Response } from "express";
 import { PersonService } from "./PersonService";
 import { AccountAndPersonType, AuthRequest } from "../utils/types";
 import * as jwt from "jsonwebtoken";
-import { getUserClearances } from "./roleServices";
+import { getUserClearances } from "./RoleService";
 
 const getRepos = (): {
     accountRepo: Repository<Account>;

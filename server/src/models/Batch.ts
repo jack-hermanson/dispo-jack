@@ -28,15 +28,6 @@ export class Batch {
     dateReceived: Date;
 }
 
-export interface BatchRequest {
-    strainId: number;
-    size: number;
-    thcPotency: number;
-    cbdPotency: number;
-    notes?: string;
-    imageUrl?: string;
-}
-
 export const batchSchema = Joi.object().options({ abortEarly: false }).keys({
     strainId: Joi.number().integer().required(),
     size: Joi.number().required(),

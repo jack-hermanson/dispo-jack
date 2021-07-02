@@ -10,10 +10,6 @@ export class StrainType {
     name: string;
 }
 
-export interface StrainTypeRequest {
-    name: string;
-}
-
 export const strainTypeSchema = Joi.object()
     .options({ abortEarly: false })
     .keys({

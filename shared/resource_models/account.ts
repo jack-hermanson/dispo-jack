@@ -1,5 +1,5 @@
 import { ResourceModel } from "./_base";
-import { PersonRecord } from "./person";
+import { PersonRecord, PersonRequest } from "./person";
 
 export interface AccountRequest {
     username: string;
@@ -20,3 +20,17 @@ export interface LoginRequest {
     username: string;
     password: string;
 }
+
+export interface EditAccountRequest {
+    username: string;
+    email: string;
+    personId: number;
+}
+
+export interface NewAccountRequest extends EditAccountRequest {
+    password: string;
+}
+
+export interface RegisterRequest
+    extends Omit<NewAccountRequest, "personId">,
+        PersonRequest {}

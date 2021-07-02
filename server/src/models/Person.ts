@@ -16,12 +16,6 @@ export class Person {
     phone: string;
 }
 
-export interface PersonRequest {
-    firstName: string;
-    lastName: string;
-    phone: string;
-}
-
 export const personSchema = Joi.object().options({ abortEarly: false }).keys({
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),

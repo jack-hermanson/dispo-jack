@@ -1,10 +1,11 @@
 import express, { Response } from "express";
 import { AuthRequest } from "../utils/types";
 import { SocketEvent } from "../../../shared/enums";
-import { StrainTypeRequest, strainTypeSchema } from "../models/StrainType";
+import { strainTypeSchema } from "../models/StrainType";
+import { StrainTypeRequest } from "../../../shared/resource_models/strainType";
 import { auth } from "../middleware/auth";
 import { validateRequest, HTTP, sendError } from "jack-hermanson-ts-utils";
-import { hasMinClearance } from "../services/roleServices";
+import { RoleService } from "../services/RoleService";
 import {
     createStrain,
     createStrainType,
@@ -28,7 +29,8 @@ strainRouter.post(
     ) => {
         try {
             // check permissions
-            if (!(await hasMinClearance(req.account.id, 5, res))) return;
+            if (!(await RoleService.hasMinClearance(req.account.id, 5, res)))
+                return;
 
             // check required parameters
             if (!(await validateRequest(strainTypeSchema, req, res))) return;
@@ -58,7 +60,8 @@ strainRouter.post(
     async (req: AuthRequest<StrainRequest>, res: Response<StrainRecord>) => {
         try {
             // check permissions
-            if (!(await hasMinClearance(req.account.id, 5, res))) return;
+            if (!(await RoleService.hasMinClearance(req.account.id, 5, res)))
+                return;
 
             // check required parameters
             if (!(await validateRequest(strainSchema, req, res))) return;
@@ -91,7 +94,8 @@ strainRouter.put(
     ) => {
         try {
             // check permissions
-            if (!(await hasMinClearance(req.account.id, 5, res))) return;
+            if (!(await RoleService.hasMinClearance(req.account.id, 5, res)))
+                return;
 
             // check required parameters
             if (!(await validateRequest(strainSchema, req, res))) return;

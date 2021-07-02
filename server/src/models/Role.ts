@@ -13,11 +13,6 @@ export class Role {
     clearance: number;
 }
 
-export interface RoleRequest {
-    name: string;
-    clearance: number;
-}
-
 export const roleSchema = Joi.object().options({ abortEarly: false }).keys({
     name: Joi.string().required(),
     clearance: Joi.number().integer().required(),

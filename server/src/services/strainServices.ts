@@ -1,6 +1,8 @@
 import { getConnection, Repository } from "typeorm";
-import { Strain, StrainRequest } from "../models/Strain";
-import { StrainType, StrainTypeRequest } from "../models/StrainType";
+import { Strain } from "../models/Strain";
+import { StrainType } from "../models/StrainType";
+import { StrainRequest } from "../../../shared/resource_models/strain";
+import { StrainTypeRequest } from "../../../shared/resource_models/strainType";
 import { Response } from "express";
 import { doesNotConflict, HTTP } from "jack-hermanson-ts-utils";
 

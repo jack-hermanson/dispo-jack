@@ -1,20 +1,14 @@
 import express, { Response } from "express";
 import { AuthRequest } from "../utils/types";
-import { RoleRequest, Role, roleSchema } from "../models/Role";
+import { roleSchema } from "../models/Role";
 import { validateRequest, HTTP, sendError } from "jack-hermanson-ts-utils";
-import {
-    applyRole,
-    createRole,
-    editRole,
-    getOneRole,
-    getRoles,
-    getUserRoles,
-} from "../services/roleServices";
+import { RoleService } from "../services/RoleService";
 import { auth } from "../middleware/auth";
 import { applyRoleSchema } from "../models/AccountRole";
 import {
     AccountRoleRecord,
     RoleRecord,
+    RoleRequest,
 } from "../../../shared/resource_models/role";
 
 export const roleRouter = express.Router();
@@ -28,7 +22,7 @@ roleRouter.post(
             const requestBody: RoleRequest = req.body;
 
             // create record
-            const newRole = await createRole(requestBody, res);
+            const newRole = await RoleService.createRole(requestBody, res);
             if (!newRole) return;
 
             res.status(HTTP.CREATED).json(newRole);
@@ -42,7 +36,7 @@ roleRouter.get(
     "/",
     async (req: AuthRequest<any>, res: Response<RoleRecord[]>) => {
         try {
-            res.json(await getRoles());
+            res.json(await RoleService.getRoles());
         } catch (error) {
             sendError(error, res);
         }
@@ -61,7 +55,11 @@ roleRouter.put(
             const requestBody: RoleRequest = req.body;
 
             // edit record
-            const editedRole = await editRole(req.params.id, requestBody, res);
+            const editedRole = await RoleService.editRole(
+                req.params.id,
+                requestBody,
+                res
+            );
             if (!editedRole) return;
 
             res.json(editedRole);
@@ -88,7 +86,7 @@ roleRouter.post(
             // check for required parameters
             if (!(await validateRequest(applyRoleSchema, req, res))) return;
 
-            const newAccountRole = await applyRole(
+            const newAccountRole = await RoleService.applyRole(
                 req.body.accountId,
                 req.body.roleId,
                 res,
@@ -107,7 +105,7 @@ roleRouter.get(
     "/user/:accountId",
     async (req: AuthRequest<any>, res: Response<RoleRecord[]>) => {
         const accountId = req.params.accountId;
-        res.json(await getUserRoles(accountId));
+        res.json(await RoleService.getUserRoles(accountId));
     }
 );
 
@@ -116,7 +114,7 @@ roleRouter.get(
     "/:id",
     async (req: AuthRequest<{ id: number }>, res: Response<RoleRecord>) => {
         try {
-            const role = await getOneRole(req.params.id, res);
+            const role = await RoleService.getOneRole(req.params.id, res);
             if (!role) return;
             res.json(role);
         } catch (error) {

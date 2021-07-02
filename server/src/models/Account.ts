@@ -1,6 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import Joi from "joi";
-import { PersonRequest } from "./Person";
 
 @Entity({ name: "account" })
 export class Account {
@@ -18,25 +17,6 @@ export class Account {
 
     @Column({ nullable: true })
     token?: string;
-}
-
-export interface EditAccountRequest {
-    username: string;
-    email: string;
-    personId: number;
-}
-
-export interface NewAccountRequest extends EditAccountRequest {
-    password: string;
-}
-
-export interface RegisterRequest
-    extends Omit<NewAccountRequest, "personId">,
-        PersonRequest {}
-
-export interface LoginRequest {
-    username: string;
-    password: string;
 }
 
 export const loginSchema = Joi.object()

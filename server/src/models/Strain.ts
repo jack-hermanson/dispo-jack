@@ -25,15 +25,6 @@ export class Strain {
     gramPrice: number;
 }
 
-export interface StrainRequest {
-    name: string;
-    strainTypeId: number;
-    ouncePrice: number;
-    quadPrice: number;
-    eighthPrice: number;
-    gramPrice: number;
-}
-
 export const strainSchema = Joi.object().options({ abortEarly: false }).keys({
     name: Joi.string().required(),
     strainTypeId: Joi.number().integer().required(),
