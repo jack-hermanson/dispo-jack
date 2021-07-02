@@ -4,7 +4,7 @@ import { doesNotConflict, HTTP } from "jack-hermanson-ts-utils";
 import { Response } from "express";
 import { AccountRole } from "../models/AccountRole";
 import { Account } from "../models/Account";
-import { getOneAccount } from "./accountServices";
+import { AccountService } from "./AccountService";
 
 const getRepos = (): {
     roleRepo: Repository<Role>;
@@ -93,7 +93,7 @@ export const applyRole = async (
     currentUser: Account
 ): Promise<AccountRole | undefined> => {
     // is the account id legit?
-    const account = await getOneAccount(accountId, res);
+    const account = await AccountService.getOneAccount(accountId, res);
     if (!account) {
         return undefined;
     }

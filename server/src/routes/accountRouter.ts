@@ -9,14 +9,7 @@ import {
     registerSchema,
 } from "../models/Account";
 import { validateRequest, HTTP, sendError } from "jack-hermanson-ts-utils";
-import {
-    createAccount,
-    getAccounts,
-    getOneAccount,
-    login,
-    logout,
-    register,
-} from "../services/accountServices";
+import { AccountService } from "../services/AccountService";
 import { auth } from "../middleware/auth";
 import { AccountAndPerson } from "../../../shared/resource_models/account";
 
@@ -32,7 +25,10 @@ accountRouter.post(
         try {
             if (!(await validateRequest(newAccountSchema, req, res))) return;
             const requestBody: NewAccountRequest = req.body;
-            const accountAndPerson = await createAccount(requestBody, res);
+            const accountAndPerson = await AccountService.createAccount(
+                requestBody,
+                res
+            );
             if (!accountAndPerson) return;
             res.status(HTTP.CREATED).json(accountAndPerson);
         } catch (error) {
@@ -45,7 +41,7 @@ accountRouter.get(
     "/",
     async (req: AuthRequest<any>, res: Response<AccountAndPerson[]>) => {
         try {
-            res.json(await getAccounts());
+            res.json(await AccountService.getAccounts());
         } catch (error) {
             sendError(error, res);
         }
@@ -59,7 +55,10 @@ accountRouter.get(
         res: Response<AccountAndPerson>
     ) => {
         try {
-            const accountAndPerson = await getOneAccount(req.params.id, res);
+            const accountAndPerson = await AccountService.getOneAccount(
+                req.params.id,
+                res
+            );
             if (!accountAndPerson) return;
             res.json(accountAndPerson);
         } catch (error) {
@@ -78,7 +77,10 @@ accountRouter.post(
         try {
             if (!(await validateRequest(registerSchema, req, res))) return;
             const requestBody: RegisterRequest = req.body;
-            const accountAndPerson = await register(requestBody, res);
+            const accountAndPerson = await AccountService.register(
+                requestBody,
+                res
+            );
             if (!accountAndPerson) return;
             res.status(HTTP.CREATED).json(accountAndPerson);
         } catch (error) {
@@ -94,7 +96,10 @@ accountRouter.post(
         try {
             if (!(await validateRequest(loginSchema, req, res))) return;
             const requestBody: LoginRequest = req.body;
-            const accountAndPerson = await login(requestBody, res);
+            const accountAndPerson = await AccountService.login(
+                requestBody,
+                res
+            );
             res.json(accountAndPerson);
         } catch (error) {
             sendError(error, res);
@@ -108,7 +113,7 @@ accountRouter.post(
     auth,
     async (req: AuthRequest<any>, res: Response<null>) => {
         try {
-            const successfulLogout = await logout(req, res);
+            const successfulLogout = await AccountService.logout(req, res);
             if (!successfulLogout) return;
             res.sendStatus(HTTP.OK);
         } catch (error) {
