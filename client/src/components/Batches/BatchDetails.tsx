@@ -4,7 +4,7 @@ import { useStoreState } from "../../store";
 import { useHistory } from "react-router-dom";
 import { Col, Row } from "reactstrap";
 import { PageHeader } from "../Utils/PageHeader";
-import { LoadingSpinner } from "../Utils/LoadingSpinner";
+import { LoadingSpinner } from "jack-hermanson-component-lib";
 import { AdminTabs } from "../Admin/AdminTabs";
 import { Batch } from "./Batch";
 

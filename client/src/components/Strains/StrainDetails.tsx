@@ -3,9 +3,8 @@ import { RouteComponentProps } from "react-router";
 import { Col, Row } from "reactstrap";
 import { PageHeader } from "../Utils/PageHeader";
 import { useStoreState } from "../../store";
-import { LoadingSpinner } from "../Utils/LoadingSpinner";
 import { getPriceKeyVals } from "../../data/strain";
-import { KeyValTable } from "jack-hermanson-component-lib";
+import { KeyValTable, LoadingSpinner } from "jack-hermanson-component-lib";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 

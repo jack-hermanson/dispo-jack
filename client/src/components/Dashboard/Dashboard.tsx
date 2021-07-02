@@ -1,7 +1,7 @@
 import React from "react";
 import { PageHeader } from "../Utils/PageHeader";
 import { useStoreState } from "../../store";
-import { LoadingSpinner } from "../Utils/LoadingSpinner";
+import { LoadingSpinner } from "jack-hermanson-component-lib";
 
 export const Dashboard: React.FC = () => {
     const strainTypes = useStoreState(state => state.strainTypes);

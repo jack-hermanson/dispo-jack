@@ -5,7 +5,7 @@ import { AdminTabs } from "../../Admin/AdminTabs";
 import { AgnosticLink } from "../../Utils/AgnosticLink";
 import { useStoreState } from "../../../store";
 import { AdminStrain } from "./AdminStrain";
-import { LoadingSpinner } from "../../Utils/LoadingSpinner";
+import { LoadingSpinner } from "jack-hermanson-component-lib";
 import { StrainFilter } from "../Filter/StrainFilter";
 import { StrainRecord } from "../../../data/strain";
 import { useHistory } from "react-router-dom";

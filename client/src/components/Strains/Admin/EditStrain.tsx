@@ -7,7 +7,7 @@ import { useStoreActions, useStoreState } from "../../../store";
 import { useHistory } from "react-router-dom";
 import { RouteComponentProps } from "react-router";
 import { CreateEditStrainForm } from "./CreateEditStrainForm";
-import { LoadingSpinner } from "../../Utils/LoadingSpinner";
+import { LoadingSpinner } from "jack-hermanson-component-lib";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 

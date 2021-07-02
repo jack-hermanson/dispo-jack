@@ -3,7 +3,7 @@ import { Col, Row } from "reactstrap";
 import { PageHeader } from "../Utils/PageHeader";
 import { AdminTabs } from "../Admin/AdminTabs";
 import { useStoreState } from "../../store";
-import { LoadingSpinner } from "../Utils/LoadingSpinner";
+import { LoadingSpinner } from "jack-hermanson-component-lib";
 import { useHistory } from "react-router-dom";
 import { Batch } from "./Batch";
 

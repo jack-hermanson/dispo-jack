@@ -1,6 +1,6 @@
 import React from "react";
 import { FormGroup, Input, Label } from "reactstrap";
-import { LoadingSpinner } from "../../Utils/LoadingSpinner";
+import { LoadingSpinner } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../../store";
 
 interface Props {
