@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useStoreState } from "../../../store";
 import { StrainAndBatch } from "../../../data/strain";
-import { MobileToggleCard } from "../../Utils/MobileToggleCard";
+import { MobileToggleCard } from "jack-hermanson-component-lib";
 import { FilterTypes } from "./FilterTypes";
 import { FilterSearchText } from "./FilterSearchText";
 import { ResetFilters } from "./ResetFilters";
 import { handleCheckChange } from "../../../utils/functions";
+import { CardBody } from "reactstrap";
 
 interface Props {
     setFilteredStrains: (strainAndBatches: StrainAndBatch[]) => any;
@@ -21,17 +22,19 @@ export const StrainAndBatchFilter: React.FC<Props> = ({
 
     return (
         <MobileToggleCard cardTitle="Filter">
-            <form>
-                <FilterSearchText
-                    searchText={searchText}
-                    handleSearchTextChange={handleSearchTextChange}
-                />
-                <FilterTypes
-                    selectedTypes={selectedTypes}
-                    handleTypeChange={handleTypeChange}
-                />
-                <ResetFilters reset={reset} />
-            </form>
+            <CardBody>
+                <form>
+                    <FilterSearchText
+                        searchText={searchText}
+                        handleSearchTextChange={handleSearchTextChange}
+                    />
+                    <FilterTypes
+                        selectedTypes={selectedTypes}
+                        handleTypeChange={handleTypeChange}
+                    />
+                    <ResetFilters reset={reset} />
+                </form>
+            </CardBody>
         </MobileToggleCard>
     );
 

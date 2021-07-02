@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { StrainRecord } from "../../../data/strain";
-import { MobileToggleCard } from "../../Utils/MobileToggleCard";
+import { MobileToggleCard } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../../store";
 import { FilterSearchText } from "./FilterSearchText";
 import { handleCheckChange } from "../../../utils/functions";
 import { FilterTypes } from "./FilterTypes";
 import { ResetFilters } from "./ResetFilters";
 import { FilterBatches } from "./FilterBatches";
+import { CardBody } from "reactstrap";
 
 interface Props {
     setFilteredStrains: (strains: StrainRecord[]) => any;
@@ -24,21 +25,23 @@ export const StrainFilter: React.FC<Props> = ({
 
     return (
         <MobileToggleCard cardTitle="Filter">
-            <form>
-                <FilterSearchText
-                    searchText={searchText}
-                    handleSearchTextChange={handleSearchTextChange}
-                />
-                <FilterTypes
-                    selectedTypes={selectedTypes}
-                    handleTypeChange={handleTypeChange}
-                />
-                <FilterBatches
-                    checked={strainsWithBatches}
-                    handleChange={handleActiveBatchesChange}
-                />
-                <ResetFilters reset={reset} />
-            </form>
+            <CardBody>
+                <form>
+                    <FilterSearchText
+                        searchText={searchText}
+                        handleSearchTextChange={handleSearchTextChange}
+                    />
+                    <FilterTypes
+                        selectedTypes={selectedTypes}
+                        handleTypeChange={handleTypeChange}
+                    />
+                    <FilterBatches
+                        checked={strainsWithBatches}
+                        handleChange={handleActiveBatchesChange}
+                    />
+                    <ResetFilters reset={reset} />
+                </form>
+            </CardBody>
         </MobileToggleCard>
     );
 
