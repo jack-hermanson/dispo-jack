@@ -3,13 +3,13 @@ import { action, Action, thunk, Thunk } from "easy-peasy";
 import { getBatches } from "../api/batch";
 import { StoreModel } from "./_store";
 
-export interface BatchesStoreModel {
+export interface BatchStoreModel {
     batches: BatchRecord[] | undefined;
     setBatches: Action<StoreModel, BatchRecord[]>;
     fetchBatches: Thunk<StoreModel>;
 }
 
-export const batchesStore: BatchesStoreModel = {
+export const batchStore: BatchStoreModel = {
     batches: undefined,
     setBatches: action((state, payload) => {
         state.batches = payload;

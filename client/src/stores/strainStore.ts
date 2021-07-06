@@ -1,8 +1,9 @@
 import {
+    StrainAndBatch,
     StrainRecord,
     StrainRequest,
 } from "../../../shared/resource_models/strain";
-import { action, Action, thunk, Thunk } from "easy-peasy";
+import { action, Action, computed, Computed, thunk, Thunk } from "easy-peasy";
 import { StoreModel } from "./_store";
 import { addStrain, editStrain, getStrains } from "../api/strain";
 import { handleResponseError } from "../utils/functions";
@@ -16,6 +17,7 @@ export interface StrainStoreModel {
         StoreModel,
         { strainId: number; strain: StrainRequest; token: string }
     >;
+    strainsInStock: Computed<StoreModel, StrainAndBatch[] | undefined>;
 }
 
 export const strainStore: StrainStoreModel = {
@@ -53,5 +55,22 @@ export const strainStore: StrainStoreModel = {
             actions.addError(handleResponseError(error));
             throw error;
         }
+    }),
+    strainsInStock: computed(state => {
+        if (state.strains && state.batches) {
+            const strainsAndBatches: StrainAndBatch[] = [];
+
+            for (let batch of state.batches) {
+                const strain = state.strains.find(s => s.id === batch.strainId);
+                strainsAndBatches.push({
+                    strain: strain!,
+                    batch: batch,
+                });
+            }
+
+            return strainsAndBatches;
+        }
+
+        return undefined;
     }),
 };
