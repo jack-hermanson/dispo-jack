@@ -15,15 +15,13 @@ import { AlertType } from "../utils/types";
 import { userStore, UserStoreModel } from "./userStore";
 import { strainStore, StrainStoreModel } from "./strainStore";
 import { strainTypesStore, StrainTypesStoreModel } from "./strainTypesStore";
+import { batchesStore, BatchesStoreModel } from "./batchesStore";
 
 export interface StoreModel
     extends UserStoreModel,
         StrainStoreModel,
-        StrainTypesStoreModel {
-    batches: BatchRecord[] | undefined;
-    setBatches: Action<StoreModel, BatchRecord[]>;
-    fetchBatches: Thunk<StoreModel>;
-
+        StrainTypesStoreModel,
+        BatchesStoreModel {
     strainsInStock: Computed<StoreModel, StrainAndBatch[] | undefined>;
 
     alerts: AlertType[];
@@ -37,14 +35,7 @@ export const _store = createStore<StoreModel>({
     ...userStore,
     ...strainStore,
     ...strainTypesStore,
-    batches: undefined,
-    setBatches: action((state, payload) => {
-        state.batches = payload;
-    }),
-    fetchBatches: thunk(async actions => {
-        const batches = await getBatches();
-        actions.setBatches(batches);
-    }),
+    ...batchesStore,
 
     strainsInStock: computed(state => {
         if (state.strains && state.batches) {
