@@ -8,30 +8,18 @@ import {
     computed,
     Computed,
 } from "easy-peasy";
-import {
-    StrainAndBatch,
-    StrainRecord,
-    StrainRequest,
-} from "../../../shared/resource_models/strain";
-import { StrainTypeRecord } from "../../../shared/resource_models/strainType";
-import {
-    addStrain,
-    editStrain,
-    getStrains,
-    getStrainTypes,
-} from "../api/strain";
+import { StrainAndBatch } from "../../../shared/resource_models/strain";
 import { BatchRecord } from "../../../shared/resource_models/batch";
 import { getBatches } from "../api/batch";
 import { AlertType } from "../utils/types";
-import { handleResponseError } from "../utils/functions";
 import { userStore, UserStoreModel } from "./userStore";
 import { strainStore, StrainStoreModel } from "./strainStore";
+import { strainTypesStore, StrainTypesStoreModel } from "./strainTypesStore";
 
-export interface StoreModel extends UserStoreModel, StrainStoreModel {
-    strainTypes: StrainTypeRecord[] | undefined;
-    setStrainTypes: Action<StoreModel, StrainTypeRecord[]>;
-    fetchStrainTypes: Thunk<StoreModel>;
-
+export interface StoreModel
+    extends UserStoreModel,
+        StrainStoreModel,
+        StrainTypesStoreModel {
     batches: BatchRecord[] | undefined;
     setBatches: Action<StoreModel, BatchRecord[]>;
     fetchBatches: Thunk<StoreModel>;
@@ -48,16 +36,7 @@ export interface StoreModel extends UserStoreModel, StrainStoreModel {
 export const _store = createStore<StoreModel>({
     ...userStore,
     ...strainStore,
-
-    strainTypes: undefined,
-    setStrainTypes: action((state, payload) => {
-        state.strainTypes = payload;
-    }),
-    fetchStrainTypes: thunk(async actions => {
-        const strainTypes = await getStrainTypes();
-        actions.setStrainTypes(strainTypes);
-    }),
-
+    ...strainTypesStore,
     batches: undefined,
     setBatches: action((state, payload) => {
         state.batches = payload;
