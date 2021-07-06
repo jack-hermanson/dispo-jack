@@ -17,7 +17,7 @@ import {
 } from "../../../../shared/resource_models/strain";
 import { FontAwesomeIcon as FA } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { useStoreState } from "../../store";
+import { useStoreState } from "../../stores/_store";
 
 interface Props {
     strainAndBatch: StrainAndBatch;

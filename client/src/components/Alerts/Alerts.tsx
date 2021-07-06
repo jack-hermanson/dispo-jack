@@ -1,6 +1,6 @@
 import React from "react";
 import { Col, Row } from "reactstrap";
-import { useStoreState } from "../../store";
+import { useStoreState } from "../../stores/_store";
 import { AlertPanel } from "./AlertPanel";
 
 export const Alerts: React.FC = () => {

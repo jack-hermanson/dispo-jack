@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { RouteComponentProps } from "react-router";
-import { useStoreState } from "../../store";
+import { useStoreState } from "../../stores/_store";
 import { useHistory } from "react-router-dom";
 import { Col, Row } from "reactstrap";
 import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";

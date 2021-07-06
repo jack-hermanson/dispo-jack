@@ -1,7 +1,7 @@
 import React from "react";
 import { FormGroup, Input, Label } from "reactstrap";
 import { LoadingSpinner } from "jack-hermanson-component-lib";
-import { useStoreState } from "../../../store";
+import { useStoreState } from "../../../stores/_store";
 
 interface Props {
     selectedTypes: number[];

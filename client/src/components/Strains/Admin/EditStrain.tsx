@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { StrainRequest } from "../../../../../shared/resource_models/strain";
 import { AdminTabs } from "../../Admin/AdminTabs";
 import { Col, Row } from "reactstrap";
-import { useStoreActions, useStoreState } from "../../../store";
+import { useStoreActions, useStoreState } from "../../../stores/_store";
 import { useHistory } from "react-router-dom";
 import { RouteComponentProps } from "react-router";
 import { CreateEditStrainForm } from "./CreateEditStrainForm";

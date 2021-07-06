@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row } from "reactstrap";
-import { useStoreState } from "../../store";
+import { useStoreState } from "../../stores/_store";
 import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
 import { StrainAndBatchFilter } from "./Filter/StrainAndBatchFilter";
 import { StrainAndBatch } from "../../../../shared/resource_models/strain";

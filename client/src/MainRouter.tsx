@@ -4,7 +4,7 @@ import { Container } from "reactstrap";
 import { Account } from "./components/Account/Account";
 import { LoginPage } from "./components/Account/LoginPage";
 import { useEffect } from "react";
-import { useStoreActions } from "./store";
+import { useStoreActions } from "./stores/_store";
 import { Dashboard } from "./components/Dashboard/Dashboard";
 import { Strains } from "./components/Strains/Strains";
 import { StrainDetails } from "./components/Strains/StrainDetails";

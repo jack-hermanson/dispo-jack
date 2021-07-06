@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Col, Row } from "reactstrap";
 import { AdminTabs } from "../../Admin/AdminTabs";
 import { AgnosticLink } from "../../Utils/AgnosticLink";
-import { useStoreState } from "../../../store";
+import { useStoreState } from "../../../stores/_store";
 import { AdminStrain } from "./AdminStrain";
 import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
 import { StrainFilter } from "../Filter/StrainFilter";

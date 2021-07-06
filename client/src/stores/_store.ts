@@ -11,31 +11,27 @@ import {
 import {
     AccountAndPerson,
     LoginRequest,
-} from "../../shared/resource_models/account";
-import { logIn, logOut } from "./api/account";
+} from "../../../shared/resource_models/account";
+import { logIn, logOut } from "../api/account";
 import {
     StrainAndBatch,
     StrainRecord,
     StrainRequest,
-} from "../../shared/resource_models/strain";
-import { StrainTypeRecord } from "../../shared/resource_models/strainType";
+} from "../../../shared/resource_models/strain";
+import { StrainTypeRecord } from "../../../shared/resource_models/strainType";
 import {
     addStrain,
     editStrain,
     getStrains,
     getStrainTypes,
-} from "./api/strain";
-import { BatchRecord } from "../../shared/resource_models/batch";
-import { getBatches } from "./api/batch";
-import { AlertType } from "./utils/types";
-import { handleResponseError } from "./utils/functions";
+} from "../api/strain";
+import { BatchRecord } from "../../../shared/resource_models/batch";
+import { getBatches } from "../api/batch";
+import { AlertType } from "../utils/types";
+import { handleResponseError } from "../utils/functions";
+import { userStore, UserStoreModel } from "./userStore";
 
-interface StoreModel {
-    currentUser: AccountAndPerson | undefined;
-    setCurrentUser: Action<StoreModel, AccountAndPerson | undefined>;
-    logIn: Thunk<StoreModel, LoginRequest>;
-    logOut: Thunk<StoreModel, string>;
-
+export interface StoreModel extends UserStoreModel {
     strains: StrainRecord[] | undefined;
     setStrains: Action<StoreModel, StrainRecord[]>;
     fetchStrains: Thunk<StoreModel>;
@@ -62,27 +58,8 @@ interface StoreModel {
     addSuccessAlert: Action<StoreModel, string>;
 }
 
-export const store = createStore<StoreModel>({
-    currentUser: undefined,
-    setCurrentUser: action((state, payload) => {
-        state.currentUser = payload;
-    }),
-    logIn: thunk(async (actions, payload) => {
-        const accountAndPerson = await logIn(payload);
-        actions.setCurrentUser(accountAndPerson);
-        actions.addSuccessAlert("Logged in successfully.");
-    }),
-    logOut: thunk(async (actions, token) => {
-        try {
-            await logOut(token);
-            actions.setCurrentUser(undefined);
-            actions.addSuccessAlert("Logged out successfully.");
-        } catch (error) {
-            actions.setCurrentUser(undefined);
-            console.error(error);
-        }
-    }),
-
+export const _store = createStore<StoreModel>({
+    ...userStore,
     strains: undefined,
     setStrains: action((state, payload) => {
         state.strains = payload;

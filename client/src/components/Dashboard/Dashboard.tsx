@@ -1,5 +1,5 @@
 import React from "react";
-import { useStoreState } from "../../store";
+import { useStoreState } from "../../stores/_store";
 import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
 
 export const Dashboard: React.FC = () => {
@@ -13,10 +13,10 @@ export const Dashboard: React.FC = () => {
 
             <div>
                 <label>Strain Types</label>
-                {strains ? (
+                {strainTypes ? (
                     <ul>
-                        {strains.map(strain => (
-                            <li key={strain.id}>{strain.name}</li>
+                        {strainTypes.map(strainType => (
+                            <li key={strainType.id}>{strainType.name}</li>
                         ))}
                     </ul>
                 ) : (
@@ -25,10 +25,10 @@ export const Dashboard: React.FC = () => {
             </div>
             <div>
                 <label>Strains</label>
-                {strainTypes ? (
+                {strains ? (
                     <ul>
-                        {strainTypes.map(strainType => (
-                            <li key={strainType.id}>{strainType.name}</li>
+                        {strains.map(strain => (
+                            <li key={strain.id}>{strain.name}</li>
                         ))}
                     </ul>
                 ) : (

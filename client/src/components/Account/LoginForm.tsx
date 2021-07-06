@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useStoreActions } from "../../store";
+import { useStoreActions } from "../../stores/_store";
 import { useHistory } from "react-router-dom";
 import { Button, FormGroup, Input, Label } from "reactstrap";
 

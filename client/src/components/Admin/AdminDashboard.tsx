@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useStoreState } from "../../store";
+import { useStoreState } from "../../stores/_store";
 import { useHistory } from "react-router-dom";
 import {
     Card,

@@ -3,7 +3,7 @@ import { AlertType } from "../../utils/types";
 import { Alert } from "reactstrap";
 import { FontAwesomeIcon as FA } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { useStoreActions, useStoreState } from "../../store";
+import { useStoreActions, useStoreState } from "../../stores/_store";
 
 interface Props {
     alert: AlertType;

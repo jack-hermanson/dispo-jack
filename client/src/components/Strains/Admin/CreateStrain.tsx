@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Col, Row } from "reactstrap";
-import { useStoreActions, useStoreState } from "../../../store";
+import { useStoreActions, useStoreState } from "../../../stores/_store";
 import { CreateEditStrainForm } from "./CreateEditStrainForm";
 import { PageHeader } from "jack-hermanson-component-lib";
 import { useHistory } from "react-router-dom";

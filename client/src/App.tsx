@@ -1,10 +1,10 @@
 import { StoreProvider } from "easy-peasy";
-import { store } from "./store";
+import { _store } from "./stores/_store";
 import { MainRouter } from "./MainRouter";
 
 function App() {
     return (
-        <StoreProvider store={store}>
+        <StoreProvider store={_store}>
             <MainRouter />
         </StoreProvider>
     );

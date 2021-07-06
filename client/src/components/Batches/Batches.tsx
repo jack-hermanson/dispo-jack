@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Col, Row } from "reactstrap";
 import { PageHeader } from "jack-hermanson-component-lib";
 import { AdminTabs } from "../Admin/AdminTabs";
-import { useStoreState } from "../../store";
+import { useStoreState } from "../../stores/_store";
 import { LoadingSpinner } from "jack-hermanson-component-lib";
 import { useHistory } from "react-router-dom";
 import { Batch } from "./Batch";

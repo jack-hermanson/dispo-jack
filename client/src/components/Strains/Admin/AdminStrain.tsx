@@ -5,7 +5,7 @@ import {
     StrainRecord,
 } from "../../../../../shared/resource_models/strain";
 import { KeyValTable, LoadingSpinner } from "jack-hermanson-component-lib";
-import { useStoreState } from "../../../store";
+import { useStoreState } from "../../../stores/_store";
 import { StrainTypeBadge } from "../StrainTypeBadge";
 import { AgnosticLink } from "../../Utils/AgnosticLink";
 

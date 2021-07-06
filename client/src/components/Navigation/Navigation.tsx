@@ -21,7 +21,7 @@ import {
     faTools,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon as FA } from "@fortawesome/react-fontawesome";
-import { useStoreActions, useStoreState } from "../../store";
+import { useStoreActions, useStoreState } from "../../stores/_store";
 
 export const Navigation: React.FC = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);

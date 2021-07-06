@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { StrainRecord } from "../../../../../shared/resource_models/strain";
 import { MobileToggleCard } from "jack-hermanson-component-lib";
-import { useStoreState } from "../../../store";
+import { useStoreState } from "../../../stores/_store";
 import { FilterSearchText } from "./FilterSearchText";
 import { handleCheckChange } from "../../../utils/functions";
 import { FilterTypes } from "./FilterTypes";

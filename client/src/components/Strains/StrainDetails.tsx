@@ -1,7 +1,7 @@
 import React from "react";
 import { RouteComponentProps } from "react-router";
 import { Col, Row } from "reactstrap";
-import { useStoreState } from "../../store";
+import { useStoreState } from "../../stores/_store";
 import { getPriceKeyVals } from "../../../../shared/resource_models/strain";
 import {
     KeyValTable,

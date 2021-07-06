@@ -13,7 +13,7 @@ import {
     Label,
     Row,
 } from "reactstrap";
-import { useStoreActions, useStoreState } from "../../../store";
+import { useStoreActions, useStoreState } from "../../../stores/_store";
 
 interface Props {
     onSubmit: (newStrain: StrainRequest) => any;
