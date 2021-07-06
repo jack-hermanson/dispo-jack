@@ -1,17 +1,20 @@
-import React, {useState} from "react";
-import {useStoreState} from "../../../store";
-import {StrainAndBatch} from "../../../data/strain";
-import {MobileToggleCard} from "../../Utils/MobileToggleCard";
-import {FilterTypes} from "./FilterTypes";
-import {FilterSearchText} from "./FilterSearchText";
-import {ResetFilters} from "./ResetFilters";
-import {handleCheckChange} from "../../../utils/functions";
+import React, { useState } from "react";
+import { useStoreState } from "../../../stores/_store";
+import { StrainAndBatch } from "../../../../../shared/resource_models/strain";
+import { MobileToggleCard } from "jack-hermanson-component-lib";
+import { FilterTypes } from "./FilterTypes";
+import { FilterSearchText } from "./FilterSearchText";
+import { ResetFilters } from "./ResetFilters";
+import { handleCheckChange } from "../../../utils/functions";
+import { CardBody } from "reactstrap";
 
 interface Props {
     setFilteredStrains: (strainAndBatches: StrainAndBatch[]) => any;
 }
 
-export const StrainAndBatchFilter: React.FC<Props> = ({setFilteredStrains}: Props) => {
+export const StrainAndBatchFilter: React.FC<Props> = ({
+    setFilteredStrains,
+}: Props) => {
     const strainsAndBatches = useStoreState(state => state.strainsInStock);
 
     const [searchText, setSearchText] = useState("");
@@ -19,11 +22,19 @@ export const StrainAndBatchFilter: React.FC<Props> = ({setFilteredStrains}: Prop
 
     return (
         <MobileToggleCard cardTitle="Filter">
-            <form>
-                <FilterSearchText searchText={searchText} handleSearchTextChange={handleSearchTextChange} />
-                <FilterTypes selectedTypes={selectedTypes} handleTypeChange={handleTypeChange} />
-                <ResetFilters reset={reset} />
-            </form>
+            <CardBody>
+                <form>
+                    <FilterSearchText
+                        searchText={searchText}
+                        handleSearchTextChange={handleSearchTextChange}
+                    />
+                    <FilterTypes
+                        selectedTypes={selectedTypes}
+                        handleTypeChange={handleTypeChange}
+                    />
+                    <ResetFilters reset={reset} />
+                </form>
+            </CardBody>
         </MobileToggleCard>
     );
 
@@ -44,15 +55,30 @@ export const StrainAndBatchFilter: React.FC<Props> = ({setFilteredStrains}: Prop
     function filterStrains(matchText: string, typeIds: number[]) {
         if (strainsAndBatches) {
             const matches = strainsAndBatches
-                .filter(s => s.strain.name.toLowerCase().includes(matchText.toLowerCase()))
-                .filter(s => typeIds.includes(s.strain.strainTypeId) || !typeIds.length);
+                .filter(s =>
+                    s.strain.name
+                        .toLowerCase()
+                        .includes(matchText.toLowerCase())
+                )
+                .filter(
+                    s =>
+                        typeIds.includes(s.strain.strainTypeId) ||
+                        !typeIds.length
+                );
             setFilteredStrains(matches);
         }
     }
 
-    function handleTypeChange(event: React.ChangeEvent<HTMLInputElement>, strainTypeId: number) {
-        const newSelectedTypes = handleCheckChange(event, selectedTypes, strainTypeId);
+    function handleTypeChange(
+        event: React.ChangeEvent<HTMLInputElement>,
+        strainTypeId: number
+    ) {
+        const newSelectedTypes = handleCheckChange(
+            event,
+            selectedTypes,
+            strainTypeId
+        );
         filterStrains(searchText, newSelectedTypes);
         setSelectedTypes(newSelectedTypes);
     }
-}
+};

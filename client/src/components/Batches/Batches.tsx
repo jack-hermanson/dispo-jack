@@ -1,21 +1,23 @@
-import React, {useEffect} from "react";
-import {Col, Row} from "reactstrap";
-import {PageHeader} from "../Utils/PageHeader";
-import {AdminTabs} from "../Admin/AdminTabs";
-import {useStoreState} from "../../store";
-import {LoadingSpinner} from "../Utils/LoadingSpinner";
-import {useHistory} from "react-router-dom";
-import {Batch} from "./Batch";
+import React, { useEffect } from "react";
+import { Col, Row } from "reactstrap";
+import { PageHeader } from "jack-hermanson-component-lib";
+import { AdminTabs } from "../Admin/AdminTabs";
+import { useStoreState } from "../../stores/_store";
+import { LoadingSpinner } from "jack-hermanson-component-lib";
+import { useHistory } from "react-router-dom";
+import { Batch } from "./Batch";
 
 export const Batches: React.FC = () => {
-
     const batches = useStoreState(state => state.batches);
     const currentUser = useStoreState(state => state.currentUser);
 
     const history = useHistory();
 
     useEffect(() => {
-        if (!currentUser || !currentUser.clearances.some(clearance => clearance >= 5)) {
+        if (
+            !currentUser ||
+            !currentUser.clearances.some(clearance => clearance >= 5)
+        ) {
             history.replace("/account");
         }
     }, [history, currentUser]);
@@ -25,18 +27,22 @@ export const Batches: React.FC = () => {
             <AdminTabs />
             <Row>
                 <Col>
-                    <PageHeader title="Manage Batches" borderBottom />
+                    <PageHeader title="Manage Batches" />
                 </Col>
             </Row>
             <Row>
                 <Col>
                     {batches ? (
                         batches.map(batch => (
-                            <Batch batch={batch} key={batch.id}>{batch.strainId}</Batch>
+                            <Batch batch={batch} key={batch.id}>
+                                {batch.strainId}
+                            </Batch>
                         ))
-                    ) : <LoadingSpinner />}
+                    ) : (
+                        <LoadingSpinner />
+                    )}
                 </Col>
             </Row>
         </React.Fragment>
     );
-}
+};

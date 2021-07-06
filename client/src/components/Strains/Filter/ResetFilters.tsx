@@ -1,16 +1,17 @@
 import React from "react";
-import {Button} from "reactstrap";
+import { Button } from "reactstrap";
 
 interface Props {
     reset: () => any;
 }
 
-export const ResetFilters: React.FC<Props> = ({reset}) => {
+export const ResetFilters: React.FC<Props> = ({ reset }) => {
     return (
         <div className="mt-4">
             <Button
                 type="reset"
-                block size="sm"
+                block
+                size="sm"
                 color="secondary"
                 onClick={reset}
             >
@@ -18,4 +19,4 @@ export const ResetFilters: React.FC<Props> = ({reset}) => {
             </Button>
         </div>
     );
-}
+};

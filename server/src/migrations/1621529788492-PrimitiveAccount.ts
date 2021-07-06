@@ -1,8 +1,12 @@
-import {MigrationInterface, QueryRunner, Table, TableForeignKey} from "typeorm";
-import {idColumn} from "../utils/constants";
+import {
+    MigrationInterface,
+    QueryRunner,
+    Table,
+    TableForeignKey,
+} from "typeorm";
+import { idColumn } from "jack-hermanson-ts-utils";
 
 export class PrimitiveAccount1621529788492 implements MigrationInterface {
-
     // new tables
 
     role: Table = new Table({
@@ -12,15 +16,15 @@ export class PrimitiveAccount1621529788492 implements MigrationInterface {
             {
                 name: "name",
                 type: "varchar",
-                isNullable: false
+                isNullable: false,
             },
             {
                 name: "clearance",
                 type: "int",
                 isNullable: false,
-                default: 0
-            }
-        ]
+                default: 0,
+            },
+        ],
     });
 
     person: Table = new Table({
@@ -30,19 +34,19 @@ export class PrimitiveAccount1621529788492 implements MigrationInterface {
             {
                 name: "firstName",
                 type: "varchar",
-                isNullable: false
+                isNullable: false,
             },
             {
                 name: "lastName",
                 type: "varchar",
-                isNullable: false
+                isNullable: false,
             },
             {
                 name: "phone",
                 type: "varchar",
-                isNullable: false
-            }
-        ]
+                isNullable: false,
+            },
+        ],
     });
 
     account: Table = new Table({
@@ -53,25 +57,25 @@ export class PrimitiveAccount1621529788492 implements MigrationInterface {
                 name: "username",
                 type: "varchar",
                 isNullable: false,
-                isUnique: true
+                isUnique: true,
             },
             {
                 name: "email",
                 type: "varchar",
                 isNullable: false,
-                isUnique: true
+                isUnique: true,
             },
             {
                 name: "password",
                 type: "varchar",
-                isNullable: false
+                isNullable: false,
             },
             {
                 name: "token",
                 type: "varchar",
-                isNullable: true
-            }
-        ]
+                isNullable: true,
+            },
+        ],
     });
 
     accountRole: Table = new Table({
@@ -81,14 +85,14 @@ export class PrimitiveAccount1621529788492 implements MigrationInterface {
             {
                 name: "accountId",
                 type: "int",
-                isNullable: false
+                isNullable: false,
             },
             {
                 name: "roleId",
                 type: "int",
-                isNullable: true
-            }
-        ]
+                isNullable: true,
+            },
+        ],
     });
 
     accountPerson: Table = new Table({
@@ -99,15 +103,15 @@ export class PrimitiveAccount1621529788492 implements MigrationInterface {
                 name: "accountId",
                 type: "int",
                 isNullable: false,
-                isUnique: true
+                isUnique: true,
             },
             {
                 name: "personId",
                 type: "int",
                 isNullable: false,
-                isUnique: true
-            }
-        ]
+                isUnique: true,
+            },
+        ],
     });
 
     public async up(queryRunner: QueryRunner): Promise<void> {
@@ -116,36 +120,32 @@ export class PrimitiveAccount1621529788492 implements MigrationInterface {
         await queryRunner.createTable(this.account, true);
 
         await queryRunner.createTable(this.accountRole, true);
-        await queryRunner.createForeignKeys(this.accountRole,
-            [
-                new TableForeignKey({
-                    columnNames: ["accountId"],
-                    referencedTableName: "account",
-                    referencedColumnNames: ["id"]
-                }),
-                new TableForeignKey({
-                    columnNames: ["roleId"],
-                    referencedTableName: "role",
-                    referencedColumnNames: ["id"]
-                })
-            ]
-        );
+        await queryRunner.createForeignKeys(this.accountRole, [
+            new TableForeignKey({
+                columnNames: ["accountId"],
+                referencedTableName: "account",
+                referencedColumnNames: ["id"],
+            }),
+            new TableForeignKey({
+                columnNames: ["roleId"],
+                referencedTableName: "role",
+                referencedColumnNames: ["id"],
+            }),
+        ]);
 
         await queryRunner.createTable(this.accountPerson, true);
-        await queryRunner.createForeignKeys(this.accountPerson,
-            [
-                new TableForeignKey({
-                    columnNames: ["accountId"],
-                    referencedTableName: "account",
-                    referencedColumnNames: ["id"]
-                }),
-                new TableForeignKey({
-                    columnNames: ["personId"],
-                    referencedTableName: "person",
-                    referencedColumnNames: ["id"]
-                })
-            ]
-        );
+        await queryRunner.createForeignKeys(this.accountPerson, [
+            new TableForeignKey({
+                columnNames: ["accountId"],
+                referencedTableName: "account",
+                referencedColumnNames: ["id"],
+            }),
+            new TableForeignKey({
+                columnNames: ["personId"],
+                referencedTableName: "person",
+                referencedColumnNames: ["id"],
+            }),
+        ]);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
@@ -155,5 +155,4 @@ export class PrimitiveAccount1621529788492 implements MigrationInterface {
         await queryRunner.dropTable(this.person);
         await queryRunner.dropTable(this.role);
     }
-
 }

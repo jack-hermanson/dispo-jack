@@ -1,11 +1,13 @@
-import React, {useEffect} from "react";
-import {PageHeader} from "../Utils/PageHeader";
-import {useStoreState} from "../../store";
-import {useHistory} from "react-router-dom";
-import {Col, Row} from "reactstrap";
-import {KeyValListGroup} from "../Utils/KeyValListGroup";
-import {LoadingSpinner} from "../Utils/LoadingSpinner";
-import {formatPhoneNumber} from "jack-hermanson-ts-utils";
+import React, { useEffect } from "react";
+import { useStoreState } from "../../stores/_store";
+import { useHistory } from "react-router-dom";
+import { Col, Row } from "reactstrap";
+import {
+    KeyValTable,
+    LoadingSpinner,
+    PageHeader,
+} from "jack-hermanson-component-lib";
+import { formatPhoneNumber } from "jack-hermanson-ts-utils";
 
 export const Account: React.FC = () => {
     const currentUser = useStoreState(state => state.currentUser);
@@ -23,15 +25,12 @@ export const Account: React.FC = () => {
         <React.Fragment>
             <Row>
                 <Col>
-                    <PageHeader title="Account"/>
+                    <PageHeader title="Account" />
                 </Col>
             </Row>
             <Row>
-                <Col lg={6}>
-                    {renderAccountInfo()}
-                </Col>
+                <Col lg={6}>{renderAccountInfo()}</Col>
             </Row>
-
         </React.Fragment>
     );
 
@@ -40,31 +39,30 @@ export const Account: React.FC = () => {
             const keyValPairs = [
                 {
                     key: "Username",
-                    val: currentUser.account.username
+                    val: currentUser.account.username,
                 },
                 {
                     key: "Email",
-                    val: currentUser.account.email
+                    val: currentUser.account.email,
                 },
                 {
                     key: "Name",
-                    val: `${currentUser.person.firstName} ${currentUser.person.lastName}`
+                    val: `${currentUser.person.firstName} ${currentUser.person.lastName}`,
                 },
                 {
                     key: "Phone number",
-                    val: formatPhoneNumber(currentUser.person.phone)
-                }
+                    val: formatPhoneNumber(currentUser.person.phone),
+                },
             ];
             if (currentUser.clearances.some(clearance => clearance >= 5)) {
                 keyValPairs.push({
                     key: "Clearances",
-                    val: currentUser.clearances.toString()
+                    val: currentUser.clearances.toString(),
                 });
             }
-            return (<KeyValListGroup keyValPairs={keyValPairs} />);
+            return <KeyValTable keyValPairs={keyValPairs} />;
         } else {
-            return (<LoadingSpinner />);
+            return <LoadingSpinner />;
         }
-
     }
-}
+};

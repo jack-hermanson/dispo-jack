@@ -1,12 +1,12 @@
 import React from "react";
-import {MobileToggleCard} from "../Utils/MobileToggleCard";
-import {ListGroup, ListGroupItem} from "reactstrap";
-import {AgnosticLink} from "../Utils/AgnosticLink";
+import { MobileToggleCard } from "jack-hermanson-component-lib";
+import { ListGroup, ListGroupItem } from "reactstrap";
+import { AgnosticLink } from "../Utils/AgnosticLink";
 
 export const PopularSidebar: React.FC = () => {
     return (
         <React.Fragment>
-            <MobileToggleCard flush className="mt-4" cardTitle="Popular">
+            <MobileToggleCard className="mt-4" cardTitle="Popular">
                 <ListGroup flush>
                     <ListGroupItem>
                         <AgnosticLink
@@ -19,5 +19,5 @@ export const PopularSidebar: React.FC = () => {
                 </ListGroup>
             </MobileToggleCard>
         </React.Fragment>
-    )
-}
+    );
+};

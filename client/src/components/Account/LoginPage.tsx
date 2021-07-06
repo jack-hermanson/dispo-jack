@@ -1,7 +1,7 @@
 import React from "react";
-import {PageHeader} from "../Utils/PageHeader";
-import {Col, Row} from "reactstrap";
-import {LoginForm} from "./LoginForm";
+import { PageHeader } from "jack-hermanson-component-lib";
+import { Col, Row } from "reactstrap";
+import { LoginForm } from "./LoginForm";
 
 export const LoginPage: React.FC = () => {
     return (
@@ -18,4 +18,4 @@ export const LoginPage: React.FC = () => {
             </Row>
         </React.Fragment>
     );
-}
+};

@@ -1,14 +1,20 @@
 import React from "react";
-import {FormGroup, Input, Label} from "reactstrap";
-import {LoadingSpinner} from "../../Utils/LoadingSpinner";
-import {useStoreState} from "../../../store";
+import { FormGroup, Input, Label } from "reactstrap";
+import { LoadingSpinner } from "jack-hermanson-component-lib";
+import { useStoreState } from "../../../stores/_store";
 
 interface Props {
     selectedTypes: number[];
-    handleTypeChange: (event: React.ChangeEvent<HTMLInputElement>, strainTypeId: number) => any;
+    handleTypeChange: (
+        event: React.ChangeEvent<HTMLInputElement>,
+        strainTypeId: number
+    ) => any;
 }
 
-export const FilterTypes: React.FC<Props> = ({selectedTypes, handleTypeChange}: Props) => {
+export const FilterTypes: React.FC<Props> = ({
+    selectedTypes,
+    handleTypeChange,
+}: Props) => {
     const strainTypes = useStoreState(state => state.strainTypes);
 
     return (
@@ -18,15 +24,21 @@ export const FilterTypes: React.FC<Props> = ({selectedTypes, handleTypeChange}: 
                 strainTypes.map(strainType => (
                     <FormGroup check key={strainType.id}>
                         <Input
-                            onChange={event => handleTypeChange(event, strainType.id)}
+                            onChange={event =>
+                                handleTypeChange(event, strainType.id)
+                            }
                             id={`strain-type-${strainType.id}`}
                             type="checkbox"
                             checked={selectedTypes.includes(strainType.id)}
                         />
-                        <Label for={`strain-type-${strainType.id}`}>{strainType.name}</Label>
+                        <Label for={`strain-type-${strainType.id}`}>
+                            {strainType.name}
+                        </Label>
                     </FormGroup>
                 ))
-            ) : <LoadingSpinner/>}
+            ) : (
+                <LoadingSpinner />
+            )}
         </FormGroup>
     );
-}
+};

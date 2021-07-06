@@ -1,8 +1,12 @@
-import {MigrationInterface, QueryRunner, Table, TableForeignKey} from "typeorm";
-import {idColumn} from "../utils/constants";
+import {
+    MigrationInterface,
+    QueryRunner,
+    Table,
+    TableForeignKey,
+} from "typeorm";
+import { idColumn } from "jack-hermanson-ts-utils";
 
 export class Weed1621922119960 implements MigrationInterface {
-
     strainType = new Table({
         name: "strain_type",
         columns: [
@@ -10,9 +14,9 @@ export class Weed1621922119960 implements MigrationInterface {
             {
                 name: "name",
                 type: "varchar",
-                isNullable: false
-            }
-        ]
+                isNullable: false,
+            },
+        ],
     });
 
     strain = new Table({
@@ -22,30 +26,30 @@ export class Weed1621922119960 implements MigrationInterface {
             {
                 name: "name",
                 type: "varchar",
-                isNullable: false
+                isNullable: false,
             },
             {
                 name: "strainTypeId",
                 type: "integer",
-                isNullable: false
+                isNullable: false,
             },
             {
                 name: "ouncePrice",
-                type: "float"
+                type: "float",
             },
             {
                 name: "quadPrice",
-                type: "float"
+                type: "float",
             },
             {
                 name: "eighthPrice",
-                type: "float"
+                type: "float",
             },
             {
                 name: "gramPrice",
-                type: "float"
-            }
-        ]
+                type: "float",
+            },
+        ],
     });
 
     batch = new Table({
@@ -55,29 +59,29 @@ export class Weed1621922119960 implements MigrationInterface {
             {
                 name: "strainId",
                 type: "integer",
-                isNullable: false
+                isNullable: false,
             },
             {
                 name: "size",
                 type: "float",
-                isNullable: false
+                isNullable: false,
             },
             {
                 name: "thcPotency",
                 type: "float",
-                isNullable: false
+                isNullable: false,
             },
             {
                 name: "cbdPotency",
                 type: "float",
-                isNullable: false
+                isNullable: false,
             },
             {
                 name: "notes",
                 type: "varchar",
-                isNullable: true
-            }
-        ]
+                isNullable: true,
+            },
+        ],
     });
 
     purchase = new Table({
@@ -88,24 +92,24 @@ export class Weed1621922119960 implements MigrationInterface {
                 name: "dateAndTime",
                 type: "timestamp",
                 isNullable: false,
-                default: "CURRENT_TIMESTAMP"
+                default: "CURRENT_TIMESTAMP",
             },
             {
                 name: "employeeId",
                 type: "integer",
-                isNullable: false
+                isNullable: false,
             },
             {
                 name: "customerId",
                 type: "integer",
-                isNullable: true
+                isNullable: true,
             },
             {
                 name: "notes",
                 type: "varchar",
-                isNullable: true
-            }
-        ]
+                isNullable: true,
+            },
+        ],
     });
 
     adjustment = new Table({
@@ -115,14 +119,14 @@ export class Weed1621922119960 implements MigrationInterface {
             {
                 name: "amount",
                 type: "float",
-                isNullable: false
+                isNullable: false,
             },
             {
                 name: "purchaseId",
                 type: "int",
-                isNullable: false
-            }
-        ]
+                isNullable: false,
+            },
+        ],
     });
 
     purchaseBatch = new Table({
@@ -132,84 +136,72 @@ export class Weed1621922119960 implements MigrationInterface {
             {
                 name: "purchaseId",
                 type: "int",
-                isNullable: false
+                isNullable: false,
             },
             {
                 name: "batchId",
                 type: "int",
-                isNullable: false
+                isNullable: false,
             },
             {
                 name: "amount",
                 type: "float",
-                isNullable: false
-            }
-        ]
+                isNullable: false,
+            },
+        ],
     });
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-
         await queryRunner.createTable(this.strainType, true);
         await queryRunner.createTable(this.strain, true);
-        await queryRunner.createForeignKeys(this.strain,
-            [
-                new TableForeignKey({
-                    columnNames: ["strainTypeId"],
-                    referencedTableName: "strain_type",
-                    referencedColumnNames: ["id"]
-                })
-            ]
-        );
+        await queryRunner.createForeignKeys(this.strain, [
+            new TableForeignKey({
+                columnNames: ["strainTypeId"],
+                referencedTableName: "strain_type",
+                referencedColumnNames: ["id"],
+            }),
+        ]);
 
         await queryRunner.createTable(this.batch, true);
-        await queryRunner.createForeignKeys(this.batch,
-            [
-                new TableForeignKey({
-                    columnNames: ["strainId"],
-                    referencedTableName: "strain",
-                    referencedColumnNames: ["id"]
-                })
-            ]
-        );
+        await queryRunner.createForeignKeys(this.batch, [
+            new TableForeignKey({
+                columnNames: ["strainId"],
+                referencedTableName: "strain",
+                referencedColumnNames: ["id"],
+            }),
+        ]);
 
         await queryRunner.createTable(this.purchase, true);
-        await queryRunner.createForeignKeys(this.purchase,
-            [
-                new TableForeignKey({
-                    columnNames: ["employeeId"],
-                    referencedTableName: "person",
-                    referencedColumnNames: ["id"]
-                }),
-                new TableForeignKey({
-                    columnNames: ["customerId"],
-                    referencedTableName: "person",
-                    referencedColumnNames: ["id"]
-                })
-            ]
-        );
+        await queryRunner.createForeignKeys(this.purchase, [
+            new TableForeignKey({
+                columnNames: ["employeeId"],
+                referencedTableName: "person",
+                referencedColumnNames: ["id"],
+            }),
+            new TableForeignKey({
+                columnNames: ["customerId"],
+                referencedTableName: "person",
+                referencedColumnNames: ["id"],
+            }),
+        ]);
 
         await queryRunner.createTable(this.adjustment, true);
-        await queryRunner.createForeignKeys(this.adjustment,
-            [
-                new TableForeignKey({
-                    columnNames: ["purchaseId"],
-                    referencedTableName: "purchase",
-                    referencedColumnNames: ["id"]
-                })
-            ]
-        );
+        await queryRunner.createForeignKeys(this.adjustment, [
+            new TableForeignKey({
+                columnNames: ["purchaseId"],
+                referencedTableName: "purchase",
+                referencedColumnNames: ["id"],
+            }),
+        ]);
 
         await queryRunner.createTable(this.purchaseBatch, true);
-        await queryRunner.createForeignKeys(this.purchaseBatch,
-            [
-                new TableForeignKey({
-                    columnNames: ["purchaseId"],
-                    referencedTableName: "purchase",
-                    referencedColumnNames: ["id"]
-                })
-            ]
-        );
-
+        await queryRunner.createForeignKeys(this.purchaseBatch, [
+            new TableForeignKey({
+                columnNames: ["purchaseId"],
+                referencedTableName: "purchase",
+                referencedColumnNames: ["id"],
+            }),
+        ]);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
@@ -220,5 +212,4 @@ export class Weed1621922119960 implements MigrationInterface {
         await queryRunner.dropTable(this.strain);
         await queryRunner.dropTable(this.strainType);
     }
-
 }

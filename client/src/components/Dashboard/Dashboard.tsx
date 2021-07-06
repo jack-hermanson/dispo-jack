@@ -1,10 +1,8 @@
 import React from "react";
-import {PageHeader} from "../Utils/PageHeader";
-import {useStoreState} from "../../store";
-import {LoadingSpinner} from "../Utils/LoadingSpinner";
+import { useStoreState } from "../../stores/_store";
+import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
 
 export const Dashboard: React.FC = () => {
-
     const strainTypes = useStoreState(state => state.strainTypes);
     const strains = useStoreState(state => state.strains);
     const batches = useStoreState(state => state.batches);
@@ -15,24 +13,27 @@ export const Dashboard: React.FC = () => {
 
             <div>
                 <label>Strain Types</label>
-                {strains ? (
-                    <ul>
-                        {strains.map(strain => (
-                            <li key={strain.id}>{strain.name}</li>
-                        ))}
-                    </ul>
-                ) : <LoadingSpinner />}
-
-            </div>
-            <div>
-                <label>Strains</label>
                 {strainTypes ? (
                     <ul>
                         {strainTypes.map(strainType => (
                             <li key={strainType.id}>{strainType.name}</li>
                         ))}
                     </ul>
-                ) : <LoadingSpinner />}
+                ) : (
+                    <LoadingSpinner />
+                )}
+            </div>
+            <div>
+                <label>Strains</label>
+                {strains ? (
+                    <ul>
+                        {strains.map(strain => (
+                            <li key={strain.id}>{strain.name}</li>
+                        ))}
+                    </ul>
+                ) : (
+                    <LoadingSpinner />
+                )}
             </div>
             <div>
                 <label>Batches</label>
@@ -42,8 +43,10 @@ export const Dashboard: React.FC = () => {
                             <li key={batch.id}>{batch.id}</li>
                         ))}
                     </ul>
-                ) : <LoadingSpinner />}
+                ) : (
+                    <LoadingSpinner />
+                )}
             </div>
         </div>
     );
-}
+};

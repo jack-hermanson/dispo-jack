@@ -1,10 +1,18 @@
-import React, {useEffect} from "react";
-import {useStoreState} from "../../store";
-import {useHistory} from "react-router-dom";
-import {Card, CardBody, CardHeader, Col, ListGroup, ListGroupItem, Row} from "reactstrap";
-import {PageHeader} from "../Utils/PageHeader";
-import {AgnosticLink} from "../Utils/AgnosticLink";
-import {AdminTabs} from "./AdminTabs";
+import React, { useEffect } from "react";
+import { useStoreState } from "../../stores/_store";
+import { useHistory } from "react-router-dom";
+import {
+    Card,
+    CardBody,
+    CardHeader,
+    Col,
+    ListGroup,
+    ListGroupItem,
+    Row,
+} from "reactstrap";
+import { PageHeader } from "jack-hermanson-component-lib";
+import { AgnosticLink } from "../Utils/AgnosticLink";
+import { AdminTabs } from "./AdminTabs";
 
 export const AdminDashboard: React.FC = () => {
     const currentUser = useStoreState(state => state.currentUser);
@@ -12,7 +20,10 @@ export const AdminDashboard: React.FC = () => {
     const history = useHistory();
 
     useEffect(() => {
-        if (!currentUser || !currentUser.clearances.some(clearance => clearance >= 5)) {
+        if (
+            !currentUser ||
+            !currentUser.clearances.some(clearance => clearance >= 5)
+        ) {
             history.replace("/account");
         }
     });
@@ -52,4 +63,4 @@ export const AdminDashboard: React.FC = () => {
             )}
         </React.Fragment>
     );
-}
+};

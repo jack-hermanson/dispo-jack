@@ -1,17 +1,23 @@
 import React from "react";
-import {RouteComponentProps} from "react-router";
-import {Col, Row} from "reactstrap";
-import {PageHeader} from "../Utils/PageHeader";
-import {useStoreState} from "../../store";
-import {LoadingSpinner} from "../Utils/LoadingSpinner";
-import {KeyValTable} from "../Utils/KeyValTable";
-import {getPriceKeyVals} from "../../data/strain";
+import { RouteComponentProps } from "react-router";
+import { Col, Row } from "reactstrap";
+import { useStoreState } from "../../stores/_store";
+import { getPriceKeyVals } from "../../../../shared/resource_models/strain";
+import {
+    KeyValTable,
+    LoadingSpinner,
+    PageHeader,
+} from "jack-hermanson-component-lib";
 
-interface Props extends RouteComponentProps<{id: string}> {}
+interface Props extends RouteComponentProps<{ id: string }> {}
 
-export const StrainDetails: React.FC<Props> = ({match}: Props) => {
-    const strain = useStoreState(state => state.strains?.find(s => s.id === parseInt(match.params.id)));
-    const strainType = useStoreState(state => state.strainTypes?.find(st => st.id === strain?.strainTypeId));
+export const StrainDetails: React.FC<Props> = ({ match }: Props) => {
+    const strain = useStoreState(state =>
+        state.strains?.find(s => s.id === parseInt(match.params.id))
+    );
+    const strainType = useStoreState(state =>
+        state.strainTypes?.find(st => st.id === strain?.strainTypeId)
+    );
 
     return (
         <React.Fragment>
@@ -24,15 +30,19 @@ export const StrainDetails: React.FC<Props> = ({match}: Props) => {
                     </Row>
                     <Row>
                         <Col lg={6}>
-                            <KeyValTable className="table-striped" keyValPairs={[
-                                {key: "Type", val: strainType?.name},
-                                ...getPriceKeyVals(strain)
-                            ]} />
+                            <KeyValTable
+                                className="table-striped"
+                                keyValPairs={[
+                                    { key: "Type", val: strainType?.name },
+                                    ...getPriceKeyVals(strain),
+                                ]}
+                            />
                         </Col>
                     </Row>
                 </React.Fragment>
-            ) : <LoadingSpinner />}
+            ) : (
+                <LoadingSpinner />
+            )}
         </React.Fragment>
-
-    )
-}
+    );
+};

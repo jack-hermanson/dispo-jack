@@ -1,18 +1,18 @@
-import React, {useEffect} from "react";
-import {RouteComponentProps} from "react-router";
-import {useStoreState} from "../../store";
-import {useHistory} from "react-router-dom";
-import {Col, Row} from "reactstrap";
-import {PageHeader} from "../Utils/PageHeader";
-import {LoadingSpinner} from "../Utils/LoadingSpinner";
-import {AdminTabs} from "../Admin/AdminTabs";
-import {Batch} from "./Batch";
+import React, { useEffect } from "react";
+import { RouteComponentProps } from "react-router";
+import { useStoreState } from "../../stores/_store";
+import { useHistory } from "react-router-dom";
+import { Col, Row } from "reactstrap";
+import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
+import { AdminTabs } from "../Admin/AdminTabs";
+import { Batch } from "./Batch";
 
-interface Props extends RouteComponentProps<{id: string}> {}
+interface Props extends RouteComponentProps<{ id: string }> {}
 
-export const BatchDetails: React.FC<Props> = ({match}: Props) => {
-
-    const batch = useStoreState(state => state.batches?.find(b => b.id === parseInt(match.params.id)));
+export const BatchDetails: React.FC<Props> = ({ match }: Props) => {
+    const batch = useStoreState(state =>
+        state.batches?.find(b => b.id === parseInt(match.params.id))
+    );
     const currentUser = useStoreState(state => state.currentUser);
 
     const history = useHistory();
@@ -32,7 +32,7 @@ export const BatchDetails: React.FC<Props> = ({match}: Props) => {
             </Row>
             <Row>
                 <Col>
-                    <PageHeader title="Batch Details" borderBottom />
+                    <PageHeader title="Batch Details" />
                 </Col>
             </Row>
             {batch ? (
@@ -43,7 +43,9 @@ export const BatchDetails: React.FC<Props> = ({match}: Props) => {
                         </Col>
                     </Row>
                 </React.Fragment>
-            ) : <LoadingSpinner />}
+            ) : (
+                <LoadingSpinner />
+            )}
         </React.Fragment>
     );
-}
+};
