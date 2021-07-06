@@ -9,11 +9,6 @@ import {
     Computed,
 } from "easy-peasy";
 import {
-    AccountAndPerson,
-    LoginRequest,
-} from "../../../shared/resource_models/account";
-import { logIn, logOut } from "../api/account";
-import {
     StrainAndBatch,
     StrainRecord,
     StrainRequest,
@@ -30,17 +25,9 @@ import { getBatches } from "../api/batch";
 import { AlertType } from "../utils/types";
 import { handleResponseError } from "../utils/functions";
 import { userStore, UserStoreModel } from "./userStore";
+import { strainStore, StrainStoreModel } from "./strainStore";
 
-export interface StoreModel extends UserStoreModel {
-    strains: StrainRecord[] | undefined;
-    setStrains: Action<StoreModel, StrainRecord[]>;
-    fetchStrains: Thunk<StoreModel>;
-    addStrain: Thunk<StoreModel, { strain: StrainRequest; token: string }>;
-    editStrain: Thunk<
-        StoreModel,
-        { strainId: number; strain: StrainRequest; token: string }
-    >;
-
+export interface StoreModel extends UserStoreModel, StrainStoreModel {
     strainTypes: StrainTypeRecord[] | undefined;
     setStrainTypes: Action<StoreModel, StrainTypeRecord[]>;
     fetchStrainTypes: Thunk<StoreModel>;
@@ -60,41 +47,7 @@ export interface StoreModel extends UserStoreModel {
 
 export const _store = createStore<StoreModel>({
     ...userStore,
-    strains: undefined,
-    setStrains: action((state, payload) => {
-        state.strains = payload;
-    }),
-    fetchStrains: thunk(async actions => {
-        const strains = await getStrains();
-        actions.setStrains(strains);
-    }),
-    addStrain: thunk(async (actions, payload) => {
-        try {
-            await addStrain(payload.strain, payload.token);
-            await actions.fetchStrains();
-            actions.addSuccessAlert("Strain added successfully.");
-        } catch (error) {
-            actions.addError(handleResponseError(error));
-            throw error;
-        }
-    }),
-    editStrain: thunk(async (actions, payload) => {
-        try {
-            const newStrain = await editStrain(
-                payload.strainId,
-                payload.strain,
-                payload.token
-            );
-            console.log({ newStrain });
-            await actions.fetchStrains();
-            actions.addSuccessAlert(
-                `Strain "${newStrain.name}" edited successfully.`
-            );
-        } catch (error) {
-            actions.addError(handleResponseError(error));
-            throw error;
-        }
-    }),
+    ...strainStore,
 
     strainTypes: undefined,
     setStrainTypes: action((state, payload) => {
