@@ -29,12 +29,7 @@ export const CreateEditStrainForm: React.FC<Props> = ({
     useEffect(() => {
         document.getElementById("name-input")?.focus();
         if (initialStrain) {
-            setName(initialStrain.name);
-            setStrainTypeId(initialStrain.strainTypeId.toString());
-            setOuncePrice(initialStrain.ouncePrice.toString());
-            setQuadPrice(initialStrain.quadPrice.toString());
-            setEighthPrice(initialStrain.eighthPrice.toString());
-            setGramPrice(initialStrain.gramPrice.toString());
+            setFromStrainRecord(initialStrain);
         }
     }, [initialStrain]);
 
@@ -153,14 +148,18 @@ export const CreateEditStrainForm: React.FC<Props> = ({
         </form>
     );
 
+    function setFromStrainRecord(strainRecord: StrainRecord) {
+        setName(strainRecord.name);
+        setStrainTypeId(strainRecord.strainTypeId.toString());
+        setOuncePrice(strainRecord.ouncePrice.toString());
+        setQuadPrice(strainRecord.quadPrice.toString());
+        setEighthPrice(strainRecord.eighthPrice.toString());
+        setGramPrice(strainRecord.gramPrice.toString());
+    }
+
     function reset() {
         if (initialStrain) {
-            setName(initialStrain.name);
-            setStrainTypeId(initialStrain.strainTypeId.toString());
-            setOuncePrice(initialStrain.ouncePrice.toString());
-            setQuadPrice(initialStrain.quadPrice.toString());
-            setEighthPrice(initialStrain.eighthPrice.toString());
-            setGramPrice(initialStrain.gramPrice.toString());
+            setFromStrainRecord(initialStrain);
         } else {
             setName("");
             setStrainTypeId("");
