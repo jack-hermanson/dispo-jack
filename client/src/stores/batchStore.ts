@@ -1,6 +1,6 @@
 import { BatchRecord } from "../../../shared/resource_models/batch";
 import { action, Action, thunk, Thunk } from "easy-peasy";
-import { getBatches } from "../clients/batch";
+import { BatchClient } from "../clients/BatchClient";
 import { StoreModel } from "./_store";
 
 export interface BatchStoreModel {
@@ -15,7 +15,7 @@ export const batchStore: BatchStoreModel = {
         state.batches = payload;
     }),
     fetchBatches: thunk(async actions => {
-        const batches = await getBatches();
+        const batches = await BatchClient.getBatches();
         actions.setBatches(batches);
     }),
 };

@@ -1,6 +1,6 @@
 import { StrainTypeRecord } from "../../../shared/resource_models/strainType";
 import { action, Action, thunk, Thunk } from "easy-peasy";
-import { getStrainTypes } from "../clients/strain";
+import { StrainClient } from "../clients/StrainClient";
 import { StoreModel } from "./_store";
 
 export interface StrainTypesStoreModel {
@@ -15,7 +15,7 @@ export const strainTypesStore: StrainTypesStoreModel = {
         state.strainTypes = payload;
     }),
     fetchStrainTypes: thunk(async actions => {
-        const strainTypes = await getStrainTypes();
+        const strainTypes = await StrainClient.getStrainTypes();
         actions.setStrainTypes(strainTypes);
     }),
 };
