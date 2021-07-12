@@ -34,3 +34,7 @@ export interface NewAccountRequest extends EditAccountRequest {
 export interface RegisterRequest
     extends Omit<NewAccountRequest, "personId">,
         PersonRequest {}
+
+export interface TokenLoginRequest {
+    token: string;
+}

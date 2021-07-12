@@ -49,3 +49,9 @@ export const registerSchema = Joi.object()
         lastName: Joi.string().min(2).required(),
         phone: Joi.string().required(),
     });
+
+export const tokenLoginSchema = Joi.object()
+    .options({ abortEarly: false })
+    .keys({
+        token: Joi.string().required(),
+    });

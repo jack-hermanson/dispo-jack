@@ -1,6 +1,6 @@
 import { BatchRecord } from "../../../shared/resource_models/batch";
 import { action, Action, thunk, Thunk } from "easy-peasy";
-import { getBatches } from "../api/batch";
+import { getBatches } from "../clients/batch";
 import { StoreModel } from "./_store";
 
 export interface BatchStoreModel {

@@ -1,6 +1,6 @@
 import { StrainTypeRecord } from "../../../shared/resource_models/strainType";
 import { action, Action, thunk, Thunk } from "easy-peasy";
-import { getStrainTypes } from "../api/strain";
+import { getStrainTypes } from "../clients/strain";
 import { StoreModel } from "./_store";
 
 export interface StrainTypesStoreModel {

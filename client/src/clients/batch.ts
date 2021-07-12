@@ -1,7 +1,7 @@
 import { BatchRecord } from "../../../shared/resource_models/batch";
 import axios from "axios";
 
-const baseUrl = "/api/batches";
+const baseUrl = "/clients/batches";
 
 export const getBatches = async (): Promise<BatchRecord[]> => {
     const response = await axios.get(baseUrl);

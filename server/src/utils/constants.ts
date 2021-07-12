@@ -1,4 +1,4 @@
-const apiPrefix = "/api";
+const apiPrefix = "/clients";
 
 export const routePrefixes = {
     roles: `${apiPrefix}/roles`,

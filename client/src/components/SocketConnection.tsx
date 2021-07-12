@@ -5,6 +5,11 @@ import { SocketEvent } from "../../../shared/enums";
 
 export const SocketConnection: React.FC = () => {
     const fetchStrains = useStoreActions(actions => actions.fetchStrains);
+    const fetchStrainTypes = useStoreActions(
+        actions => actions.fetchStrainTypes
+    );
+    const fetchBatches = useStoreActions(actions => actions.fetchBatches);
+    const tokenLogin = useStoreActions(actions => actions.tokenLogin);
 
     useEffect(() => {
         const socket: Socket = io("/");
@@ -17,7 +22,12 @@ export const SocketConnection: React.FC = () => {
             console.log("strains update");
             fetchStrains();
         });
-    }, [fetchStrains]);
+
+        tokenLogin();
+        fetchStrainTypes();
+        fetchStrains();
+        fetchBatches();
+    }, [fetchStrains, fetchBatches, fetchStrainTypes, tokenLogin]);
 
     return <Fragment />;
 };
