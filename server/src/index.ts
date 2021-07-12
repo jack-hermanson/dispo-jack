@@ -37,7 +37,7 @@ app.use(routePrefixes.accounts, routes.accountRouter);
 app.use(routePrefixes.strains, routes.strainRouter);
 app.use(routePrefixes.batches, routes.batchRouter);
 
-// any apps not picked up by the server api will be handled by the react router
+// any apps not picked up by the server clients will be handled by the react router
 app.use("/*", staticFiles);
 app.set("port", process.env.PORT || 5000);
 

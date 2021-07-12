@@ -4,11 +4,16 @@ import {
     loginSchema,
     newAccountSchema,
     registerSchema,
+    tokenLoginSchema,
 } from "../models/Account";
 import { validateRequest, HTTP, sendError } from "jack-hermanson-ts-utils";
 import { AccountService } from "../services/AccountService";
 import { auth } from "../middleware/auth";
-import { AccountAndPerson } from "../../../shared/resource_models/account";
+import {
+    AccountAndPerson,
+    AccountRecord,
+    TokenLoginRequest,
+} from "../../../shared/resource_models/account";
 import {
     LoginRequest,
     NewAccountRequest,
@@ -118,6 +123,33 @@ accountRouter.post(
             const successfulLogout = await AccountService.logout(req, res);
             if (!successfulLogout) return;
             res.sendStatus(HTTP.OK);
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+);
+
+// log in with token
+accountRouter.post(
+    "/token",
+    async (
+        req: AuthRequest<TokenLoginRequest>,
+        res: Response<AccountAndPerson>
+    ) => {
+        try {
+            if (!(await validateRequest(tokenLoginSchema, req, res))) {
+                return;
+            }
+            const requestBody: TokenLoginRequest = req.body;
+            const accountAndPerson = await AccountService.tokenLogin(
+                requestBody,
+                res
+            );
+            if (!accountAndPerson) {
+                return;
+            }
+            delete accountAndPerson.account.password;
+            res.json(accountAndPerson);
         } catch (error) {
             sendError(error, res);
         }

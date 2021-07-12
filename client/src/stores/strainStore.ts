@@ -5,7 +5,7 @@ import {
 } from "../../../shared/resource_models/strain";
 import { action, Action, computed, Computed, thunk, Thunk } from "easy-peasy";
 import { StoreModel } from "./_store";
-import { addStrain, editStrain, getStrains } from "../api/strain";
+import { addStrain, editStrain, getStrains } from "../clients/strain";
 import { handleResponseError } from "../utils/functions";
 
 export interface StrainStoreModel {

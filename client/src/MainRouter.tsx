@@ -3,8 +3,6 @@ import { Navigation } from "./components/Navigation/Navigation";
 import { Container } from "reactstrap";
 import { Account } from "./components/Account/Account";
 import { LoginPage } from "./components/Account/LoginPage";
-import { useEffect } from "react";
-import { useStoreActions } from "./stores/_store";
 import { Dashboard } from "./components/Dashboard/Dashboard";
 import { Strains } from "./components/Strains/Strains";
 import { StrainDetails } from "./components/Strains/StrainDetails";
@@ -18,18 +16,6 @@ import { Batches } from "./components/Batches/Batches";
 import { BatchDetails } from "./components/Batches/BatchDetails";
 
 export const MainRouter = () => {
-    const fetchStrainTypes = useStoreActions(
-        actions => actions.fetchStrainTypes
-    );
-    const fetchStrains = useStoreActions(actions => actions.fetchStrains);
-    const fetchBatches = useStoreActions(actions => actions.fetchBatches);
-
-    useEffect(() => {
-        fetchStrainTypes();
-        fetchStrains();
-        fetchBatches();
-    });
-
     return (
         <BrowserRouter>
             <SocketConnection />

@@ -15,6 +15,7 @@ import {
     LoginRequest,
     NewAccountRequest,
     RegisterRequest,
+    TokenLoginRequest,
 } from "../../../shared/resource_models/account";
 
 const getRepos = (): {
@@ -194,9 +195,7 @@ export abstract class AccountService {
             return undefined;
         }
 
-        const token = jwt.sign({ id: account.id }, process.env.SECRET_KEY, {
-            expiresIn: "60 minutes",
-        });
+        const token = jwt.sign({ id: account.id }, process.env.SECRET_KEY);
 
         await accountRepo.update(account, { token: token });
         const editedAccount = await accountRepo.findOne({ id: account.id });
@@ -235,5 +234,33 @@ export abstract class AccountService {
             res.sendStatus(HTTP.SERVER_ERROR);
             return false;
         }
+    }
+
+    /**
+     * Logs user in using saved token between sessions.
+     */
+    static async tokenLogin(
+        requestBody: TokenLoginRequest,
+        res: Response
+    ): Promise<AccountAndPersonType | undefined> {
+        const { accountRepo, accountPersonRepo, personRepo } = getRepos();
+
+        const account = await accountRepo.findOne({ token: requestBody.token });
+        if (!account) {
+            res.sendStatus(HTTP.NOT_FOUND);
+            return undefined;
+        }
+
+        const accountPerson = await accountPersonRepo.findOne({
+            accountId: account.id,
+        });
+        const person = await personRepo.findOne({ id: accountPerson.personId });
+        const clearances = await RoleService.getUserClearances(account.id);
+
+        return {
+            account: account,
+            person: person,
+            clearances: clearances,
+        };
     }
 }

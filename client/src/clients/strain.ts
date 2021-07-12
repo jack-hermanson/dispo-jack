@@ -5,7 +5,7 @@ import {
 } from "../../../shared/resource_models/strain";
 import { StrainTypeRecord } from "../../../shared/resource_models/strainType";
 
-const baseUrl = "/api/strains";
+const baseUrl = "/clients/strains";
 
 export const getStrainTypes = async (): Promise<StrainTypeRecord[]> => {
     const response = await axios.get(`${baseUrl}/strain-type`);
