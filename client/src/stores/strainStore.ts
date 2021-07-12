@@ -5,7 +5,7 @@ import {
 } from "../../../shared/resource_models/strain";
 import { action, Action, computed, Computed, thunk, Thunk } from "easy-peasy";
 import { StoreModel } from "./_store";
-import { addStrain, editStrain, getStrains } from "../clients/strain";
+import { StrainClient } from "../clients/StrainClient";
 import { handleResponseError } from "../utils/functions";
 
 export interface StrainStoreModel {
@@ -26,12 +26,12 @@ export const strainStore: StrainStoreModel = {
         state.strains = payload;
     }),
     fetchStrains: thunk(async actions => {
-        const strains = await getStrains();
+        const strains = await StrainClient.getStrains();
         actions.setStrains(strains);
     }),
     addStrain: thunk(async (actions, payload) => {
         try {
-            await addStrain(payload.strain, payload.token);
+            await StrainClient.addStrain(payload.strain, payload.token);
             await actions.fetchStrains();
             actions.addSuccessAlert("Strain added successfully.");
         } catch (error) {
@@ -41,7 +41,7 @@ export const strainStore: StrainStoreModel = {
     }),
     editStrain: thunk(async (actions, payload) => {
         try {
-            const newStrain = await editStrain(
+            const newStrain = await StrainClient.editStrain(
                 payload.strainId,
                 payload.strain,
                 payload.token
