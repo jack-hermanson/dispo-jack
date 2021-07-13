@@ -41,7 +41,7 @@ export const EditStrain: React.FC<Props> = ({ match }: Props) => {
                         <CreateEditStrainForm
                             onSubmit={submit}
                             submitBtnText="Save"
-                            initialStrain={existingStrain}
+                            existingStrain={existingStrain}
                         />
                     ) : (
                         <LoadingSpinner />

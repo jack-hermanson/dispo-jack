@@ -6,6 +6,7 @@ import { useStoreState } from "../../stores/_store";
 import { LoadingSpinner } from "jack-hermanson-component-lib";
 import { useHistory } from "react-router-dom";
 import { Batch } from "./Batch";
+import { AgnosticLink } from "../Utils/AgnosticLink";
 
 export const Batches: React.FC = () => {
     const batches = useStoreState(state => state.batches);
@@ -27,7 +28,14 @@ export const Batches: React.FC = () => {
             <AdminTabs />
             <Row>
                 <Col>
-                    <PageHeader title="Manage Batches" />
+                    <PageHeader title="Manage Batches">
+                        <AgnosticLink
+                            linkType="internal"
+                            linkText="New"
+                            path="/admin/batches/new"
+                            className="btn btn-primary btn-sm"
+                        />
+                    </PageHeader>
                 </Col>
             </Row>
             <Row>
