@@ -10,14 +10,19 @@ import {
     Row,
 } from "reactstrap";
 import { useStoreState } from "../../stores/_store";
-import { BatchRecord } from "../../../../shared/resource_models/batch";
+import {
+    BatchRecord,
+    BatchRequest,
+} from "../../../../shared/resource_models/batch";
 
 interface Props {
     existingBatch?: BatchRecord;
+    onSubmit: (batchRequest: BatchRequest) => any;
 }
 
 export const CreateEditBatchForm: React.FC<Props> = ({
     existingBatch,
+    onSubmit,
 }: Props) => {
     useEffect(() => {
         if (existingBatch) {
@@ -32,6 +37,7 @@ export const CreateEditBatchForm: React.FC<Props> = ({
         ""
     );
     const [size, setSize] = useState("");
+    const [dateReceived, setDateReceived] = useState(new Date());
     const [thcPotency, setThcPotency] = useState("");
     const [cbdPotency, setCbdPotency] = useState("");
     const [imageUrl, setImageUrl] = useState("");
@@ -40,7 +46,14 @@ export const CreateEditBatchForm: React.FC<Props> = ({
     return (
         <form onSubmit={submit} onReset={reset}>
             {renderStrain()}
-            {renderSize()}
+            <Row>
+                <Col xs={12} lg={6}>
+                    {renderSize()}
+                </Col>
+                <Col xs={12} lg={6}>
+                    {renderDate()}
+                </Col>
+            </Row>
             <Row>
                 <Col xs={12} lg={6}>
                     {renderThcPotency()}
@@ -57,6 +70,16 @@ export const CreateEditBatchForm: React.FC<Props> = ({
 
     function submit(event: React.FormEvent) {
         event.preventDefault();
+        const batchRequest: BatchRequest = {
+            strainId: parseInt(selectedStrainId.toString()),
+            size: parseFloat(size),
+            thcPotency: parseFloat(thcPotency),
+            cbdPotency: parseFloat(cbdPotency),
+            dateReceived: dateReceived,
+            notes: notes,
+            imageUrl: imageUrl,
+        };
+        onSubmit(batchRequest);
     }
 
     function reset(event?: React.FormEvent) {
@@ -68,6 +91,7 @@ export const CreateEditBatchForm: React.FC<Props> = ({
         } else {
             setSelectedStrainId("");
             setSize("");
+            setDateReceived(new Date());
             setThcPotency("");
             setCbdPotency("");
             setImageUrl("");
@@ -78,6 +102,7 @@ export const CreateEditBatchForm: React.FC<Props> = ({
     function setFromBatchRecord(batchRecord: BatchRecord) {
         setSelectedStrainId(batchRecord.strainId);
         setSize(batchRecord.size.toString());
+        setDateReceived(batchRecord.dateReceived);
         setThcPotency(batchRecord.thcPotency.toString());
         setCbdPotency(batchRecord.cbdPotency.toString());
         setImageUrl(batchRecord.imageUrl || "");
@@ -146,6 +171,26 @@ export const CreateEditBatchForm: React.FC<Props> = ({
                     />
                     <InputGroupText>grams</InputGroupText>
                 </InputGroup>
+            </FormGroup>
+        );
+    }
+
+    function renderDate() {
+        const id = "date-input";
+        return (
+            <FormGroup>
+                <Label className="form-label required" for={id}>
+                    Date Received
+                </Label>
+                <Input
+                    required
+                    type="datetime-local"
+                    id={id}
+                    value={dateReceived.toLocaleString()}
+                    onChange={e =>
+                        setDateReceived(new Date(Date.parse(e.target.value)))
+                    }
+                />
             </FormGroup>
         );
     }

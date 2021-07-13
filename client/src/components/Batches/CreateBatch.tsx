@@ -27,6 +27,6 @@ export const CreateBatch: React.FC = () => {
     );
 
     function renderForm() {
-        return <CreateEditBatchForm />;
+        return <CreateEditBatchForm onSubmit={batch => console.log(batch)} />;
     }
 };
