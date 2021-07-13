@@ -15,6 +15,8 @@ import { SocketConnection } from "./components/SocketConnection";
 import { Batches } from "./components/Batches/Batches";
 import { BatchDetails } from "./components/Batches/BatchDetails";
 import { CreateBatch } from "./components/Batches/CreateBatch";
+import { Forbidden } from "./components/Errors/Forbidden";
+import { NotFound } from "./components/Errors/NotFound";
 
 export const MainRouter = () => {
     return (
@@ -60,6 +62,8 @@ export const MainRouter = () => {
                         path="/admin/batches/:id"
                         component={BatchDetails}
                     />
+                    <Route exact path="/forbidden" component={Forbidden} />
+                    <Route component={NotFound} />
                 </Switch>
             </Container>
         </BrowserRouter>

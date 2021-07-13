@@ -3,8 +3,11 @@ import { Col, Row } from "reactstrap";
 import { PageHeader } from "jack-hermanson-component-lib";
 import { CreateEditBatchForm } from "./CreateEditBatchForm";
 import { AdminTabs } from "../Admin/AdminTabs";
+import { useMinClearance } from "../../utils/useMinClearance";
 
 export const CreateBatch: React.FC = () => {
+    useMinClearance(5);
+
     return (
         <React.Fragment>
             <Row>
@@ -18,10 +21,12 @@ export const CreateBatch: React.FC = () => {
                 </Col>
             </Row>
             <Row>
-                <Col>
-                    <CreateEditBatchForm />
-                </Col>
+                <Col>{renderForm()}</Col>
             </Row>
         </React.Fragment>
     );
+
+    function renderForm() {
+        return <CreateEditBatchForm />;
+    }
 };
