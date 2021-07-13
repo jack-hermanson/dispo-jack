@@ -9,6 +9,8 @@ import {
     BatchRecord,
     BatchRequest,
 } from "../../../shared/resource_models/batch";
+import { Socket } from "socket.io";
+import { SocketEvent } from "../../../shared/enums";
 
 export const batchRouter = express.Router();
 
@@ -33,6 +35,9 @@ batchRouter.post(
             // create new record
             const newBatch = await BatchService.createBatch(requestBody, res);
             if (!newBatch) return;
+
+            const socket: Socket = req.app.get("socketio");
+            socket.emit(SocketEvent.UPDATE_BATCHES);
 
             res.status(HTTP.CREATED).json(newBatch);
         } catch (error) {

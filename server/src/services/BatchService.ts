@@ -37,6 +37,7 @@ export abstract class BatchService {
         batch.cbdPotency = requestBody.cbdPotency;
         batch.notes = requestBody.notes;
         batch.imageUrl = requestBody.imageUrl;
+        batch.dateReceived = requestBody.dateReceived;
 
         return await batchRepo.save(batch);
     }

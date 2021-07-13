@@ -46,10 +46,12 @@ export const StrainAndBatchDetails: React.FC<Props> = ({
                 </h5>
             </CardHeader>
             <CardBody className="p-0">
-                <CardImg
-                    className="p-3 strain-picture"
-                    src={strainAndBatch.batch.imageUrl}
-                />
+                {strainAndBatch.batch.imageUrl && (
+                    <CardImg
+                        className="p-3 strain-picture"
+                        src={strainAndBatch.batch.imageUrl}
+                    />
+                )}
                 <KeyValTable
                     keyValPairs={[
                         ...getPotencyKeyVals(strainAndBatch.batch),

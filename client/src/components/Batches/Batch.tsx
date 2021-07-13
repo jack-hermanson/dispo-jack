@@ -102,7 +102,7 @@ export const Batch: React.FC<Props> = ({
                             },
                             {
                                 key: "Image",
-                                val: (
+                                val: batch.imageUrl ? (
                                     <AgnosticLink
                                         linkType="external"
                                         linkText={
@@ -113,6 +113,8 @@ export const Batch: React.FC<Props> = ({
                                         }
                                         path={batch.imageUrl || ""}
                                     />
+                                ) : (
+                                    ""
                                 ),
                             },
                             { key: "Size", val: `${batch.size} grams` },

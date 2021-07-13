@@ -22,6 +22,10 @@ export const SocketConnection: React.FC = () => {
             console.log("strains update");
             fetchStrains();
         });
+        socket.on(SocketEvent.UPDATE_BATCHES, () => {
+            console.log("batches update");
+            fetchBatches();
+        });
 
         tokenLogin();
         fetchStrainTypes();
