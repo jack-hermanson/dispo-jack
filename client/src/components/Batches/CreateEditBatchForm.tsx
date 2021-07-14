@@ -37,7 +37,9 @@ export const CreateEditBatchForm: React.FC<Props> = ({
         ""
     );
     const [size, setSize] = useState("");
-    const [dateReceived, setDateReceived] = useState(new Date());
+    const [dateReceived, setDateReceived] = useState<string>(
+        new Date().toLocaleString()
+    );
     const [thcPotency, setThcPotency] = useState("");
     const [cbdPotency, setCbdPotency] = useState("");
     const [imageUrl, setImageUrl] = useState("");
@@ -75,7 +77,7 @@ export const CreateEditBatchForm: React.FC<Props> = ({
             size: parseFloat(size),
             thcPotency: parseFloat(thcPotency),
             cbdPotency: parseFloat(cbdPotency),
-            dateReceived: dateReceived,
+            dateReceived: new Date(Date.parse(dateReceived)),
             notes: notes,
             imageUrl: imageUrl,
         };
@@ -91,7 +93,7 @@ export const CreateEditBatchForm: React.FC<Props> = ({
         } else {
             setSelectedStrainId("");
             setSize("");
-            setDateReceived(new Date());
+            setDateReceived(new Date().toLocaleString());
             setThcPotency("");
             setCbdPotency("");
             setImageUrl("");
@@ -102,7 +104,7 @@ export const CreateEditBatchForm: React.FC<Props> = ({
     function setFromBatchRecord(batchRecord: BatchRecord) {
         setSelectedStrainId(batchRecord.strainId);
         setSize(batchRecord.size.toString());
-        setDateReceived(batchRecord.dateReceived);
+        setDateReceived(batchRecord.dateReceived.toLocaleString());
         setThcPotency(batchRecord.thcPotency.toString());
         setCbdPotency(batchRecord.cbdPotency.toString());
         setImageUrl(batchRecord.imageUrl || "");
@@ -186,10 +188,10 @@ export const CreateEditBatchForm: React.FC<Props> = ({
                     required
                     type="datetime-local"
                     id={id}
-                    value={dateReceived.toLocaleString()}
-                    onChange={e =>
-                        setDateReceived(new Date(Date.parse(e.target.value)))
-                    }
+                    value={dateReceived}
+                    onChange={e => {
+                        setDateReceived(e.target.value);
+                    }}
                 />
             </FormGroup>
         );
