@@ -6450,10 +6450,10 @@ istanbul-reports@^3.0.2:
     html-escaper "^2.0.0"
     istanbul-lib-report "^3.0.0"
 
-jack-hermanson-component-lib@^1.4.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/jack-hermanson-component-lib/-/jack-hermanson-component-lib-1.4.1.tgz#57edbae6fca3bada733416245ff580e2cbe1fbe3"
-  integrity sha512-wdcTZz1c5Hf2g+baCWyrd9bo0jeYVSmpbpW8XSkwlkW9nfGf0xArTvyss1VYGgvXAlPr2vwJ1QnnuKDKQEOOTA==
+jack-hermanson-component-lib@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/jack-hermanson-component-lib/-/jack-hermanson-component-lib-1.4.2.tgz#bdc3111bedac0fe5cbbd9842383e3379e8034db7"
+  integrity sha512-gPfC9BnVWoKNb0ytsopRskZW/dY3tBsEXl7g8o/O4INsI8cHHTNfW7dxyQGWY/yw52wzp20cFKpVjzdWinh64Q==
   dependencies:
     "@fortawesome/fontawesome-svg-core" "^1.2.35"
     "@fortawesome/free-solid-svg-icons" "^5.15.3"
@@ -6463,7 +6463,7 @@ jack-hermanson-component-lib@^1.4.1:
     "@types/react-dom" "^17.0.0"
     bootstrap "^5.0.1"
     jack-hermanson-css-lib "^1.0.0"
-    jack-hermanson-ts-utils "^1.7.2"
+    jack-hermanson-ts-utils "^1.8.1"
     react "^17.0.2"
     react-dom "^17.0.2"
     react-loader-spinner "^4.0.0"
@@ -6481,18 +6481,6 @@ jack-hermanson-css-lib@^1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/jack-hermanson-css-lib/-/jack-hermanson-css-lib-1.2.3.tgz#c89620244624c31963b177e41ad8faa1c3ba362d"
   integrity sha512-Nv9sTf7YwqyexVSKNKAxxewYSYGbIzVvSSXn2zi2GWXa7s28CIHcvzYxzzb9tyz+zQRGqUjJRisZjI15vu6//A==
-
-jack-hermanson-ts-utils@^1.7.2:
-  version "1.7.2"
-  resolved "https://registry.yarnpkg.com/jack-hermanson-ts-utils/-/jack-hermanson-ts-utils-1.7.2.tgz#62845539cf3fe215f931f6402728e22b8a51df44"
-  integrity sha512-xjVOlD5uJ3gs0e6QpJHRUJqoDMpQ0y8r6CJcQAIO6hLV2pj+x7WTPkxk9rs07vPdJYMAOtOTCZyLRng5Jhaeyw==
-  dependencies:
-    "@types/express" "^4.17.12"
-    express "^4.17.1"
-    joi "^17.4.0"
-    react "^17.0.2"
-    typeorm "^0.2.34"
-    typescript "^4.3.4"
 
 jack-hermanson-ts-utils@^1.8.1:
   version "1.8.1"
