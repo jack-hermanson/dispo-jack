@@ -17,6 +17,7 @@ import { BatchDetails } from "./components/Batches/BatchDetails";
 import { CreateBatch } from "./components/Batches/CreateBatch";
 import { Forbidden } from "./components/Errors/Forbidden";
 import { NotFound } from "./components/Errors/NotFound";
+import { EditBatch } from "./components/Batches/EditBatch";
 
 export const MainRouter = () => {
     return (
@@ -61,6 +62,11 @@ export const MainRouter = () => {
                         exact
                         path="/admin/batches/:id"
                         component={BatchDetails}
+                    />
+                    <Route
+                        exact
+                        path="/admin/batches/edit/:id"
+                        component={EditBatch}
                     />
                     <Route exact path="/forbidden" component={Forbidden} />
                     <Route component={NotFound} />

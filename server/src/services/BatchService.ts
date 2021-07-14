@@ -1,9 +1,9 @@
 import { getConnection, Repository } from "typeorm";
 import { Response } from "express";
 import { Batch } from "../models/Batch";
-import { getOneStrain } from "./strainServices";
 import { BatchRequest } from "../../../shared/resource_models/batch";
 import { HTTP } from "jack-hermanson-ts-utils";
+import { StrainService } from "./StrainService";
 
 const getRepos = (): {
     batchRepo: Repository<Batch>;
@@ -27,7 +27,7 @@ export abstract class BatchService {
         const { batchRepo } = getRepos();
 
         // is strainId legit?
-        const strain = await getOneStrain(requestBody.strainId, res);
+        const strain = await StrainService.getOne(requestBody.strainId, res);
         if (!strain) return undefined;
 
         // create new record
@@ -66,5 +66,35 @@ export abstract class BatchService {
 
         await batchRepo.remove(batch);
         return true;
+    }
+
+    static async update(
+        id: number,
+        requestBody: BatchRequest,
+        res: Response
+    ): Promise<Batch | undefined> {
+        const { batchRepo } = getRepos();
+
+        const batch = await this.getOne(id, res);
+        if (!batch) {
+            return undefined;
+        }
+
+        const strain = await StrainService.getOne(id, res);
+        if (!strain) {
+            return undefined;
+        }
+
+        batch.strainId = requestBody.strainId;
+        batch.size = requestBody.size;
+        batch.dateReceived = requestBody.dateReceived;
+        batch.thcPotency = requestBody.thcPotency;
+        batch.cbdPotency = requestBody.cbdPotency;
+        batch.imageUrl = requestBody.imageUrl;
+        batch.notes = requestBody.notes;
+
+        await batchRepo.save(batch);
+
+        return this.getOne(id, res);
     }
 }

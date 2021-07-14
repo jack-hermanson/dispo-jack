@@ -35,4 +35,23 @@ export abstract class BatchClient {
         );
         return response.data;
     }
+
+    static async updateBatch(
+        id: number,
+        batchRequest: BatchRequest,
+        token: string
+    ) {
+        if (!batchRequest.imageUrl?.length) {
+            delete batchRequest.imageUrl;
+        }
+        if (!batchRequest.notes?.length) {
+            delete batchRequest.notes;
+        }
+        const response = await axios.put<BatchRecord>(
+            `${baseUrl}/${id}`,
+            batchRequest,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
 }

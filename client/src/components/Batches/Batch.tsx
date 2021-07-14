@@ -63,7 +63,9 @@ export const Batch: React.FC<Props> = ({
                 new LinkDropdownAction("Details", `/admin/batches/${batch.id}`)
             );
         }
-        options.push(new ClickDropdownAction("Edit", () => null));
+        options.push(
+            new LinkDropdownAction("Edit", `/admin/batches/edit/${batch.id}`)
+        );
         options.push(undefined);
         options.push(
             new ClickDropdownAction("Delete", () => setShowDeleteModal(true))

@@ -6,18 +6,13 @@ import { StrainTypeRequest } from "../../../shared/resource_models/strainType";
 import { auth } from "../middleware/auth";
 import { validateRequest, HTTP, sendError } from "jack-hermanson-ts-utils";
 import { RoleService } from "../services/RoleService";
-import {
-    createStrain,
-    createStrainType,
-    editStrain,
-    getStrains,
-    getStrainTypes,
-} from "../services/strainServices";
 import { strainSchema } from "../models/Strain";
 import { Socket } from "socket.io";
 import { StrainTypeRecord } from "../../../shared/resource_models/strainType";
 import { StrainRecord } from "../../../shared/resource_models/strain";
 import { StrainRequest } from "../../../shared/resource_models/strain";
+import { StrainService } from "../services/StrainService";
+import { StrainTypeService } from "../services/StrainTypeService";
 
 export const strainRouter = express.Router();
 
@@ -38,7 +33,10 @@ strainRouter.post(
             const requestBody: StrainTypeRequest = req.body;
 
             // create record
-            const newStrainType = await createStrainType(requestBody, res);
+            const newStrainType = await StrainTypeService.create(
+                requestBody,
+                res
+            );
             if (!newStrainType) return;
 
             res.status(HTTP.CREATED).json(newStrainType);
@@ -51,7 +49,7 @@ strainRouter.post(
 strainRouter.get(
     "/strain-type",
     async (req: AuthRequest<any>, res: Response<StrainTypeRecord[]>) => {
-        res.json(await getStrainTypes());
+        res.json(await StrainTypeService.getAll());
     }
 );
 
@@ -69,7 +67,7 @@ strainRouter.post(
             const requestBody: StrainRequest = req.body;
 
             // create record
-            const newStrain = await createStrain(requestBody, res);
+            const newStrain = await StrainService.create(requestBody, res);
             if (!newStrain) return;
 
             res.status(HTTP.CREATED).json(newStrain);
@@ -82,7 +80,7 @@ strainRouter.post(
 strainRouter.get(
     "/",
     async (req: AuthRequest<any>, res: Response<StrainRecord[]>) => {
-        res.json(await getStrains());
+        res.json(await StrainService.getAll());
     }
 );
 
@@ -103,7 +101,7 @@ strainRouter.put(
             const requestBody: StrainRequest = req.body;
 
             // edit
-            const editedStrain = await editStrain(
+            const editedStrain = await StrainService.update(
                 req.params.id,
                 requestBody,
                 res

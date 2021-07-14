@@ -12,6 +12,10 @@ export interface BatchStoreModel {
     fetchBatches: Thunk<StoreModel>;
     saveBatch: Thunk<StoreModel, { batchRequest: BatchRequest; token: string }>;
     deleteBatch: Thunk<StoreModel, { id: number; token: string }>;
+    updateBatch: Thunk<
+        StoreModel,
+        { id: number; batchRequest: BatchRequest; token: string }
+    >;
 }
 
 export const batchStore: BatchStoreModel = {
@@ -37,6 +41,22 @@ export const batchStore: BatchStoreModel = {
         try {
             await BatchClient.deleteBatch(payload.id, payload.token);
             actions.addSuccessAlert("Successfully deleted batch.");
+        } catch (error) {
+            console.error(error.response);
+            actions.addError(error.message);
+            throw error;
+        }
+    }),
+    updateBatch: thunk(async (actions, payload) => {
+        try {
+            const updatedBatch = await BatchClient.updateBatch(
+                payload.id,
+                payload.batchRequest,
+                payload.token
+            );
+            actions.addSuccessAlert(
+                `Successfully updated batch #${updatedBatch.id}.`
+            );
         } catch (error) {
             console.error(error.response);
             actions.addError(error.message);

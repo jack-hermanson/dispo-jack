@@ -69,3 +69,41 @@ batchRouter.delete(
         }
     }
 );
+
+batchRouter.put(
+    "/:id",
+    auth,
+    async (
+        req: AuthRequest<{ id: number } & BatchRequest>,
+        res: Response<BatchRecord>
+    ) => {
+        try {
+            if (!(await RoleService.hasMinClearance(req.account.id, 5, res))) {
+                return;
+            }
+
+            if (!(await validateRequest(batchSchema, req, res))) {
+                return;
+            }
+            const requestBody: BatchRequest = req.body;
+
+            const id = req.params.id;
+
+            const updatedBatch = await BatchService.update(
+                id,
+                requestBody,
+                res
+            );
+            if (!updatedBatch) {
+                return;
+            }
+
+            const socket: Socket = req.app.get("socketio");
+            socket.emit(SocketEvent.UPDATE_BATCHES);
+
+            res.json(updatedBatch);
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+);
