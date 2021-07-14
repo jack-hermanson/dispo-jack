@@ -38,7 +38,7 @@ export const CreateEditBatchForm: React.FC<Props> = ({
     );
     const [size, setSize] = useState("");
     const [dateReceived, setDateReceived] = useState<string>(
-        new Date().toLocaleString()
+        new Date().toInputFormat()
     );
     const [thcPotency, setThcPotency] = useState("");
     const [cbdPotency, setCbdPotency] = useState("");
@@ -93,7 +93,7 @@ export const CreateEditBatchForm: React.FC<Props> = ({
         } else {
             setSelectedStrainId("");
             setSize("");
-            setDateReceived(new Date().toLocaleString());
+            setDateReceived(new Date().toInputFormat());
             setThcPotency("");
             setCbdPotency("");
             setImageUrl("");
@@ -211,6 +211,7 @@ export const CreateEditBatchForm: React.FC<Props> = ({
                         type="number"
                         value={thcPotency}
                         onChange={e => {
+                            console.log(e.target.value);
                             setThcPotency(e.target.value);
                         }}
                     />
