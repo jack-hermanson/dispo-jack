@@ -27,4 +27,12 @@ export abstract class BatchClient {
         );
         return response.data;
     }
+
+    static async deleteBatch(id: number, token: string) {
+        const response = await axios.delete<boolean>(
+            `${baseUrl}/${id}`,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
 }

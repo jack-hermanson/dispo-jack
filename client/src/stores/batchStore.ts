@@ -11,6 +11,7 @@ export interface BatchStoreModel {
     setBatches: Action<StoreModel, BatchRecord[]>;
     fetchBatches: Thunk<StoreModel>;
     saveBatch: Thunk<StoreModel, { batchRequest: BatchRequest; token: string }>;
+    deleteBatch: Thunk<StoreModel, { id: number; token: string }>;
 }
 
 export const batchStore: BatchStoreModel = {
@@ -26,6 +27,16 @@ export const batchStore: BatchStoreModel = {
         try {
             await BatchClient.addBatch(payload.batchRequest, payload.token);
             actions.addSuccessAlert("Successfully added new batch.");
+        } catch (error) {
+            console.error(error.response);
+            actions.addError(error.message);
+            throw error;
+        }
+    }),
+    deleteBatch: thunk(async (actions, payload) => {
+        try {
+            await BatchClient.deleteBatch(payload.id, payload.token);
+            actions.addSuccessAlert("Successfully deleted batch.");
         } catch (error) {
             console.error(error.response);
             actions.addError(error.message);

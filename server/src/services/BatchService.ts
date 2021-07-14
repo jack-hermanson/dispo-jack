@@ -3,6 +3,7 @@ import { Response } from "express";
 import { Batch } from "../models/Batch";
 import { getOneStrain } from "./strainServices";
 import { BatchRequest } from "../../../shared/resource_models/batch";
+import { HTTP } from "jack-hermanson-ts-utils";
 
 const getRepos = (): {
     batchRepo: Repository<Batch>;
@@ -13,12 +14,12 @@ const getRepos = (): {
 };
 
 export abstract class BatchService {
-    static async getBatches(): Promise<Batch[]> {
+    static async getAll(): Promise<Batch[]> {
         const { batchRepo } = getRepos();
         return await batchRepo.find();
     }
 
-    static async createBatch(
+    static async create(
         requestBody: BatchRequest,
         res: Response
     ): Promise<Batch | undefined> {
@@ -40,5 +41,30 @@ export abstract class BatchService {
         batch.dateReceived = requestBody.dateReceived;
 
         return await batchRepo.save(batch);
+    }
+
+    static async getOne(id: number, res: Response): Promise<Batch | undefined> {
+        const { batchRepo } = getRepos();
+        const batch = await batchRepo.findOne(id);
+        if (!batch) {
+            res.sendStatus(HTTP.NOT_FOUND);
+            return undefined;
+        }
+        return batch;
+    }
+
+    static async delete(
+        id: number,
+        res: Response
+    ): Promise<boolean | undefined> {
+        const { batchRepo } = getRepos();
+
+        const batch = await this.getOne(id, res);
+        if (!batch) {
+            return undefined;
+        }
+
+        await batchRepo.remove(batch);
+        return true;
     }
 }
