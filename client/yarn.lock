@@ -6450,10 +6450,10 @@ istanbul-reports@^3.0.2:
     html-escaper "^2.0.0"
     istanbul-lib-report "^3.0.0"
 
-jack-hermanson-component-lib@^1.4.2:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/jack-hermanson-component-lib/-/jack-hermanson-component-lib-1.4.2.tgz#bdc3111bedac0fe5cbbd9842383e3379e8034db7"
-  integrity sha512-gPfC9BnVWoKNb0ytsopRskZW/dY3tBsEXl7g8o/O4INsI8cHHTNfW7dxyQGWY/yw52wzp20cFKpVjzdWinh64Q==
+jack-hermanson-component-lib@^1.4.3:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/jack-hermanson-component-lib/-/jack-hermanson-component-lib-1.4.3.tgz#07b467ca1f227f928dafcc19452e49c9c0ca8635"
+  integrity sha512-cOCkiYlsd3sZXhO/rxSboBLJBw5+mcQR1T26xQ//CUCiKT10TLFQdknz6YY0h7ZOZAKpCLGB3Uv5Pze8eW7mqw==
   dependencies:
     "@fortawesome/fontawesome-svg-core" "^1.2.35"
     "@fortawesome/free-solid-svg-icons" "^5.15.3"
@@ -6463,7 +6463,7 @@ jack-hermanson-component-lib@^1.4.2:
     "@types/react-dom" "^17.0.0"
     bootstrap "^5.0.1"
     jack-hermanson-css-lib "^1.0.0"
-    jack-hermanson-ts-utils "^1.8.1"
+    jack-hermanson-ts-utils "^1.8.2"
     react "^17.0.2"
     react-dom "^17.0.2"
     react-loader-spinner "^4.0.0"
@@ -6482,10 +6482,10 @@ jack-hermanson-css-lib@^1.2.3:
   resolved "https://registry.yarnpkg.com/jack-hermanson-css-lib/-/jack-hermanson-css-lib-1.2.3.tgz#c89620244624c31963b177e41ad8faa1c3ba362d"
   integrity sha512-Nv9sTf7YwqyexVSKNKAxxewYSYGbIzVvSSXn2zi2GWXa7s28CIHcvzYxzzb9tyz+zQRGqUjJRisZjI15vu6//A==
 
-jack-hermanson-ts-utils@^1.8.1:
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/jack-hermanson-ts-utils/-/jack-hermanson-ts-utils-1.8.1.tgz#9cff58cbb7c62d8bfd8619384558217e5298e4e4"
-  integrity sha512-VyVPq3x8DyjmGvsEUPTwfWQfCSIDNX97752O4qAtpxF4a3WjqzCE3uBNYIa+vbNdGUFt/0xOc6RM9Y0XSkcAzg==
+jack-hermanson-ts-utils@^1.8.2:
+  version "1.8.2"
+  resolved "https://registry.yarnpkg.com/jack-hermanson-ts-utils/-/jack-hermanson-ts-utils-1.8.2.tgz#f84157b3f5fb6e8e840a1de61864152d92a78722"
+  integrity sha512-ZDcU9T73B5rhcv4lJ3DGZPGd5esysjcIzYA6EHOPCXczI6y8aNr7rrSjhK4yXLkWsw2ueJbLphezPQWW5Oghhg==
   dependencies:
     "@types/express" "^4.17.12"
     express "^4.17.1"

@@ -104,7 +104,7 @@ export const CreateEditBatchForm: React.FC<Props> = ({
     function setFromBatchRecord(batchRecord: BatchRecord) {
         setSelectedStrainId(batchRecord.strainId);
         setSize(batchRecord.size.toString());
-        setDateReceived(batchRecord.dateReceived.toLocaleString());
+        setDateReceived(new Date(batchRecord.dateReceived).toInputFormat());
         setThcPotency(batchRecord.thcPotency.toString());
         setCbdPotency(batchRecord.cbdPotency.toString());
         setImageUrl(batchRecord.imageUrl || "");
