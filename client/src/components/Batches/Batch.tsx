@@ -1,19 +1,21 @@
 import React, { useState } from "react";
-import {
-    ButtonDropdown,
-    Card,
-    CardBody,
-    CardHeader,
-    DropdownItem,
-    DropdownMenu,
-    DropdownToggle,
-} from "reactstrap";
+import { Card, CardBody, CardHeader } from "reactstrap";
 import { BatchRecord } from "../../../../shared/resource_models/batch";
-import { useStoreState } from "../../stores/_store";
-import { KeyValTable, LoadingSpinner } from "jack-hermanson-component-lib";
+import { useStoreActions, useStoreState } from "../../stores/_store";
+import {
+    ActionsDropdown,
+    ConfirmationModal,
+    KeyValTable,
+    LoadingSpinner,
+} from "jack-hermanson-component-lib";
 import { AgnosticLink } from "../Utils/AgnosticLink";
-import { formatPercent } from "jack-hermanson-ts-utils";
-import { useHistory } from "react-router-dom";
+import {
+    ClickDropdownAction,
+    DropdownAction,
+    formatPercent,
+    LinkDropdownAction,
+    scrollToTop,
+} from "jack-hermanson-ts-utils";
 
 interface Props {
     batch: BatchRecord;
@@ -27,11 +29,12 @@ export const Batch: React.FC<Props> = ({
     const strain = useStoreState(state =>
         state.strains?.find(s => s.id === batch.strainId)
     );
-    const [showActions, setShowActions] = useState(false);
-
-    const history = useHistory();
+    const currentUser = useStoreState(state => state.currentUser);
+    const deleteBatch = useStoreActions(actions => actions.deleteBatch);
 
     const dateReceived = new Date(batch.dateReceived);
+
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     return (
         <React.Fragment>
@@ -48,34 +51,27 @@ export const Batch: React.FC<Props> = ({
             ) : (
                 <LoadingSpinner />
             )}
+            {renderDeleteModal()}
         </React.Fragment>
     );
 
     function renderActionsDropdown() {
-        return (
-            <ButtonDropdown
-                isOpen={showActions}
-                toggle={() => setShowActions(s => !s)}
-            >
-                <DropdownToggle size="sm" color="primary" caret>
-                    Actions
-                </DropdownToggle>
-                <DropdownMenu end>
-                    {showDetailsBtn && (
-                        <DropdownItem
-                            onClick={() => {
-                                history.push(`/admin/batches/${batch.id}`);
-                            }}
-                        >
-                            Details
-                        </DropdownItem>
-                    )}
-                    <DropdownItem>Edit</DropdownItem>
-                    <DropdownItem divider />
-                    <DropdownItem>Delete</DropdownItem>
-                </DropdownMenu>
-            </ButtonDropdown>
+        const options: Array<DropdownAction | undefined> = [];
+
+        if (showDetailsBtn) {
+            options.push(
+                new LinkDropdownAction("Details", `/admin/batches/${batch.id}`)
+            );
+        }
+        options.push(
+            new LinkDropdownAction("Edit", `/admin/batches/edit/${batch.id}`)
         );
+        options.push(undefined);
+        options.push(
+            new ClickDropdownAction("Delete", () => setShowDeleteModal(true))
+        );
+
+        return <ActionsDropdown options={options} size="sm" color="primary" />;
     }
 
     function renderCardBody() {
@@ -102,7 +98,7 @@ export const Batch: React.FC<Props> = ({
                             },
                             {
                                 key: "Image",
-                                val: (
+                                val: batch.imageUrl ? (
                                     <AgnosticLink
                                         linkType="external"
                                         linkText={
@@ -113,6 +109,8 @@ export const Batch: React.FC<Props> = ({
                                         }
                                         path={batch.imageUrl || ""}
                                     />
+                                ) : (
+                                    ""
                                 ),
                             },
                             { key: "Size", val: `${batch.size} grams` },
@@ -130,5 +128,33 @@ export const Batch: React.FC<Props> = ({
                 </CardBody>
             );
         }
+    }
+
+    function renderDeleteModal() {
+        return (
+            <ConfirmationModal
+                isOpen={showDeleteModal}
+                setIsOpen={setShowDeleteModal}
+                title="Confirm Batch Deletion"
+                onConfirm={async () => {
+                    if (currentUser?.account.token) {
+                        try {
+                            await deleteBatch({
+                                id: batch.id,
+                                token: currentUser.account.token,
+                            });
+                        } catch (error) {
+                            console.error(error);
+                            scrollToTop();
+                        }
+                        setShowDeleteModal(false);
+                    }
+                }}
+                buttonColor="danger"
+                buttonText="Delete"
+            >
+                Are you sure you want to delete this batch?
+            </ConfirmationModal>
+        );
     }
 };

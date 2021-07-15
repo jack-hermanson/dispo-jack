@@ -18,20 +18,20 @@ import { useStoreActions, useStoreState } from "../../../stores/_store";
 interface Props {
     onSubmit: (newStrain: StrainRequest) => any;
     submitBtnText: string;
-    initialStrain?: StrainRecord;
+    existingStrain?: StrainRecord;
 }
 
 export const CreateEditStrainForm: React.FC<Props> = ({
     onSubmit,
     submitBtnText,
-    initialStrain,
+    existingStrain,
 }: Props) => {
     useEffect(() => {
         document.getElementById("name-input")?.focus();
-        if (initialStrain) {
-            setFromStrainRecord(initialStrain);
+        if (existingStrain) {
+            setFromStrainRecord(existingStrain);
         }
-    }, [initialStrain]);
+    }, [existingStrain]);
 
     const strainTypes = useStoreState(state => state.strainTypes);
     const addAlert = useStoreActions(actions => actions.addAlert);
@@ -158,8 +158,8 @@ export const CreateEditStrainForm: React.FC<Props> = ({
     }
 
     function reset() {
-        if (initialStrain) {
-            setFromStrainRecord(initialStrain);
+        if (existingStrain) {
+            setFromStrainRecord(existingStrain);
         } else {
             setName("");
             setStrainTypeId("");

@@ -9,11 +9,13 @@ import {
     BatchRecord,
     BatchRequest,
 } from "../../../shared/resource_models/batch";
+import { Socket } from "socket.io";
+import { SocketEvent } from "../../../shared/enums";
 
 export const batchRouter = express.Router();
 
 batchRouter.get("/", async (req: AuthRequest<any>, res: Response) => {
-    res.json(await BatchService.getBatches());
+    res.json(await BatchService.getAll());
 });
 
 batchRouter.post(
@@ -31,10 +33,75 @@ batchRouter.post(
             const requestBody: BatchRequest = req.body;
 
             // create new record
-            const newBatch = await BatchService.createBatch(requestBody, res);
+            const newBatch = await BatchService.create(requestBody, res);
             if (!newBatch) return;
 
+            const socket: Socket = req.app.get("socketio");
+            socket.emit(SocketEvent.UPDATE_BATCHES);
+
             res.status(HTTP.CREATED).json(newBatch);
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+);
+
+batchRouter.delete(
+    "/:id",
+    auth,
+    async (req: AuthRequest<{ id: number }>, res: Response<boolean>) => {
+        try {
+            if (!(await RoleService.hasMinClearance(req.account.id, 5, res))) {
+                return;
+            }
+            const id = req.params.id;
+            const deleted = await BatchService.delete(id, res);
+            if (!deleted) {
+                return;
+            }
+
+            const socket: Socket = req.app.get("socketio");
+            socket.emit(SocketEvent.UPDATE_BATCHES);
+
+            res.json(true);
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+);
+
+batchRouter.put(
+    "/:id",
+    auth,
+    async (
+        req: AuthRequest<{ id: number } & BatchRequest>,
+        res: Response<BatchRecord>
+    ) => {
+        try {
+            if (!(await RoleService.hasMinClearance(req.account.id, 5, res))) {
+                return;
+            }
+
+            if (!(await validateRequest(batchSchema, req, res))) {
+                return;
+            }
+            const requestBody: BatchRequest = req.body;
+
+            const id = req.params.id;
+
+            const updatedBatch = await BatchService.update(
+                id,
+                requestBody,
+                res
+            );
+            if (!updatedBatch) {
+                return;
+            }
+
+            const socket: Socket = req.app.get("socketio");
+            socket.emit(SocketEvent.UPDATE_BATCHES);
+
+            res.json(updatedBatch);
         } catch (error) {
             sendError(error, res);
         }

@@ -35,4 +35,5 @@ export const batchSchema = Joi.object().options({ abortEarly: false }).keys({
     cbdPotency: Joi.number().required(),
     notes: Joi.string().optional(),
     imageUrl: Joi.string().uri().optional(),
+    dateReceived: Joi.date(),
 });
