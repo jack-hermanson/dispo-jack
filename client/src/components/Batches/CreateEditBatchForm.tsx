@@ -14,8 +14,9 @@ import {
     BatchRecord,
     BatchRequest,
 } from "../../../../shared/resource_models/batch";
-import { Formik, FormikProps, Field, Form } from "formik";
-import { LoadingSpinner } from "jack-hermanson-component-lib";
+import { Formik, FormikProps, Field, Form, FormikErrors } from "formik";
+import { FormError, LoadingSpinner } from "jack-hermanson-component-lib";
+import * as yup from "yup";
 
 interface Props {
     existingBatch?: BatchRecord;
@@ -31,6 +32,16 @@ interface FormValues {
     imageUrl: string;
     notes: string;
 }
+
+const validationSchema = yup.object().shape({
+    strainId: yup.string().label("Strain").required(),
+    size: yup.number().positive().label("Size").required(),
+    dateReceived: yup.string().label("Date Received").required(),
+    thcPotency: yup.number().label("THC Potency").positive().required(),
+    cbdPotency: yup.number().label("CBD Potency").positive().required(),
+    imageUrl: yup.string().url().label("Image URL").optional(),
+    notes: yup.string().label("Notes").optional(),
+});
 
 export const CreateEditBatchForm: React.FC<Props> = ({
     existingBatch,
@@ -57,36 +68,42 @@ export const CreateEditBatchForm: React.FC<Props> = ({
                     setSubmitting(false);
                 }, 1000);
             }}
+            validationSchema={validationSchema}
+            validateOnChange={false}
+            validateOnBlur={false}
         >
-            {({ values, isSubmitting }: FormikProps<FormValues>) => (
+            {({ values, errors, isSubmitting }: FormikProps<FormValues>) => (
                 <Form>
                     {isSubmitting ? (
                         <LoadingSpinner />
                     ) : (
                         <React.Fragment>
-                            {renderStrain()}
+                            {renderStrain(errors)}
                             <Row>
                                 <Col xs={12} lg={6}>
-                                    {renderSize()}
+                                    {renderSize(errors)}
                                 </Col>
                                 <Col xs={12} lg={6}>
-                                    {renderDate()}
+                                    {renderDate(errors)}
                                 </Col>
                             </Row>
                             <Row>
                                 <Col xs={12} lg={6}>
-                                    {renderThcPotency()}
+                                    {renderThcPotency(errors)}
                                 </Col>
                                 <Col xs={12} lg={6}>
-                                    {renderCbdPotency()}
+                                    {renderCbdPotency(errors)}
                                 </Col>
                             </Row>
-                            {renderImageUrl()}
-                            {renderNotes()}
+                            {renderImageUrl(errors)}
+                            {renderNotes(errors)}
                             {renderButtons()}
                         </React.Fragment>
                     )}
 
+                    <pre className="mt-3">
+                        {JSON.stringify(errors, null, 2)}
+                    </pre>
                     <pre className="mt-3">
                         {JSON.stringify(values, null, 2)}
                     </pre>
@@ -95,7 +112,7 @@ export const CreateEditBatchForm: React.FC<Props> = ({
         </Formik>
     );
 
-    function renderStrain() {
+    function renderStrain(errors: FormikErrors<FormValues>) {
         const id = "strain-input";
         if (strainTypes && strains) {
             return (
@@ -127,12 +144,13 @@ export const CreateEditBatchForm: React.FC<Props> = ({
                             </optgroup>
                         ))}
                     </Field>
+                    <FormError>{errors.strainId}</FormError>
                 </FormGroup>
             );
         }
     }
 
-    function renderSize() {
+    function renderSize(errors: FormikErrors<FormValues>) {
         const id = "size-input";
         return (
             <FormGroup>
@@ -143,11 +161,12 @@ export const CreateEditBatchForm: React.FC<Props> = ({
                     <Field name="size" type="number" id={id} as={Input} />
                     <InputGroupText>grams</InputGroupText>
                 </InputGroup>
+                <FormError>{errors.size}</FormError>
             </FormGroup>
         );
     }
 
-    function renderDate() {
+    function renderDate(errors: FormikErrors<FormValues>) {
         const id = "date-input";
         return (
             <FormGroup>
@@ -160,11 +179,12 @@ export const CreateEditBatchForm: React.FC<Props> = ({
                     id={id}
                     as={Input}
                 />
+                <FormError>{errors.dateReceived}</FormError>
             </FormGroup>
         );
     }
 
-    function renderThcPotency() {
+    function renderThcPotency(errors: FormikErrors<FormValues>) {
         const id = "thc-potency-input";
         return (
             <FormGroup>
@@ -175,11 +195,12 @@ export const CreateEditBatchForm: React.FC<Props> = ({
                     <Field name="thcPotency" id={id} type="number" as={Input} />
                     <InputGroupText>%</InputGroupText>
                 </InputGroup>
+                <FormError>{errors.thcPotency}</FormError>
             </FormGroup>
         );
     }
 
-    function renderCbdPotency() {
+    function renderCbdPotency(errors: FormikErrors<FormValues>) {
         const id = "cbd-potency-input";
         return (
             <FormGroup>
@@ -190,23 +211,25 @@ export const CreateEditBatchForm: React.FC<Props> = ({
                     <Field name="cbdPotency" id={id} type="number" as={Input} />
                     <InputGroupText>%</InputGroupText>
                 </InputGroup>
+                <FormError>{errors.cbdPotency}</FormError>
             </FormGroup>
         );
     }
 
-    function renderImageUrl() {
+    function renderImageUrl(errors: FormikErrors<FormValues>) {
         const id = "image-url-input";
         return (
             <FormGroup>
                 <Label className="form-label" for={id}>
                     Image URL
                 </Label>
-                <Field name="imageUrl" type="url" id={id} as={Input} />
+                <Field name="imageUrl" type="text" id={id} as={Input} />
+                <FormError>{errors.imageUrl}</FormError>
             </FormGroup>
         );
     }
 
-    function renderNotes() {
+    function renderNotes(errors: FormikErrors<FormValues>) {
         const id = "notes-input";
         return (
             <FormGroup>
@@ -214,6 +237,7 @@ export const CreateEditBatchForm: React.FC<Props> = ({
                     Notes
                 </Label>
                 <Field name="notes" type="textarea" id={id} as={Input} />
+                <FormError>{errors.notes}</FormError>
             </FormGroup>
         );
     }
