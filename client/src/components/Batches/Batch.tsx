@@ -16,6 +16,7 @@ import {
     LinkDropdownAction,
     scrollToTop,
 } from "jack-hermanson-ts-utils";
+import moment from "moment";
 
 interface Props {
     batch: BatchRecord;
@@ -84,7 +85,9 @@ export const Batch: React.FC<Props> = ({
                             { key: "ID Number", val: `${batch.id}` },
                             {
                                 key: "Received",
-                                val: `${dateReceived.toLocaleString()}`,
+                                val: `${moment(batch.dateReceived).format(
+                                    "dddd, MMMM Do, YYYY, LT"
+                                )}`,
                             },
                             {
                                 key: "Strain",

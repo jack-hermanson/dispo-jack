@@ -17,10 +17,11 @@ import {
 import { Formik, FormikProps, Field, Form, FormikErrors } from "formik";
 import { FormError, LoadingSpinner } from "jack-hermanson-component-lib";
 import * as yup from "yup";
+import moment from "moment";
 
 interface Props {
     existingBatch?: BatchRecord;
-    onSubmit: (batchRequest: BatchRequest) => any;
+    onSubmit: (batchRequest: BatchRequest) => Promise<any>;
 }
 
 interface FormValues {
@@ -63,18 +64,23 @@ export const CreateEditBatchForm: React.FC<Props> = ({
                 imageUrl: existingBatch?.imageUrl || "",
                 notes: existingBatch?.notes || "",
             }}
-            onSubmit={(data, { setSubmitting }) => {
+            onSubmit={async (data, { setSubmitting }) => {
                 setSubmitting(true);
-                console.log(data);
-                setTimeout(() => {
-                    setSubmitting(false);
-                }, 1000);
+                await onSubmit({
+                    strainId: parseInt(data.strainId),
+                    size: data.size as number,
+                    dateReceived: moment(data.dateReceived).toDate(),
+                    thcPotency: data.thcPotency as number,
+                    cbdPotency: data.cbdPotency as number,
+                    notes: data.notes,
+                    imageUrl: data.imageUrl,
+                });
             }}
             validationSchema={validationSchema}
             validateOnChange={false}
             validateOnBlur={false}
         >
-            {({ values, errors, isSubmitting }: FormikProps<FormValues>) => (
+            {({ errors, isSubmitting }: FormikProps<FormValues>) => (
                 <Form>
                     {isSubmitting ? (
                         <LoadingSpinner />
@@ -102,13 +108,6 @@ export const CreateEditBatchForm: React.FC<Props> = ({
                             {renderButtons()}
                         </React.Fragment>
                     )}
-
-                    <pre className="mt-3">
-                        {JSON.stringify(errors, null, 2)}
-                    </pre>
-                    <pre className="mt-3">
-                        {JSON.stringify(values, null, 2)}
-                    </pre>
                 </Form>
             )}
         </Formik>
