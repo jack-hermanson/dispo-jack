@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
     ButtonDropdown,
     Collapse,
@@ -31,6 +31,10 @@ export const Navigation: React.FC = () => {
     const [userBtnOpen, setUserBtnOpen] = useState(false);
     const logOut = useStoreActions(actions => actions.logOut);
 
+    const closeNav = useCallback(() => {
+        setIsOpen(false);
+    }, [setIsOpen]);
+
     return (
         <Navbar dark className="mb-4 main-navbar px-0" expand="lg">
             <Container>
@@ -44,12 +48,21 @@ export const Navigation: React.FC = () => {
                 <Collapse isOpen={isOpen} navbar>
                     <Nav navbar style={{ marginRight: "auto" }}>
                         <NavItem>
-                            <NavLink exact className="nav-link" to="/">
+                            <NavLink
+                                exact
+                                className="nav-link"
+                                to="/"
+                                onClick={closeNav}
+                            >
                                 <FA icon={faHome} /> Home
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink className="nav-link" to="/strains">
+                            <NavLink
+                                onClick={closeNav}
+                                className="nav-link"
+                                to="/strains"
+                            >
                                 <FA icon={faCannabis} /> Strains
                             </NavLink>
                         </NavItem>
@@ -91,6 +104,7 @@ export const Navigation: React.FC = () => {
                             <DropdownItem
                                 onClick={() => {
                                     history.push("/account");
+                                    closeNav();
                                 }}
                             >
                                 My Account
@@ -100,6 +114,7 @@ export const Navigation: React.FC = () => {
                                 onClick={async () => {
                                     await logOut(account.token!);
                                     history.push("/account");
+                                    closeNav();
                                 }}
                             >
                                 Log Out
@@ -117,7 +132,11 @@ export const Navigation: React.FC = () => {
         if (account)
             return (
                 <NavItem>
-                    <NavLink className="nav-link" to="/admin">
+                    <NavLink
+                        className="nav-link"
+                        to="/admin"
+                        onClick={closeNav}
+                    >
                         <FA icon={faTools} /> Admin
                     </NavLink>
                 </NavItem>
