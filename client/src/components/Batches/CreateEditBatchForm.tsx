@@ -53,13 +53,15 @@ export const CreateEditBatchForm: React.FC<Props> = ({
     return (
         <Formik
             initialValues={{
-                strainId: "",
-                size: "",
-                dateReceived: new Date().toInputFormat(),
-                thcPotency: "",
-                cbdPotency: "",
-                imageUrl: "",
-                notes: "",
+                strainId: existingBatch?.strainId.toString() || "",
+                size: existingBatch?.size || "",
+                dateReceived: existingBatch
+                    ? new Date(existingBatch.dateReceived).toInputFormat()
+                    : new Date().toInputFormat(),
+                thcPotency: existingBatch?.thcPotency || "",
+                cbdPotency: existingBatch?.cbdPotency || "",
+                imageUrl: existingBatch?.imageUrl || "",
+                notes: existingBatch?.notes || "",
             }}
             onSubmit={(data, { setSubmitting }) => {
                 setSubmitting(true);
