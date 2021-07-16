@@ -14,11 +14,22 @@ import {
     BatchRecord,
     BatchRequest,
 } from "../../../../shared/resource_models/batch";
-import { Formik } from "formik";
+import { Formik, FormikProps, Field, Form } from "formik";
+import { LoadingSpinner } from "jack-hermanson-component-lib";
 
 interface Props {
     existingBatch?: BatchRecord;
     onSubmit: (batchRequest: BatchRequest) => any;
+}
+
+interface FormValues {
+    strainId: string;
+    size: "" | number;
+    dateReceived: string;
+    thcPotency: "" | number;
+    cbdPotency: "" | number;
+    imageUrl: string;
+    notes: string;
 }
 
 export const CreateEditBatchForm: React.FC<Props> = ({
@@ -29,28 +40,59 @@ export const CreateEditBatchForm: React.FC<Props> = ({
     const strains = useStoreState(state => state.strains);
 
     return (
-        <form>
-            {renderStrain()}
-            <Row>
-                <Col xs={12} lg={6}>
-                    {renderSize()}
-                </Col>
-                <Col xs={12} lg={6}>
-                    {renderDate()}
-                </Col>
-            </Row>
-            <Row>
-                <Col xs={12} lg={6}>
-                    {renderThcPotency()}
-                </Col>
-                <Col xs={12} lg={6}>
-                    {renderCbdPotency()}
-                </Col>
-            </Row>
-            {renderImageUrl()}
-            {renderNotes()}
-            {renderButtons()}
-        </form>
+        <Formik
+            initialValues={{
+                strainId: "",
+                size: "",
+                dateReceived: new Date().toInputFormat(),
+                thcPotency: "",
+                cbdPotency: "",
+                imageUrl: "",
+                notes: "",
+            }}
+            onSubmit={(data, { setSubmitting }) => {
+                setSubmitting(true);
+                console.log(data);
+                setTimeout(() => {
+                    setSubmitting(false);
+                }, 1000);
+            }}
+        >
+            {({ values, isSubmitting }: FormikProps<FormValues>) => (
+                <Form>
+                    {isSubmitting ? (
+                        <LoadingSpinner />
+                    ) : (
+                        <React.Fragment>
+                            {renderStrain()}
+                            <Row>
+                                <Col xs={12} lg={6}>
+                                    {renderSize()}
+                                </Col>
+                                <Col xs={12} lg={6}>
+                                    {renderDate()}
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col xs={12} lg={6}>
+                                    {renderThcPotency()}
+                                </Col>
+                                <Col xs={12} lg={6}>
+                                    {renderCbdPotency()}
+                                </Col>
+                            </Row>
+                            {renderImageUrl()}
+                            {renderNotes()}
+                            {renderButtons()}
+                        </React.Fragment>
+                    )}
+
+                    <pre className="mt-3">
+                        {JSON.stringify(values, null, 2)}
+                    </pre>
+                </Form>
+            )}
+        </Formik>
     );
 
     function renderStrain() {
@@ -61,7 +103,7 @@ export const CreateEditBatchForm: React.FC<Props> = ({
                     <Label className="form-label required" for={id}>
                         Strain
                     </Label>
-                    <Input required type="select" id={id}>
+                    <Field name="strainId" type="select" as={Input} id={id}>
                         <option value="">Select a strain...</option>
                         {strainTypes.map(strainType => (
                             <optgroup
@@ -84,7 +126,7 @@ export const CreateEditBatchForm: React.FC<Props> = ({
                                     ))}
                             </optgroup>
                         ))}
-                    </Input>
+                    </Field>
                 </FormGroup>
             );
         }
@@ -98,7 +140,7 @@ export const CreateEditBatchForm: React.FC<Props> = ({
                     Size
                 </Label>
                 <InputGroup>
-                    <Input required id={id} type="number" />
+                    <Field name="size" type="number" id={id} as={Input} />
                     <InputGroupText>grams</InputGroupText>
                 </InputGroup>
             </FormGroup>
@@ -112,7 +154,12 @@ export const CreateEditBatchForm: React.FC<Props> = ({
                 <Label className="form-label required" for={id}>
                     Date Received
                 </Label>
-                <Input required type="datetime-local" id={id} />
+                <Field
+                    name="dateReceived"
+                    type="datetime-local"
+                    id={id}
+                    as={Input}
+                />
             </FormGroup>
         );
     }
@@ -125,7 +172,7 @@ export const CreateEditBatchForm: React.FC<Props> = ({
                     THC Potency
                 </Label>
                 <InputGroup>
-                    <Input required id={id} type="number" />
+                    <Field name="thcPotency" id={id} type="number" as={Input} />
                     <InputGroupText>%</InputGroupText>
                 </InputGroup>
             </FormGroup>
@@ -140,7 +187,7 @@ export const CreateEditBatchForm: React.FC<Props> = ({
                     CBD Potency
                 </Label>
                 <InputGroup>
-                    <Input required id={id} type="number" />
+                    <Field name="cbdPotency" id={id} type="number" as={Input} />
                     <InputGroupText>%</InputGroupText>
                 </InputGroup>
             </FormGroup>
@@ -154,7 +201,7 @@ export const CreateEditBatchForm: React.FC<Props> = ({
                 <Label className="form-label" for={id}>
                     Image URL
                 </Label>
-                <Input type="url" id={id} />
+                <Field name="imageUrl" type="url" id={id} as={Input} />
             </FormGroup>
         );
     }
@@ -166,7 +213,7 @@ export const CreateEditBatchForm: React.FC<Props> = ({
                 <Label className="form-label" for={id}>
                     Notes
                 </Label>
-                <Input type="textarea" id={id} />
+                <Field name="notes" type="textarea" id={id} as={Input} />
             </FormGroup>
         );
     }
