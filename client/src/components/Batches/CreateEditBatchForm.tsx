@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
     Button,
     Col,
@@ -14,104 +14,106 @@ import {
     BatchRecord,
     BatchRequest,
 } from "../../../../shared/resource_models/batch";
+import { Formik, FormikProps, Field, Form, FormikErrors } from "formik";
+import { FormError, LoadingSpinner } from "jack-hermanson-component-lib";
+import * as yup from "yup";
+import moment from "moment";
 
 interface Props {
     existingBatch?: BatchRecord;
-    onSubmit: (batchRequest: BatchRequest) => any;
+    onSubmit: (batchRequest: BatchRequest) => Promise<any>;
 }
+
+interface FormValues {
+    strainId: string;
+    size: "" | number;
+    dateReceived: string;
+    thcPotency: "" | number;
+    cbdPotency: "" | number;
+    imageUrl: string;
+    notes: string;
+}
+
+const validationSchema = yup.object().shape({
+    strainId: yup.string().label("Strain").required(),
+    size: yup.number().positive().label("Size").required(),
+    dateReceived: yup.string().label("Date Received").required(),
+    thcPotency: yup.number().label("THC Potency").positive().required(),
+    cbdPotency: yup.number().label("CBD Potency").positive().required(),
+    imageUrl: yup.string().url().label("Image URL").optional(),
+    notes: yup.string().label("Notes").optional(),
+});
 
 export const CreateEditBatchForm: React.FC<Props> = ({
     existingBatch,
     onSubmit,
 }: Props) => {
-    useEffect(() => {
-        if (existingBatch) {
-            setFromBatchRecord(existingBatch);
-        }
-    }, [existingBatch]);
-
     const strainTypes = useStoreState(state => state.strainTypes);
     const strains = useStoreState(state => state.strains);
 
-    const [selectedStrainId, setSelectedStrainId] = useState<number | string>(
-        ""
-    );
-    const [size, setSize] = useState("");
-    const [dateReceived, setDateReceived] = useState<string>(
-        new Date().toInputFormat()
-    );
-    const [thcPotency, setThcPotency] = useState("");
-    const [cbdPotency, setCbdPotency] = useState("");
-    const [imageUrl, setImageUrl] = useState("");
-    const [notes, setNotes] = useState("");
-
     return (
-        <form onSubmit={submit} onReset={reset}>
-            {renderStrain()}
-            <Row>
-                <Col xs={12} lg={6}>
-                    {renderSize()}
-                </Col>
-                <Col xs={12} lg={6}>
-                    {renderDate()}
-                </Col>
-            </Row>
-            <Row>
-                <Col xs={12} lg={6}>
-                    {renderThcPotency()}
-                </Col>
-                <Col xs={12} lg={6}>
-                    {renderCbdPotency()}
-                </Col>
-            </Row>
-            {renderImageUrl()}
-            {renderNotes()}
-            {renderButtons()}
-        </form>
+        <Formik
+            initialValues={{
+                strainId: existingBatch?.strainId.toString() || "",
+                size: existingBatch?.size || "",
+                dateReceived: existingBatch
+                    ? new Date(existingBatch.dateReceived).toInputFormat()
+                    : new Date().toInputFormat(),
+                thcPotency: existingBatch?.thcPotency || "",
+                cbdPotency: existingBatch?.cbdPotency || "",
+                imageUrl: existingBatch?.imageUrl || "",
+                notes: existingBatch?.notes || "",
+            }}
+            onSubmit={async (data, { setSubmitting }) => {
+                setSubmitting(true);
+                await onSubmit({
+                    strainId: parseInt(data.strainId),
+                    size: data.size as number,
+                    dateReceived: moment(data.dateReceived).toDate(),
+                    thcPotency: data.thcPotency as number,
+                    cbdPotency: data.cbdPotency as number,
+                    notes: data.notes,
+                    imageUrl: data.imageUrl,
+                });
+            }}
+            validationSchema={validationSchema}
+            validateOnChange={false}
+            validateOnBlur={false}
+        >
+            {({ errors, isSubmitting }: FormikProps<FormValues>) => (
+                <Form>
+                    {isSubmitting ? (
+                        <LoadingSpinner />
+                    ) : (
+                        <React.Fragment>
+                            {renderStrain(errors)}
+                            <Row>
+                                <Col xs={12} lg={6}>
+                                    {renderSize(errors)}
+                                </Col>
+                                <Col xs={12} lg={6}>
+                                    {renderDate(errors)}
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col xs={12} lg={6}>
+                                    {renderThcPotency(errors)}
+                                </Col>
+                                <Col xs={12} lg={6}>
+                                    {renderCbdPotency(errors)}
+                                </Col>
+                            </Row>
+                            {renderImageUrl(errors)}
+                            {renderNotes(errors)}
+                            {renderButtons()}
+                        </React.Fragment>
+                    )}
+                </Form>
+            )}
+        </Formik>
     );
 
-    function submit(event: React.FormEvent) {
-        event.preventDefault();
-        const batchRequest: BatchRequest = {
-            strainId: parseInt(selectedStrainId.toString()),
-            size: parseFloat(size),
-            thcPotency: parseFloat(thcPotency),
-            cbdPotency: parseFloat(cbdPotency),
-            dateReceived: new Date(Date.parse(dateReceived)),
-            notes: notes,
-            imageUrl: imageUrl,
-        };
-        onSubmit(batchRequest);
-    }
-
-    function reset(event?: React.FormEvent) {
-        if (event) {
-            event.preventDefault();
-        }
-        if (existingBatch) {
-            setFromBatchRecord(existingBatch);
-        } else {
-            setSelectedStrainId("");
-            setSize("");
-            setDateReceived(new Date().toInputFormat());
-            setThcPotency("");
-            setCbdPotency("");
-            setImageUrl("");
-            setNotes("");
-        }
-    }
-
-    function setFromBatchRecord(batchRecord: BatchRecord) {
-        setSelectedStrainId(batchRecord.strainId);
-        setSize(batchRecord.size.toString());
-        setDateReceived(new Date(batchRecord.dateReceived).toInputFormat());
-        setThcPotency(batchRecord.thcPotency.toString());
-        setCbdPotency(batchRecord.cbdPotency.toString());
-        setImageUrl(batchRecord.imageUrl || "");
-        setNotes(batchRecord.notes || "");
-    }
-
-    function renderStrain() {
+    function renderStrain(errors: FormikErrors<FormValues>) {
         const id = "strain-input";
         if (strainTypes && strains) {
             return (
@@ -119,15 +121,7 @@ export const CreateEditBatchForm: React.FC<Props> = ({
                     <Label className="form-label required" for={id}>
                         Strain
                     </Label>
-                    <Input
-                        required
-                        type="select"
-                        id={id}
-                        value={selectedStrainId}
-                        onChange={e => {
-                            setSelectedStrainId(parseInt(e.target.value));
-                        }}
-                    >
+                    <Field name="strainId" type="select" as={Input} id={id}>
                         <option value="">Select a strain...</option>
                         {strainTypes.map(strainType => (
                             <optgroup
@@ -150,13 +144,14 @@ export const CreateEditBatchForm: React.FC<Props> = ({
                                     ))}
                             </optgroup>
                         ))}
-                    </Input>
+                    </Field>
+                    <FormError>{errors.strainId}</FormError>
                 </FormGroup>
             );
         }
     }
 
-    function renderSize() {
+    function renderSize(errors: FormikErrors<FormValues>) {
         const id = "size-input";
         return (
             <FormGroup>
@@ -164,40 +159,33 @@ export const CreateEditBatchForm: React.FC<Props> = ({
                     Size
                 </Label>
                 <InputGroup>
-                    <Input
-                        required
-                        id={id}
-                        type="number"
-                        value={size}
-                        onChange={e => setSize(e.target.value)}
-                    />
+                    <Field name="size" type="number" id={id} as={Input} />
                     <InputGroupText>grams</InputGroupText>
                 </InputGroup>
+                <FormError>{errors.size}</FormError>
             </FormGroup>
         );
     }
 
-    function renderDate() {
+    function renderDate(errors: FormikErrors<FormValues>) {
         const id = "date-input";
         return (
             <FormGroup>
                 <Label className="form-label required" for={id}>
                     Date Received
                 </Label>
-                <Input
-                    required
+                <Field
+                    name="dateReceived"
                     type="datetime-local"
                     id={id}
-                    value={dateReceived}
-                    onChange={e => {
-                        setDateReceived(e.target.value);
-                    }}
+                    as={Input}
                 />
+                <FormError>{errors.dateReceived}</FormError>
             </FormGroup>
         );
     }
 
-    function renderThcPotency() {
+    function renderThcPotency(errors: FormikErrors<FormValues>) {
         const id = "thc-potency-input";
         return (
             <FormGroup>
@@ -205,23 +193,15 @@ export const CreateEditBatchForm: React.FC<Props> = ({
                     THC Potency
                 </Label>
                 <InputGroup>
-                    <Input
-                        required
-                        id={id}
-                        type="number"
-                        value={thcPotency}
-                        onChange={e => {
-                            console.log(e.target.value);
-                            setThcPotency(e.target.value);
-                        }}
-                    />
+                    <Field name="thcPotency" id={id} type="number" as={Input} />
                     <InputGroupText>%</InputGroupText>
                 </InputGroup>
+                <FormError>{errors.thcPotency}</FormError>
             </FormGroup>
         );
     }
 
-    function renderCbdPotency() {
+    function renderCbdPotency(errors: FormikErrors<FormValues>) {
         const id = "cbd-potency-input";
         return (
             <FormGroup>
@@ -229,49 +209,36 @@ export const CreateEditBatchForm: React.FC<Props> = ({
                     CBD Potency
                 </Label>
                 <InputGroup>
-                    <Input
-                        required
-                        id={id}
-                        type="number"
-                        value={cbdPotency}
-                        onChange={e => setCbdPotency(e.target.value)}
-                    />
+                    <Field name="cbdPotency" id={id} type="number" as={Input} />
                     <InputGroupText>%</InputGroupText>
                 </InputGroup>
+                <FormError>{errors.cbdPotency}</FormError>
             </FormGroup>
         );
     }
 
-    function renderImageUrl() {
+    function renderImageUrl(errors: FormikErrors<FormValues>) {
         const id = "image-url-input";
         return (
             <FormGroup>
                 <Label className="form-label" for={id}>
                     Image URL
                 </Label>
-                <Input
-                    type="url"
-                    id={id}
-                    value={imageUrl}
-                    onChange={e => setImageUrl(e.target.value)}
-                />
+                <Field name="imageUrl" type="text" id={id} as={Input} />
+                <FormError>{errors.imageUrl}</FormError>
             </FormGroup>
         );
     }
 
-    function renderNotes() {
+    function renderNotes(errors: FormikErrors<FormValues>) {
         const id = "notes-input";
         return (
             <FormGroup>
                 <Label className="form-label" for={id}>
                     Notes
                 </Label>
-                <Input
-                    type="textarea"
-                    id={id}
-                    value={notes}
-                    onChange={e => setNotes(e.target.value)}
-                />
+                <Field name="notes" type="textarea" id={id} as={Input} />
+                <FormError>{errors.notes}</FormError>
             </FormGroup>
         );
     }
