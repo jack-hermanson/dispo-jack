@@ -3,7 +3,7 @@ import { RegisterRequest } from "../../../../shared/resource_models/account";
 import { Form, Formik, FormikErrors, FormikProps, Field } from "formik";
 import * as yup from "yup";
 import { FormError, LoadingSpinner } from "jack-hermanson-component-lib";
-import { Col, FormGroup, Input, Label, Row } from "reactstrap";
+import { Button, Col, FormGroup, Input, Label, Row } from "reactstrap";
 
 interface Props {
     onSubmit: (requestBody: RegisterRequest) => Promise<void>;
@@ -62,8 +62,13 @@ export const RegisterForm: React.FC<Props> = ({ onSubmit }: Props) => {
                                 <Col xs={12} lg={6}>
                                     {renderUsername(errors)}
                                 </Col>
-                                <Col xs={12} lg={6}></Col>
                             </Row>
+                            <Row>
+                                <Col xs={12} lg={6}>
+                                    {renderPassword(errors)}
+                                </Col>
+                            </Row>
+                            {renderButtons()}
                         </React.Fragment>
                     )}
                 </Form>
@@ -88,6 +93,33 @@ export const RegisterForm: React.FC<Props> = ({ onSubmit }: Props) => {
                 />
                 <FormError>{errors.username}</FormError>
             </FormGroup>
+        );
+    }
+
+    function renderPassword(errors: FormikErrors<RegisterRequest>) {
+        const id = "password-input";
+
+        return (
+            <FormGroup>
+                <Label className="form-label required" for={id}>
+                    Password
+                </Label>
+                <Field name="password" id={id} type="password" as={Input} />
+                <FormError>{errors.password}</FormError>
+            </FormGroup>
+        );
+    }
+
+    function renderButtons() {
+        return (
+            <div className="bottom-buttons">
+                <Button type="submit" color="primary">
+                    Register
+                </Button>
+                <Button type="reset" color="secondary">
+                    Reset
+                </Button>
+            </div>
         );
     }
 };

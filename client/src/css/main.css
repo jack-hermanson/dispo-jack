@@ -10817,7 +10817,7 @@ a.btn:hover {
 
 .bottom-buttons {
   margin-bottom: 0;
-  margin-top: 1.6em;
+  margin-top: 0.6em;
 }
 .bottom-buttons button:not(last-of-type) {
   margin-right: 0.5em;
