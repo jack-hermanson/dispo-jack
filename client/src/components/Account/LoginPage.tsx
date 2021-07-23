@@ -30,7 +30,7 @@ export const LoginPage: React.FC = () => {
             </Row>
             <Row>
                 <Col lg={6}>
-                    <hr className="mb-4" />
+                    <hr className="mt-4 mb-3" />
                     <p>
                         Need an account?{" "}
                         <AgnosticLink

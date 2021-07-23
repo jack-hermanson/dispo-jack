@@ -18,7 +18,7 @@ import { CreateBatch } from "./components/Batches/CreateBatch";
 import { Forbidden } from "./components/Errors/Forbidden";
 import { NotFound } from "./components/Errors/NotFound";
 import { EditBatch } from "./components/Batches/EditBatch";
-import { Register } from "./components/Account/Register";
+import { RegisterPage } from "./components/Account/RegisterPage";
 
 export const MainRouter = () => {
     return (
@@ -34,9 +34,9 @@ export const MainRouter = () => {
                     <Route
                         exact
                         path="/account/register"
-                        component={Register}
+                        component={RegisterPage}
                     />
-                    <Route exact path="/register" component={Register} />
+                    <Route exact path="/register" component={RegisterPage} />
 
                     <Route exact path="/strains" component={Strains} />
                     <Route

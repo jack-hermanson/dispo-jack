@@ -30,7 +30,11 @@ export abstract class PersonService {
         const person = new Person();
         person.firstName = requestBody.firstName;
         person.lastName = requestBody.lastName;
-        person.phone = requestBody.phone;
+        person.phone = requestBody.phone
+            .replace("-", "")
+            .replace("(", "")
+            .replace(")", "")
+            .replace(".", "");
 
         return await personRepo.save(person);
     }

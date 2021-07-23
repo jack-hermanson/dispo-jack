@@ -153,7 +153,7 @@ export abstract class AccountService {
     }
 
     /**
-     * Register: create new person and account.
+     * RegisterPage: create new person and account.
      * @param requestBody
      * @param res
      */

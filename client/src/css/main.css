@@ -10817,7 +10817,7 @@ a.btn:hover {
 
 .bottom-buttons {
   margin-bottom: 0;
-  margin-top: 0.6em;
+  margin-top: 1.6em;
 }
 .bottom-buttons button:not(last-of-type) {
   margin-right: 0.5em;
@@ -10874,40 +10874,6 @@ body {
   color: white;
 }
 
-.no-mb-last:last-of-type {
-  margin-bottom: 0 !important;
-}
-
-.hover-mouse:hover {
-  cursor: pointer;
-}
-
-.bottom-buttons {
-  margin-bottom: 0;
-}
-.bottom-buttons button:not(last-of-type) {
-  margin-right: 0.5em;
-}
-
-.card-table tbody > tr th {
-  padding-left: 1em;
-}
-.card-table tbody > tr td:last-of-type {
-  padding-right: 1em;
-}
-.card-table tbody > tr:last-of-type th,
-.card-table tbody > tr:last-of-type td {
-  border-bottom: 0;
-}
-.card-table tbody > tr:first-of-type th,
-.card-table tbody > tr:first-of-type td {
-  border-top: 0;
-}
-
-table.same-width tbody > tr th {
-  width: 50%;
-}
-
 a.dotted-link {
   color: white;
   text-decoration: none;
@@ -10928,27 +10894,6 @@ a.dotted-link:hover, a.dotted-link:active {
 
 select option[data-default] {
   color: #888;
-}
-
-.form-check label {
-  margin-bottom: 0;
-}
-
-label {
-  margin-bottom: 0.5rem;
-}
-
-.page-title {
-  display: flex;
-}
-.page-title .actions-button {
-  margin-left: auto;
-  margin-top: auto;
-}
-.page-title .title-text {
-  margin-bottom: 0;
-  margin-top: auto;
-  line-height: 1;
 }
 
 body {

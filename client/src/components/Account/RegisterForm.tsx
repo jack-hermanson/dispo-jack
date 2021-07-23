@@ -58,16 +58,12 @@ export const RegisterForm: React.FC<Props> = ({ onSubmit }: Props) => {
                         <LoadingSpinner />
                     ) : (
                         <React.Fragment>
-                            <Row>
-                                <Col xs={12} lg={6}>
-                                    {renderUsername(errors)}
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col xs={12} lg={6}>
-                                    {renderPassword(errors)}
-                                </Col>
-                            </Row>
+                            {renderUsername(errors)}
+                            {renderPassword(errors)}
+                            {renderEmail(errors)}
+                            {renderFirstName(errors)}
+                            {renderLastName(errors)}
+                            {renderPhone(errors)}
                             {renderButtons()}
                         </React.Fragment>
                     )}
@@ -106,6 +102,62 @@ export const RegisterForm: React.FC<Props> = ({ onSubmit }: Props) => {
                 </Label>
                 <Field name="password" id={id} type="password" as={Input} />
                 <FormError>{errors.password}</FormError>
+            </FormGroup>
+        );
+    }
+
+    function renderEmail(errors: FormikErrors<RegisterRequest>) {
+        const id = "email-input";
+
+        return (
+            <FormGroup>
+                <Label className="form-label required" for={id}>
+                    Email
+                </Label>
+                <Field name="email" id={id} type="text" as={Input} />
+                <FormError>{errors.email}</FormError>
+            </FormGroup>
+        );
+    }
+
+    function renderFirstName(errors: FormikErrors<RegisterRequest>) {
+        const id = "first-name-input";
+
+        return (
+            <FormGroup>
+                <Label className="form-label required" for={id}>
+                    First Name
+                </Label>
+                <Field name="firstName" id={id} type="text" as={Input} />
+                <FormError>{errors.firstName}</FormError>
+            </FormGroup>
+        );
+    }
+
+    function renderLastName(errors: FormikErrors<RegisterRequest>) {
+        const id = "last-name-input";
+
+        return (
+            <FormGroup>
+                <Label className="form-label required" for={id}>
+                    Last Name
+                </Label>
+                <Field name="lastName" id={id} type="text" as={Input} />
+                <FormError>{errors.lastName}</FormError>
+            </FormGroup>
+        );
+    }
+
+    function renderPhone(errors: FormikErrors<RegisterRequest>) {
+        const id = "phone-input";
+
+        return (
+            <FormGroup>
+                <Label className="form-label required" for={id}>
+                    Phone Number
+                </Label>
+                <Field name="phone" id={id} type="tel" as={Input} />
+                <FormError>{errors.phone}</FormError>
             </FormGroup>
         );
     }
