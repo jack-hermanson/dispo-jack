@@ -1,6 +1,7 @@
 import {
     AccountAndPerson,
     LoginRequest,
+    RegisterRequest,
     TokenLoginRequest,
 } from "../../../shared/resource_models/account";
 import axios from "axios";
@@ -29,6 +30,14 @@ export abstract class AccountClient {
         const response = await axios.post<AccountAndPerson>(
             `${baseUrl}/token`,
             requestBody
+        );
+        return response.data;
+    }
+
+    static async register(registerRequest: RegisterRequest) {
+        const response = await axios.post<AccountAndPerson>(
+            `${baseUrl}/register`,
+            registerRequest
         );
         return response.data;
     }

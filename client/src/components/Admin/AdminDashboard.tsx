@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useStoreState } from "../../stores/_store";
-import { useHistory } from "react-router-dom";
 import {
     Card,
     CardBody,
@@ -13,20 +12,12 @@ import {
 import { PageHeader } from "jack-hermanson-component-lib";
 import { AgnosticLink } from "../Utils/AgnosticLink";
 import { AdminTabs } from "./AdminTabs";
+import { useMinClearance } from "../../utils/useMinClearance";
 
 export const AdminDashboard: React.FC = () => {
     const currentUser = useStoreState(state => state.currentUser);
 
-    const history = useHistory();
-
-    useEffect(() => {
-        if (
-            !currentUser ||
-            !currentUser.clearances.some(clearance => clearance >= 5)
-        ) {
-            history.replace("/account");
-        }
-    });
+    useMinClearance(5);
 
     return (
         <React.Fragment>

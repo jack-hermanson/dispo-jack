@@ -4,6 +4,7 @@ import { Col, Row } from "reactstrap";
 import { LoginForm } from "./LoginForm";
 import { useHistory } from "react-router-dom";
 import { useStoreState } from "../../stores/_store";
+import { AgnosticLink } from "../Utils/AgnosticLink";
 
 export const LoginPage: React.FC = () => {
     const history = useHistory();
@@ -25,6 +26,20 @@ export const LoginPage: React.FC = () => {
             <Row>
                 <Col lg={6}>
                     <LoginForm />
+                </Col>
+            </Row>
+            <Row>
+                <Col lg={6}>
+                    <hr className="mt-4 mb-3" />
+                    <p>
+                        Need an account?{" "}
+                        <AgnosticLink
+                            linkType="internal"
+                            linkText="Register here."
+                            path="/account/register"
+                            className="text-white"
+                        />
+                    </p>
                 </Col>
             </Row>
         </React.Fragment>

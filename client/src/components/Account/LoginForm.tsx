@@ -48,7 +48,7 @@ export const LoginForm: React.FC = () => {
             >
                 <legend>Log In</legend>
                 <FormGroup>
-                    <Label htmlFor="username-input">Username</Label>
+                    <Label for="username-input">Username</Label>
                     <Input
                         autoFocus
                         required
@@ -60,7 +60,7 @@ export const LoginForm: React.FC = () => {
                     />
                 </FormGroup>
                 <FormGroup>
-                    <Label htmlFor="password-input">Password</Label>
+                    <Label for="password-input">Password</Label>
                     <Input
                         required
                         type="password"
@@ -69,7 +69,7 @@ export const LoginForm: React.FC = () => {
                         onChange={e => setPassword(e.target.value)}
                     />
                 </FormGroup>
-                <FormGroup className="mt-4 bottom-buttons">
+                <div className="bottom-buttons">
                     <Button type="submit" color="primary">
                         Log In
                     </Button>
@@ -84,7 +84,7 @@ export const LoginForm: React.FC = () => {
                     >
                         Reset
                     </Button>
-                </FormGroup>
+                </div>
             </form>
         </React.Fragment>
     );

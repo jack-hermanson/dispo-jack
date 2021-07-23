@@ -222,4 +222,15 @@ export abstract class RoleService {
 
         return roles;
     }
+
+    // get basic customer role
+    static async getCustomerRole(): Promise<Role | undefined> {
+        // repo
+        const { roleRepo } = getRepos();
+        const customerRole = roleRepo.findOne({ clearance: 1 });
+        if (!customerRole) {
+            return undefined;
+        }
+        return customerRole;
+    }
 }

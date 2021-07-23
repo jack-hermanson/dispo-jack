@@ -41,11 +41,35 @@ const getRepos = (): {
 };
 
 export abstract class AccountService {
+    static async accountDoesNotConflict(
+        username: string,
+        email: string,
+        res: Response
+    ): Promise<boolean | undefined> {
+        const { accountRepo } = getRepos();
+
+        // does an account already exist with this username or email?
+        if (
+            !(await doesNotConflict<Account>({
+                repo: accountRepo,
+                properties: [
+                    { name: "username", value: username },
+                    { name: "email", value: email },
+                ],
+                res: res,
+            }))
+        ) {
+            return undefined; // there is a conflict
+        }
+
+        return true; // good to go
+    }
+
     static async createAccount(
         requestBody: NewAccountRequest,
         res: Response
     ): Promise<AccountAndPersonType | undefined> {
-        const { accountRepo, accountPersonRepo } = getRepos();
+        const { accountRepo, accountPersonRepo, accountRoleRepo } = getRepos();
 
         // is this personId a real person?
         const person = await PersonService.getOnePerson(
@@ -67,16 +91,12 @@ export abstract class AccountService {
             return undefined;
         }
 
-        // does an account already exist with this username or email?
         if (
-            !(await doesNotConflict<Account>({
-                repo: accountRepo,
-                properties: [
-                    { name: "username", value: requestBody.username },
-                    { name: "email", value: requestBody.email },
-                ],
-                res: res,
-            }))
+            !(await this.accountDoesNotConflict(
+                requestBody.username,
+                requestBody.email,
+                res
+            ))
         ) {
             return undefined;
         }
@@ -96,6 +116,17 @@ export abstract class AccountService {
         accountPerson.accountId = newAccount.id;
         accountPerson.personId = requestBody.personId;
         await accountPersonRepo.save(accountPerson);
+
+        // set default role
+        const customerRole = await RoleService.getCustomerRole();
+        if (customerRole) {
+            await accountRoleRepo.save({
+                accountId: newAccount.id,
+                roleId: customerRole.id,
+            });
+        } else {
+            res.status(HTTP.SERVER_ERROR).send("No customerRole");
+        }
 
         // get clearances
         const clearances = await RoleService.getUserClearances(newAccount.id);
@@ -153,7 +184,7 @@ export abstract class AccountService {
     }
 
     /**
-     * Register: create new person and account.
+     * RegisterPage: create new person and account.
      * @param requestBody
      * @param res
      */
@@ -161,6 +192,16 @@ export abstract class AccountService {
         requestBody: RegisterRequest,
         res: Response
     ): Promise<AccountAndPersonType | undefined> {
+        if (
+            !(await this.accountDoesNotConflict(
+                requestBody.username,
+                requestBody.email,
+                res
+            ))
+        ) {
+            return undefined;
+        }
+
         const person = await PersonService.createPerson(requestBody, res);
         if (!person) return undefined;
         const accountAndPerson = await this.createAccount(

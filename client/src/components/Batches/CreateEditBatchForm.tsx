@@ -245,7 +245,7 @@ export const CreateEditBatchForm: React.FC<Props> = ({
 
     function renderButtons() {
         return (
-            <div className="mt-4 bottom-buttons">
+            <div className="bottom-buttons">
                 <Button color="primary" type="submit">
                     Submit
                 </Button>
