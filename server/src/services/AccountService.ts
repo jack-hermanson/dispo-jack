@@ -69,7 +69,7 @@ export abstract class AccountService {
         requestBody: NewAccountRequest,
         res: Response
     ): Promise<AccountAndPersonType | undefined> {
-        const { accountRepo, accountPersonRepo } = getRepos();
+        const { accountRepo, accountPersonRepo, accountRoleRepo } = getRepos();
 
         // is this personId a real person?
         const person = await PersonService.getOnePerson(
@@ -116,6 +116,17 @@ export abstract class AccountService {
         accountPerson.accountId = newAccount.id;
         accountPerson.personId = requestBody.personId;
         await accountPersonRepo.save(accountPerson);
+
+        // set default role
+        const customerRole = await RoleService.getCustomerRole();
+        if (customerRole) {
+            await accountRoleRepo.save({
+                accountId: newAccount.id,
+                roleId: customerRole.id,
+            });
+        } else {
+            res.status(HTTP.SERVER_ERROR).send("No customerRole");
+        }
 
         // get clearances
         const clearances = await RoleService.getUserClearances(newAccount.id);

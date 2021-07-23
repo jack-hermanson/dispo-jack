@@ -24,11 +24,11 @@ import { FontAwesomeIcon as FA } from "@fortawesome/react-fontawesome";
 import { useStoreActions, useStoreState } from "../../stores/_store";
 
 export const Navigation: React.FC = () => {
-    const [isOpen, setIsOpen] = useState<boolean>(false);
     const toggle = () => setIsOpen(!isOpen);
     const history = useHistory();
-    const account = useStoreState(state => state.currentUser?.account);
     const [userBtnOpen, setUserBtnOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const currentUser = useStoreState(state => state.currentUser);
     const logOut = useStoreActions(actions => actions.logOut);
 
     const closeNav = useCallback(() => {
@@ -86,19 +86,19 @@ export const Navigation: React.FC = () => {
                 className="nav-link py-0 pe-0 mt-2 mt-lg-0"
                 to="/account"
                 onClick={e => {
-                    if (account) {
+                    if (currentUser) {
                         e.preventDefault();
                     }
                 }}
             >
-                {account ? (
+                {currentUser ? (
                     <ButtonDropdown
                         isOpen={userBtnOpen}
                         toggle={() => setUserBtnOpen(open => !open)}
                     >
                         <DropdownToggle size="sm" color="secondary" caret>
                             {renderUserIcon()}
-                            {account.username}
+                            {currentUser.account.username}
                         </DropdownToggle>
                         <DropdownMenu end>
                             <DropdownItem
@@ -112,7 +112,7 @@ export const Navigation: React.FC = () => {
                             <DropdownItem divider />
                             <DropdownItem
                                 onClick={async () => {
-                                    await logOut(account.token!);
+                                    await logOut(currentUser.account.token!);
                                     history.push("/account");
                                     closeNav();
                                 }}
@@ -129,7 +129,7 @@ export const Navigation: React.FC = () => {
     }
 
     function renderAdmin() {
-        if (account)
+        if (currentUser?.clearances.includes(5))
             return (
                 <NavItem>
                     <NavLink
