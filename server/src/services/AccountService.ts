@@ -41,6 +41,30 @@ const getRepos = (): {
 };
 
 export abstract class AccountService {
+    static async accountDoesNotConflict(
+        username: string,
+        email: string,
+        res: Response
+    ): Promise<boolean | undefined> {
+        const { accountRepo } = getRepos();
+
+        // does an account already exist with this username or email?
+        if (
+            !(await doesNotConflict<Account>({
+                repo: accountRepo,
+                properties: [
+                    { name: "username", value: username },
+                    { name: "email", value: email },
+                ],
+                res: res,
+            }))
+        ) {
+            return undefined; // there is a conflict
+        }
+
+        return true; // good to go
+    }
+
     static async createAccount(
         requestBody: NewAccountRequest,
         res: Response
@@ -67,16 +91,12 @@ export abstract class AccountService {
             return undefined;
         }
 
-        // does an account already exist with this username or email?
         if (
-            !(await doesNotConflict<Account>({
-                repo: accountRepo,
-                properties: [
-                    { name: "username", value: requestBody.username },
-                    { name: "email", value: requestBody.email },
-                ],
-                res: res,
-            }))
+            !(await this.accountDoesNotConflict(
+                requestBody.username,
+                requestBody.email,
+                res
+            ))
         ) {
             return undefined;
         }
@@ -161,6 +181,16 @@ export abstract class AccountService {
         requestBody: RegisterRequest,
         res: Response
     ): Promise<AccountAndPersonType | undefined> {
+        if (
+            !(await this.accountDoesNotConflict(
+                requestBody.username,
+                requestBody.email,
+                res
+            ))
+        ) {
+            return undefined;
+        }
+
         const person = await PersonService.createPerson(requestBody, res);
         if (!person) return undefined;
         const accountAndPerson = await this.createAccount(

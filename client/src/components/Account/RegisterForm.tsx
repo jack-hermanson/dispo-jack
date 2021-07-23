@@ -3,7 +3,7 @@ import { RegisterRequest } from "../../../../shared/resource_models/account";
 import { Form, Formik, FormikErrors, FormikProps, Field } from "formik";
 import * as yup from "yup";
 import { FormError, LoadingSpinner } from "jack-hermanson-component-lib";
-import { Button, Col, FormGroup, Input, Label, Row } from "reactstrap";
+import { Button, FormGroup, Input, Label } from "reactstrap";
 
 interface Props {
     onSubmit: (requestBody: RegisterRequest) => Promise<void>;

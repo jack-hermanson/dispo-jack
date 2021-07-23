@@ -1,15 +1,17 @@
 import React, { useEffect } from "react";
-import { useStoreState } from "../../stores/_store";
+import { useStoreActions, useStoreState } from "../../stores/_store";
 import { useHistory } from "react-router-dom";
 import { Col, Row } from "reactstrap";
 import { PageHeader } from "jack-hermanson-component-lib";
 import { RegisterForm } from "./RegisterForm";
 import { AgnosticLink } from "../Utils/AgnosticLink";
+import { scrollToTop } from "jack-hermanson-ts-utils";
 
 export const RegisterPage: React.FC = () => {
     const history = useHistory();
 
     const currentUser = useStoreState(state => state.currentUser);
+    const register = useStoreActions(actions => actions.register);
 
     useEffect(() => {
         if (currentUser) {
@@ -28,7 +30,13 @@ export const RegisterPage: React.FC = () => {
                 <Col lg={6}>
                     <RegisterForm
                         onSubmit={async requestBody => {
-                            console.log(requestBody);
+                            try {
+                                await register(requestBody);
+                                history.push("/account/login");
+                            } catch (error) {
+                                console.error(error);
+                                scrollToTop();
+                            }
                         }}
                     />
                 </Col>
