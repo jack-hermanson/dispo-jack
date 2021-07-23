@@ -22,6 +22,9 @@ export const Register: React.FC = () => {
                     <PageHeader title="Register" />
                 </Col>
             </Row>
+            <Row>
+                <Col></Col>
+            </Row>
         </React.Fragment>
     );
 };
