@@ -10807,6 +10807,64 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+.hover-mouse:hover {
+  cursor: pointer;
+}
+
+a.btn:hover {
+  text-decoration: none;
+}
+
+.bottom-buttons {
+  margin-bottom: 0;
+  margin-top: 1.6em;
+}
+.bottom-buttons button:not(last-of-type) {
+  margin-right: 0.5em;
+}
+
+.form-label.required:after {
+  content: " *";
+  color: red;
+}
+
+.card-table tbody > tr :first-child {
+  padding-left: 1em;
+}
+.card-table tbody > tr :last-child {
+  padding-right: 1em;
+}
+.card-table tbody > tr:last-of-type th,
+.card-table tbody > tr:last-of-type td {
+  border-bottom: 0;
+}
+.card-table tbody > tr:first-of-type th,
+.card-table tbody > tr:first-of-type td {
+  border-top: 0;
+}
+
+table.same-width tbody > tr th {
+  width: 30%;
+}
+
+.no-mb-last:last-of-type {
+  margin-bottom: 0 !important;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.checkbox-lg {
+  width: 1.4em !important;
+  height: 1.4em !important;
+  margin-top: 0 !important;
+}
+
+.dropdown-menu {
+  z-index: 1050 !important;
+}
+
 body {
   font-family: "Ubuntu", sans-serif;
 }

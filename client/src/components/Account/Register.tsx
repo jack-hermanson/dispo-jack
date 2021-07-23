@@ -3,6 +3,7 @@ import { useStoreState } from "../../stores/_store";
 import { useHistory } from "react-router-dom";
 import { Col, Row } from "reactstrap";
 import { PageHeader } from "jack-hermanson-component-lib";
+import { RegisterForm } from "./RegisterForm";
 
 export const Register: React.FC = () => {
     const history = useHistory();
@@ -23,7 +24,13 @@ export const Register: React.FC = () => {
                 </Col>
             </Row>
             <Row>
-                <Col></Col>
+                <Col>
+                    <RegisterForm
+                        onSubmit={async requestBody => {
+                            console.log(requestBody);
+                        }}
+                    />
+                </Col>
             </Row>
         </React.Fragment>
     );
