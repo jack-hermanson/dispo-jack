@@ -54,7 +54,7 @@ export const Navigation: React.FC = () => {
                                 to="/"
                                 onClick={closeNav}
                             >
-                                <FA icon={faHome} /> Home
+                                <FA className="me-1" icon={faHome} /> Home
                             </NavLink>
                         </NavItem>
                         <NavItem>
@@ -63,7 +63,8 @@ export const Navigation: React.FC = () => {
                                 className="nav-link"
                                 to="/strains"
                             >
-                                <FA icon={faCannabis} /> Strains
+                                <FA className="me-1" icon={faCannabis} />{" "}
+                                Strains
                             </NavLink>
                         </NavItem>
                         {renderAdmin()}
@@ -88,6 +89,8 @@ export const Navigation: React.FC = () => {
                 onClick={e => {
                     if (currentUser) {
                         e.preventDefault();
+                    } else {
+                        closeNav();
                     }
                 }}
             >
