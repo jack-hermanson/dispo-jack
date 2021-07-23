@@ -129,7 +129,7 @@ export const Navigation: React.FC = () => {
     }
 
     function renderAdmin() {
-        if (currentUser?.clearances.includes(5))
+        if (currentUser?.clearances.some(c => c >= 5))
             return (
                 <NavItem>
                     <NavLink
