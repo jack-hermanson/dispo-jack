@@ -42,7 +42,7 @@ export const Navigation: React.FC = () => {
                     className="hover-mouse"
                     onClick={() => history.push("/")}
                 >
-                    <FA icon={faBong} /> DispoJack
+                    <FA className="nav-icon" icon={faBong} /> DispoJack
                 </NavbarBrand>
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
@@ -54,7 +54,7 @@ export const Navigation: React.FC = () => {
                                 to="/"
                                 onClick={closeNav}
                             >
-                                <FA className="me-1" icon={faHome} /> Home
+                                <FA className="nav-icon" icon={faHome} /> Home
                             </NavLink>
                         </NavItem>
                         <NavItem>
@@ -63,7 +63,7 @@ export const Navigation: React.FC = () => {
                                 className="nav-link"
                                 to="/strains"
                             >
-                                <FA className="me-1" icon={faCannabis} />{" "}
+                                <FA className="nav-icon" icon={faCannabis} />{" "}
                                 Strains
                             </NavLink>
                         </NavItem>
@@ -78,7 +78,7 @@ export const Navigation: React.FC = () => {
     );
 
     function renderUserIcon() {
-        return <FA className="me-1" icon={faUserCircle} />;
+        return <FA className="nav-icon" icon={faUserCircle} />;
     }
 
     function renderUser() {
