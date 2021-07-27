@@ -44,3 +44,11 @@ body {
 .nav-icon {
     margin-right: 3px;
 }
+
+
+.card-table {
+    tbody tr td a {
+        padding-left: 0 !important;
+        color: white;
+    }
+}
