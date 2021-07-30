@@ -4,6 +4,7 @@ import { personRouter } from "./personRouter";
 import { roleRouter } from "./roleRouter";
 import { strainRouter } from "./strainRouter";
 import { cartRouter } from "./cartRouter";
+import { cartBatchRouter } from "./cartBatchRouter";
 
 export const routes = {
     accountRouter,
@@ -12,4 +13,5 @@ export const routes = {
     roleRouter,
     strainRouter,
     cartRouter,
+    cartBatchRouter,
 };

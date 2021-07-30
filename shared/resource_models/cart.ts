@@ -5,6 +5,6 @@ export interface CartRequest {
     personId?: number;
 }
 
-export interface CartRecord extends CartRequest {
+export interface CartRecord extends CartRequest, ResourceModel {
     lastUpdated: Date;
 }

@@ -21,7 +21,7 @@ cartRouter.post(
                 return;
             }
 
-            res.json(cart);
+            res.status(HTTP.CREATED).json(cart);
         } catch (error) {
             sendError(error, res);
         }

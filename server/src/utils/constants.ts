@@ -7,4 +7,5 @@ export const routePrefixes = {
     strains: `${apiPrefix}/strains`,
     batches: `${apiPrefix}/batches`,
     carts: `${apiPrefix}/carts`,
+    cartBatches: `${apiPrefix}/cart-batches`,
 };
