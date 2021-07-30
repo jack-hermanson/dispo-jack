@@ -5,6 +5,7 @@ import { strainTypesStore, StrainTypesStoreModel } from "./strainTypesStore";
 import { batchStore, BatchStoreModel } from "./batchStore";
 import { alertStore, AlertStoreModel } from "./alertStore";
 import { accountStore, AccountStoreModel } from "./accountStore";
+import { cartStore, CartStoreModel } from "./cartStore";
 
 export interface StoreModel
     extends UserStoreModel,
@@ -12,7 +13,8 @@ export interface StoreModel
         StrainTypesStoreModel,
         BatchStoreModel,
         AlertStoreModel,
-        AccountStoreModel {}
+        AccountStoreModel,
+        CartStoreModel {}
 
 export const _store = createStore<StoreModel>({
     ...userStore,
@@ -21,6 +23,7 @@ export const _store = createStore<StoreModel>({
     ...batchStore,
     ...alertStore,
     ...accountStore,
+    ...cartStore,
 });
 
 const typedHooks = createTypedHooks<StoreModel>();

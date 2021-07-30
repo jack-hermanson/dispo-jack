@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from "react";
 import {
+    Badge,
     ButtonDropdown,
     Collapse,
     Container,
@@ -19,6 +20,7 @@ import {
     faUserCircle,
     faBong,
     faTools,
+    faShoppingCart,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon as FA } from "@fortawesome/react-fontawesome";
 import { useStoreActions, useStoreState } from "../../stores/_store";
@@ -29,6 +31,8 @@ export const Navigation: React.FC = () => {
     const [userBtnOpen, setUserBtnOpen] = useState(false);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const currentUser = useStoreState(state => state.currentUser);
+    const cart = useStoreState(state => state.cart);
+    const cartBatches = useStoreState(state => state.cartBatches);
     const logOut = useStoreActions(actions => actions.logOut);
 
     const closeNav = useCallback(() => {
@@ -70,6 +74,7 @@ export const Navigation: React.FC = () => {
                         {renderAdmin()}
                     </Nav>
                     <Nav navbar style={{ marginLeft: "auto" }}>
+                        {renderCart()}
                         <NavItem>{renderUser()}</NavItem>
                     </Nav>
                 </Collapse>
@@ -144,5 +149,18 @@ export const Navigation: React.FC = () => {
                     </NavLink>
                 </NavItem>
             );
+    }
+
+    function renderCart() {
+        if (cart && cartBatches?.length) {
+            return (
+                <NavItem>
+                    <NavLink to="/cart" onClick={closeNav} className="nav-link">
+                        <FA icon={faShoppingCart} /> Cart{" "}
+                        <Badge color="secondary">{cartBatches.length}</Badge>
+                    </NavLink>
+                </NavItem>
+            );
+        }
     }
 };
