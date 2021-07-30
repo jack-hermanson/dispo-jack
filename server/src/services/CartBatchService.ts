@@ -11,13 +11,11 @@ import { Batch } from "../models/Batch";
 const getRepos = (): {
     cartBatchRepo: Repository<CartBatch>;
     cartRepo: Repository<Cart>;
-    batchRepo: Repository<Batch>;
 } => {
     const connection = getConnection();
     const cartBatchRepo = connection.getRepository(CartBatch);
     const cartRepo = connection.getRepository(Cart);
-    const batchRepo = connection.getRepository(Batch);
-    return { cartBatchRepo, cartRepo, batchRepo };
+    return { cartBatchRepo, cartRepo };
 };
 
 export abstract class CartBatchService {
@@ -25,7 +23,7 @@ export abstract class CartBatchService {
         cartBatchRequest: CartBatchRequest,
         res: Response
     ): Promise<CartBatch | undefined> {
-        const { cartBatchRepo, cartRepo, batchRepo } = getRepos();
+        const { cartBatchRepo, cartRepo } = getRepos();
 
         // is the cartId legit?
         const cart = await CartService.getOne(cartBatchRequest.cartId, res);
@@ -36,10 +34,7 @@ export abstract class CartBatchService {
         if (!batch) return undefined;
 
         // is the amount available in stock?
-        if (batch.size >= cartBatchRequest.amount) {
-            const newSize = batch.size - cartBatchRequest.amount;
-            await batchRepo.save({ ...batch, size: newSize });
-        } else {
+        if (batch.size < cartBatchRequest.amount) {
             res.status(HTTP.BAD_REQUEST).send(
                 `CartBatch is ${cartBatchRequest.amount} grams, but only ${batch.size} grams are available in stock.`
             );
