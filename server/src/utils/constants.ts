@@ -1,4 +1,4 @@
-const apiPrefix = "/clients";
+const apiPrefix = "/api";
 
 export const routePrefixes = {
     roles: `${apiPrefix}/roles`,
@@ -6,4 +6,5 @@ export const routePrefixes = {
     accounts: `${apiPrefix}/account`,
     strains: `${apiPrefix}/strains`,
     batches: `${apiPrefix}/batches`,
+    carts: `${apiPrefix}/carts`,
 };

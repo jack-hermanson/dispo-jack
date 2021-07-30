@@ -3,6 +3,7 @@ import { batchRouter } from "./batchRouter";
 import { personRouter } from "./personRouter";
 import { roleRouter } from "./roleRouter";
 import { strainRouter } from "./strainRouter";
+import { cartRouter } from "./cartRouter";
 
 export const routes = {
     accountRouter,
@@ -10,4 +11,5 @@ export const routes = {
     personRouter,
     roleRouter,
     strainRouter,
+    cartRouter,
 };

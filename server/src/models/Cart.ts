@@ -1,4 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import Joi from "joi";
 
 @Entity()
 export class Cart {
@@ -14,3 +15,8 @@ export class Cart {
     @Column({ nullable: false, default: () => "CURRENT_TIMESTAMP" })
     lastUpdated: Date;
 }
+
+export const cartSchema = Joi.object().options({ abortEarly: false }).keys({
+    employeeId: Joi.number().integer().optional(),
+    personId: Joi.number().integer().optional(),
+});

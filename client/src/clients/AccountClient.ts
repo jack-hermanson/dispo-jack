@@ -6,7 +6,7 @@ import {
 } from "../../../shared/resource_models/account";
 import axios from "axios";
 
-const baseUrl = "/clients/account";
+const baseUrl = "/api/account";
 
 export abstract class AccountClient {
     static async logIn(userInfo: LoginRequest): Promise<AccountAndPerson> {

@@ -6,7 +6,7 @@ export class CartBatch {
     id: number;
 
     @Column({ type: "integer", nullable: false })
-    cardId: number;
+    cartId: number;
 
     @Column({ type: "integer", nullable: false })
     batchId: number;

@@ -5,7 +5,7 @@ import {
 import axios from "axios";
 import { getAuthHeader } from "jack-hermanson-ts-utils";
 
-const baseUrl = "/clients/batches";
+const baseUrl = "/api/batches";
 
 export abstract class BatchClient {
     static async getBatches() {

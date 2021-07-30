@@ -36,6 +36,7 @@ app.use(routePrefixes.people, routes.personRouter);
 app.use(routePrefixes.accounts, routes.accountRouter);
 app.use(routePrefixes.strains, routes.strainRouter);
 app.use(routePrefixes.batches, routes.batchRouter);
+app.use(routePrefixes.carts, routes.cartRouter);
 
 // any apps not picked up by the server clients will be handled by the react router
 app.use("/*", staticFiles);

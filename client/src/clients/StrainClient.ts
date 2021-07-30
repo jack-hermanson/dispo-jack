@@ -5,7 +5,7 @@ import {
 } from "../../../shared/resource_models/strain";
 import { StrainTypeRecord } from "../../../shared/resource_models/strainType";
 
-const baseUrl = "/clients/strains";
+const baseUrl = "/api/strains";
 
 export abstract class StrainClient {
     static async getStrainTypes(): Promise<StrainTypeRecord[]> {
