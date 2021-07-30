@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     Button,
     Card,
@@ -18,6 +18,7 @@ import {
 import { FontAwesomeIcon as FA } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useStoreState } from "../../stores/_store";
+import { AddToCartModal } from "../Cart/AddToCartModal";
 
 interface Props {
     strainAndBatch: StrainAndBatch;
@@ -32,8 +33,27 @@ export const StrainAndBatchDetails: React.FC<Props> = ({
         )
     );
 
+    const [showCartModal, setShowCartModal] = useState<boolean>(false);
+
     return (
-        <Card className="mb-4">
+        <React.Fragment>
+            <Card className="mb-4">
+                {renderCardHeader()}
+                {renderCardBody()}
+                {renderCardFooter()}
+            </Card>
+            <AddToCartModal
+                isOpen={showCartModal}
+                closeModal={() => {
+                    setShowCartModal(false);
+                }}
+                strainAndBatch={strainAndBatch}
+            />
+        </React.Fragment>
+    );
+
+    function renderCardHeader() {
+        return (
             <CardHeader>
                 <h5 className="mb-0">
                     <AgnosticLink
@@ -45,6 +65,11 @@ export const StrainAndBatchDetails: React.FC<Props> = ({
                     <StrainTypeBadge typeName={strainType?.name || ""} />
                 </h5>
             </CardHeader>
+        );
+    }
+
+    function renderCardBody() {
+        return (
             <CardBody className="p-0">
                 {strainAndBatch.batch.imageUrl && (
                     <CardImg
@@ -60,12 +85,24 @@ export const StrainAndBatchDetails: React.FC<Props> = ({
                     className="mb-0 card-table same-width"
                 />
             </CardBody>
+        );
+    }
+
+    function renderCardFooter() {
+        return (
             <CardFooter className="py-3">
-                <Button color="primary" size="sm" block>
+                <Button
+                    color="primary"
+                    size="sm"
+                    block
+                    onClick={() => {
+                        setShowCartModal(true);
+                    }}
+                >
                     <FA className="me-2" icon={faPlus} />
                     Add to Cart
                 </Button>
             </CardFooter>
-        </Card>
-    );
+        );
+    }
 };
