@@ -16,6 +16,9 @@ export interface CartStoreModel {
     setCartBatches: Action<StoreModel, CartBatchRecord[] | undefined>;
     addCartBatch: Action<StoreModel, CartBatchRecord>;
     createCartBatch: Thunk<StoreModel, CartBatchRequest>;
+    fetchCustomerCart: Thunk<StoreModel, string>;
+    fetchEmployeeCart: Thunk<StoreModel, string>;
+    fetchCartBatches: Thunk<StoreModel, number>;
 }
 
 export const cartStore: CartStoreModel = {
@@ -48,6 +51,37 @@ export const cartStore: CartStoreModel = {
         try {
             const cartBatch = await CartBatchClient.create(payload);
             actions.addCartBatch(cartBatch);
+        } catch (error) {
+            console.error(error.response);
+            actions.addError(error.message);
+            throw error;
+        }
+    }),
+    fetchCustomerCart: thunk(async (actions, token) => {
+        try {
+            const cart = await CartClient.getCustomerCart(token);
+            actions.setCart(cart);
+        } catch (error) {
+            console.error(error.response);
+            actions.addError(error.message);
+            throw error;
+        }
+    }),
+    fetchEmployeeCart: thunk(async (actions, token) => {
+        try {
+            const cart = await CartClient.getEmployeeCart(token);
+            actions.setCart(cart);
+            console.log({ cart });
+        } catch (error) {
+            console.error(error.response);
+            actions.addError(error.message);
+            throw error;
+        }
+    }),
+    fetchCartBatches: thunk(async (actions, cartId) => {
+        try {
+            const cartBatches = await CartBatchClient.getCartBatches(cartId);
+            actions.setCartBatches(cartBatches);
         } catch (error) {
             console.error(error.response);
             actions.addError(error.message);

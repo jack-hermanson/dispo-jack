@@ -33,3 +33,24 @@ cartBatchRouter.post(
         }
     }
 );
+
+cartBatchRouter.get(
+    "/cart/:cartId",
+    async (
+        req: AuthRequest<{ cartId: number }>,
+        res: Response<CartBatchRecord[]>
+    ) => {
+        try {
+            const cartBatches = await CartBatchService.getCartBatches(
+                req.params.cartId,
+                res
+            );
+            if (!cartBatches) {
+                return;
+            }
+            res.json(cartBatches);
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+);

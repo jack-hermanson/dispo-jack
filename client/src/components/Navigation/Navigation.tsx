@@ -75,7 +75,7 @@ export const Navigation: React.FC = () => {
                     </Nav>
                     <Nav navbar style={{ marginLeft: "auto" }}>
                         {renderCart()}
-                        <NavItem>{renderUser()}</NavItem>
+                        <NavItem className="my-auto">{renderUser()}</NavItem>
                     </Nav>
                 </Collapse>
             </Container>

@@ -6,6 +6,8 @@ import { cartSchema } from "../models/Cart";
 import { CartRecord, CartRequest } from "../../../shared/resource_models/cart";
 import { CartService } from "../services/CartService";
 import { RoleService } from "../services/RoleService";
+import { PersonService } from "../services/PersonService";
+import { AccountService } from "../services/AccountService";
 
 export const cartRouter = express.Router();
 
@@ -40,6 +42,51 @@ cartRouter.get(
 
             const carts = await CartService.getAll();
             res.json(carts);
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+);
+
+cartRouter.get(
+    "/customer",
+    auth,
+    async (req: AuthRequest<any>, res: Response<CartRecord | undefined>) => {
+        try {
+            const accountPerson = await AccountService.getOneAccount(
+                req.account.id,
+                res
+            );
+            const carts = await CartService.getCustomerCarts(
+                accountPerson.person.id
+            );
+            if (!carts) {
+                res.send(undefined);
+            }
+            // there should really only be one cart
+            res.json(carts[carts.length - 1]);
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+);
+
+cartRouter.get(
+    "/employee",
+    auth,
+    async (req: AuthRequest<any>, res: Response<CartRecord | undefined>) => {
+        try {
+            const accountPerson = await AccountService.getOneAccount(
+                req.account.id,
+                res
+            );
+            const carts = await CartService.getEmployeeCarts(
+                accountPerson.person.id
+            );
+            if (!carts) {
+                res.send(undefined);
+            }
+            res.json(carts[carts.length - 1]);
         } catch (error) {
             sendError(error, res);
         }

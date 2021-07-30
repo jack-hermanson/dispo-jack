@@ -14,4 +14,11 @@ export abstract class CartBatchClient {
         );
         return response.data;
     }
+
+    static async getCartBatches(cartId: number) {
+        const response = await axios.get<CartBatchRecord[]>(
+            `${baseUrl}/cart/${cartId}`
+        );
+        return response.data;
+    }
 }

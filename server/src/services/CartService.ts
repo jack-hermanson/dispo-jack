@@ -36,6 +36,11 @@ export abstract class CartService {
         return await cartRepo.find({ personId: customerId });
     }
 
+    static async getEmployeeCarts(employeeId: number): Promise<Cart[]> {
+        const { cartRepo } = getRepos();
+        return await cartRepo.find({ employeeId });
+    }
+
     static async create(
         cartRequest: CartRequest,
         res: Response
