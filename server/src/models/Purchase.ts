@@ -5,7 +5,11 @@ export class Purchase {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ type: "date", nullable: false })
+    @Column({
+        type: "date",
+        nullable: false,
+        default: () => "CURRENT_TIMESTAMP",
+    })
     dateAndTime: Date;
 
     @Column({ type: "integer", nullable: false })

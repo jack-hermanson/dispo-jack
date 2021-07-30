@@ -10,4 +10,7 @@ export class Adjustment {
 
     @Column({ type: "integer", nullable: false })
     purchaseId: number;
+
+    @Column({ type: "varchar", nullable: true })
+    notes?: string;
 }

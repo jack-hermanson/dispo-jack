@@ -9,6 +9,8 @@ import { PurchaseBatch } from "./PurchaseBatch";
 import { Role } from "./Role";
 import { Strain } from "./Strain";
 import { StrainType } from "./StrainType";
+import { Cart } from "./Cart";
+import { CartBatch } from "./CartBatch";
 
 export const models = [
     Account,
@@ -22,4 +24,6 @@ export const models = [
     Role,
     Strain,
     StrainType,
+    Cart,
+    CartBatch,
 ];
