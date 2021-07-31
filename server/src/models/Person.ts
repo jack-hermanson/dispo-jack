@@ -14,6 +14,10 @@ export class Person {
 
     @Column({ nullable: false })
     phone: string;
+
+    public get fullName() {
+        return `${this.firstName} ${this.lastName}`;
+    }
 }
 
 export const personSchema = Joi.object().options({ abortEarly: false }).keys({

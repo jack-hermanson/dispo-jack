@@ -1,11 +1,23 @@
-import React from "react";
-import { Card, CardBody, Col, Row, Table } from "reactstrap";
+import React, { useEffect, useState } from "react";
+import {
+    Card,
+    CardBody,
+    Col,
+    FormGroup,
+    Input,
+    InputGroup,
+    Label,
+    Row,
+    Table,
+} from "reactstrap";
 import { MobileToggleCard, PageHeader } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../stores/_store";
 import { formatMoney } from "jack-hermanson-ts-utils";
 import { StrainRecord } from "../../../../shared/resource_models/strain";
 import { CartBatchRecord } from "../../../../shared/resource_models/cartBatch";
 import { getCartBatchPrice } from "../../utils/functions";
+import { PersonRecord } from "../../../../shared/resource_models/person";
+import { PersonClient } from "../../clients/PersonClient";
 
 export const CartIndex: React.FC = () => {
     const cart = useStoreState(state => state.cart);
@@ -16,6 +28,8 @@ export const CartIndex: React.FC = () => {
 
     const isEmployee = currentUser?.clearances.some(c => c >= 2);
 
+    const [people, setPeople] = useState<PersonRecord[] | undefined>(undefined);
+
     return (
         <div>
             <Row>
@@ -24,8 +38,10 @@ export const CartIndex: React.FC = () => {
                 </Col>
             </Row>
             <Row>
-                <Col lg={9}>{renderCart()}</Col>
-                <Col lg={3}>
+                <Col lg={8} className="mb-3 mb-lg-0">
+                    {renderCart()}
+                </Col>
+                <Col lg={4}>
                     {isEmployee ? renderEmployeeSidebar() : <p>Not employee</p>}
                 </Col>
             </Row>
@@ -108,9 +124,47 @@ export const CartIndex: React.FC = () => {
         return (
             <MobileToggleCard cardTitle="Check Out">
                 <CardBody>
-                    <p>Something</p>
+                    <form>{renderPerson()}</form>
                 </CardBody>
             </MobileToggleCard>
         );
+    }
+
+    function renderPerson() {
+        const id = "person-input";
+        if (currentUser?.account.token) {
+            return (
+                <FormGroup>
+                    <Label className="form-label" for={id}>
+                        Customer
+                    </Label>
+                    <Input
+                        onChange={async e => {
+                            if (e.target.value === "") {
+                                setPeople([]);
+                                return;
+                            }
+                            const filteredPeople = await PersonClient.getPeopleFilter(
+                                currentUser.account.token!,
+                                e.target.value
+                            );
+                            setPeople(filteredPeople);
+                        }}
+                        list={id}
+                        className="form-control-sm mb-1"
+                        placeholder="Search..."
+                    />
+                    <Input type="select" id={id}>
+                        {people &&
+                            people.map((person, index) => (
+                                <option key={person.id}>
+                                    {person.firstName} {person.lastName} (
+                                    {index + 1} of {people.length})
+                                </option>
+                            ))}
+                    </Input>
+                </FormGroup>
+            );
+        }
     }
 };

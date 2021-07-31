@@ -1,8 +1,17 @@
-import { getConnection, Repository } from "typeorm";
+import {
+    Brackets,
+    FindManyOptions,
+    getConnection,
+    Like,
+    Repository,
+} from "typeorm";
 import { doesNotConflict, HTTP } from "jack-hermanson-ts-utils";
 import { Response } from "express";
 import { Person } from "../models/Person";
-import { PersonRequest } from "../../../shared/resource_models/person";
+import {
+    PersonRecord,
+    PersonRequest,
+} from "../../../shared/resource_models/person";
 
 const getRepos = (): { personRepo: Repository<Person> } => {
     const connection = getConnection();
@@ -79,5 +88,19 @@ export abstract class PersonService {
 
         await personRepo.update(person, requestBody);
         return await personRepo.findOne({ id: id });
+    }
+
+    static async filter(searchQuery: string): Promise<PersonRecord[]> {
+        const { personRepo } = getRepos();
+
+        const query = personRepo
+            .createQueryBuilder()
+            .select()
+            .where(`"firstName" || ' ' || "lastName" LIKE '%${searchQuery}%'`)
+            .orWhere(`"phone" LIKE '%${searchQuery}%'`)
+            .orWhere(`"id" LIKE '%${searchQuery}%'`)
+            .limit(10);
+
+        return await query.getMany();
     }
 }
