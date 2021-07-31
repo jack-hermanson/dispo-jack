@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from "react";
 import {
-    Badge,
     ButtonDropdown,
     Collapse,
     Container,
@@ -15,12 +14,12 @@ import {
 } from "reactstrap";
 import { NavLink, useHistory } from "react-router-dom";
 import {
+    faBong,
     faCannabis,
     faHome,
-    faUserCircle,
-    faBong,
-    faTools,
     faShoppingCart,
+    faTools,
+    faUserCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon as FA } from "@fortawesome/react-fontawesome";
 import { useStoreActions, useStoreState } from "../../stores/_store";

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useStoreState } from "../../stores/_store";
 import {
     Card,

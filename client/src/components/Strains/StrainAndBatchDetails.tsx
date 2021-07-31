@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-    Alert,
     Button,
     Card,
     CardBody,
@@ -17,7 +16,7 @@ import {
     StrainAndBatch,
 } from "../../../../shared/resource_models/strain";
 import { FontAwesomeIcon as FA } from "@fortawesome/react-fontawesome";
-import { faCheck, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useStoreState } from "../../stores/_store";
 import { AddToCartModal } from "../Cart/AddToCartModal";
 

@@ -71,7 +71,6 @@ export const cartStore: CartStoreModel = {
         try {
             const cart = await CartClient.getEmployeeCart(token);
             actions.setCart(cart);
-            console.log({ cart });
         } catch (error) {
             console.error(error.response);
             actions.addError(error.message);
