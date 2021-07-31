@@ -28,6 +28,7 @@ export const CartIndex: React.FC = () => {
     const isEmployee = currentUser?.clearances.some(c => c >= 2);
 
     const [people, setPeople] = useState<PersonRecord[] | undefined>(undefined);
+    const [customerId, setCustomerId] = useState<string | number>("");
 
     return (
         <div>
@@ -135,12 +136,13 @@ export const CartIndex: React.FC = () => {
             return (
                 <FormGroup>
                     <Label className="form-label" for={id}>
-                        Customer
+                        Customer ({customerId})
                     </Label>
                     <Input
                         onChange={async e => {
                             if (e.target.value === "") {
                                 setPeople([]);
+                                setCustomerId("");
                                 return;
                             }
                             const filteredPeople = await PersonClient.getPeopleFilter(
@@ -148,15 +150,25 @@ export const CartIndex: React.FC = () => {
                                 e.target.value
                             );
                             setPeople(filteredPeople);
+                            if (filteredPeople.length >= 1) {
+                                setCustomerId(filteredPeople[0].id);
+                            } else {
+                                setCustomerId("");
+                            }
                         }}
                         list={id}
                         className="form-control-sm mb-1"
                         placeholder="Search..."
                     />
-                    <Input type="select" id={id}>
+                    <Input
+                        type="select"
+                        id={id}
+                        value={customerId}
+                        onChange={e => setCustomerId(e.target.value)}
+                    >
                         {people &&
                             people.map((person, index) => (
-                                <option key={person.id}>
+                                <option value={person.id} key={person.id}>
                                     {person.firstName} {person.lastName} (
                                     {index + 1} of {people.length})
                                 </option>
