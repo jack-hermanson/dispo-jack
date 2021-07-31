@@ -19,6 +19,7 @@ import { Forbidden } from "./components/Errors/Forbidden";
 import { NotFound } from "./components/Errors/NotFound";
 import { EditBatch } from "./components/Batches/EditBatch";
 import { RegisterPage } from "./components/Account/RegisterPage";
+import { CartIndex } from "./components/Cart/CartIndex";
 
 export const MainRouter = () => {
     return (
@@ -77,6 +78,8 @@ export const MainRouter = () => {
                         path="/admin/batches/edit/:id"
                         component={EditBatch}
                     />
+
+                    <Route exact path="/cart" component={CartIndex} />
 
                     <Route exact path="/forbidden" component={Forbidden} />
                     <Route component={NotFound} />

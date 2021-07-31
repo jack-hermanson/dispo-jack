@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+    Alert,
     Button,
     Card,
     CardBody,
@@ -16,7 +17,7 @@ import {
     StrainAndBatch,
 } from "../../../../shared/resource_models/strain";
 import { FontAwesomeIcon as FA } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useStoreState } from "../../stores/_store";
 import { AddToCartModal } from "../Cart/AddToCartModal";
 
@@ -34,6 +35,7 @@ export const StrainAndBatchDetails: React.FC<Props> = ({
     );
 
     const [showCartModal, setShowCartModal] = useState<boolean>(false);
+    const cartBatches = useStoreState(state => state.cartBatches);
 
     return (
         <React.Fragment>
@@ -100,9 +102,18 @@ export const StrainAndBatchDetails: React.FC<Props> = ({
                     }}
                 >
                     <FA className="me-2" icon={faPlus} />
-                    Add to Cart
+                    Add to Cart {renderInCartNotice()}
                 </Button>
             </CardFooter>
         );
+    }
+
+    function renderInCartNotice() {
+        const cartBatch = cartBatches?.find(
+            c => c.batchId === strainAndBatch.batch.id
+        );
+        if (cartBatch) {
+            return <span className="ms-2">({cartBatch.amount}g in Cart)</span>;
+        }
     }
 };
