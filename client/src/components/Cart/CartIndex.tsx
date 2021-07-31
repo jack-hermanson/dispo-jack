@@ -1,17 +1,8 @@
 import React from "react";
-import {
-    Card,
-    CardBody,
-    CardHeader,
-    CardTitle,
-    Col,
-    ListGroup,
-    Row,
-    Table,
-} from "reactstrap";
-import { KeyValCardBody, PageHeader } from "jack-hermanson-component-lib";
+import { Card, CardBody, Col, Row, Table } from "reactstrap";
+import { MobileToggleCard, PageHeader } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../stores/_store";
-import { formatMoney, KeyValPair } from "jack-hermanson-ts-utils";
+import { formatMoney } from "jack-hermanson-ts-utils";
 import { StrainRecord } from "../../../../shared/resource_models/strain";
 import { CartBatchRecord } from "../../../../shared/resource_models/cartBatch";
 import { getCartBatchPrice } from "../../utils/functions";
@@ -21,6 +12,9 @@ export const CartIndex: React.FC = () => {
     const cartBatches = useStoreState(state => state.cartBatches);
     const batches = useStoreState(state => state.batches);
     const strains = useStoreState(state => state.strains);
+    const currentUser = useStoreState(state => state.currentUser);
+
+    const isEmployee = currentUser?.clearances.some(c => c >= 2);
 
     return (
         <div>
@@ -30,7 +24,10 @@ export const CartIndex: React.FC = () => {
                 </Col>
             </Row>
             <Row>
-                <Col>{renderCart()}</Col>
+                <Col lg={9}>{renderCart()}</Col>
+                <Col lg={3}>
+                    {isEmployee ? renderEmployeeSidebar() : <p>Not employee</p>}
+                </Col>
             </Row>
         </div>
     );
@@ -105,5 +102,15 @@ export const CartIndex: React.FC = () => {
                 </Card>
             );
         }
+    }
+
+    function renderEmployeeSidebar() {
+        return (
+            <MobileToggleCard cardTitle="Check Out">
+                <CardBody>
+                    <p>Something</p>
+                </CardBody>
+            </MobileToggleCard>
+        );
     }
 };
