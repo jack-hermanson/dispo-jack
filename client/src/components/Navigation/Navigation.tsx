@@ -83,7 +83,7 @@ export const Navigation: React.FC = () => {
     );
 
     function renderUserIcon() {
-        return <FA className="nav-icon" icon={faUserCircle} />;
+        return <FA className="nav-icon me-2" icon={faUserCircle} />;
     }
 
     function renderUser() {
@@ -156,8 +156,8 @@ export const Navigation: React.FC = () => {
             return (
                 <NavItem>
                     <NavLink to="/cart" onClick={closeNav} className="nav-link">
-                        <FA icon={faShoppingCart} /> Cart{" "}
-                        <Badge color="secondary">{cartBatches.length}</Badge>
+                        <FA className="me-2" icon={faShoppingCart} />
+                        Cart ({cartBatches.length})
                     </NavLink>
                 </NavItem>
             );

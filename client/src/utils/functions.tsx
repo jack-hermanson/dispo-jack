@@ -1,5 +1,7 @@
 import { AxiosError } from "axios";
 import React from "react";
+import { CartBatchRecord } from "../../../shared/resource_models/cartBatch";
+import { StrainRecord } from "../../../shared/resource_models/strain";
 
 export function handleCheckChange<T>(
     event: React.ChangeEvent<HTMLInputElement>,
@@ -34,3 +36,21 @@ export function handleResponseError(error: AxiosError): string {
     console.error(error);
     return text;
 }
+
+export const getCartBatchPrice = (
+    cartBatch: CartBatchRecord,
+    strain: StrainRecord
+): number => {
+    switch (cartBatch.amount) {
+        case 1:
+            return strain.gramPrice;
+        case 3.5:
+            return strain.gramPrice;
+        case 7:
+            return strain.quadPrice;
+        case 28:
+            return strain.ouncePrice;
+        default:
+            throw new Error("Unrecognized cartBatch amount");
+    }
+};
