@@ -57,7 +57,7 @@ personRouter.get(
 
 personRouter.get(
     "/filter",
-    // auth,
+    auth,
     async (req: AuthRequest<any>, res: Response<PersonRecord[]>) => {
         res.json(await PersonService.filter(req.query.q as string));
     }
@@ -67,12 +67,7 @@ personRouter.get(
     "/:id",
     auth,
     async (req: AuthRequest<{ id: number }>, res: Response<PersonRecord>) => {
-        const isAdmin = await RoleService.hasMinClearance(
-            req.account.id,
-            5,
-            res
-        );
-        if (!isAdmin) {
+        if (!(await RoleService.hasMinClearance(req.account.id, 2, res))) {
             res.sendStatus(HTTP.FORBIDDEN);
             return;
         }
@@ -95,6 +90,11 @@ personRouter.put(
         res: Response<PersonRecord>
     ) => {
         try {
+            if (!(await RoleService.hasMinClearance(req.account.id, 2, res))) {
+                res.sendStatus(HTTP.FORBIDDEN);
+                return;
+            }
+
             // check for required parameters
             if (!(await validateRequest(personSchema, req, res))) return;
             const requestBody: PersonRequest = req.body;

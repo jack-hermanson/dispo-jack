@@ -20,4 +20,12 @@ export abstract class PersonClient {
         );
         return response.data;
     }
+
+    static async getPerson(token: string, id: number) {
+        const response = await axios.get<PersonRecord>(
+            `${baseUrl}/${id}`,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
 }

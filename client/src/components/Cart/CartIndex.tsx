@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
+    Button,
     Card,
     CardBody,
     Col,
@@ -29,6 +30,20 @@ export const CartIndex: React.FC = () => {
 
     const [people, setPeople] = useState<PersonRecord[] | undefined>(undefined);
     const [customerId, setCustomerId] = useState<string | number>("");
+    const [customer, setCustomer] = useState<PersonRecord | undefined>(
+        undefined
+    );
+
+    useEffect(() => {
+        if (isEmployee && customerId && currentUser?.account.token) {
+            PersonClient.getPerson(
+                currentUser.account.token,
+                customerId as number
+            ).then(data => {
+                setCustomer(data);
+            });
+        }
+    }, [isEmployee, customerId, currentUser]);
 
     return (
         <div>
@@ -124,7 +139,10 @@ export const CartIndex: React.FC = () => {
         return (
             <MobileToggleCard cardTitle="Check Out">
                 <CardBody>
-                    <form>{renderPerson()}</form>
+                    <form>
+                        {renderPerson()}
+                        {renderSidebarButtons()}
+                    </form>
                 </CardBody>
             </MobileToggleCard>
         );
@@ -136,13 +154,14 @@ export const CartIndex: React.FC = () => {
             return (
                 <FormGroup>
                     <Label className="form-label" for={id}>
-                        Customer ({customerId})
+                        Customer
                     </Label>
                     <Input
                         onChange={async e => {
                             if (e.target.value === "") {
                                 setPeople([]);
                                 setCustomerId("");
+                                setCustomer(undefined);
                                 return;
                             }
                             const filteredPeople = await PersonClient.getPeopleFilter(
@@ -154,6 +173,7 @@ export const CartIndex: React.FC = () => {
                                 setCustomerId(filteredPeople[0].id);
                             } else {
                                 setCustomerId("");
+                                setCustomer(undefined);
                             }
                         }}
                         list={id}
@@ -174,8 +194,37 @@ export const CartIndex: React.FC = () => {
                                 </option>
                             ))}
                     </Input>
+                    <div className="mt-1">
+                        {customer ? (
+                            <a href="#" className="dotted-link text-white">
+                                {customer.firstName} {customer.lastName} (
+                                {customer.id})
+                            </a>
+                        ) : (
+                            <span className="text-muted">None selected</span>
+                        )}
+                    </div>
                 </FormGroup>
             );
         }
+    }
+
+    function renderSidebarButtons() {
+        return (
+            <div className="mt-4 d-grid col-12">
+                {isEmployee ? (
+                    <React.Fragment>
+                        <Button size="sm" color="secondary">
+                            Reset
+                        </Button>
+                        <Button className="mt-2" color="primary">
+                            Submit
+                        </Button>
+                    </React.Fragment>
+                ) : (
+                    <p>Not employee</p>
+                )}
+            </div>
+        );
     }
 };
