@@ -139,7 +139,13 @@ export const CartIndex: React.FC = () => {
         return (
             <MobileToggleCard cardTitle="Check Out">
                 <CardBody>
-                    <form>
+                    <form
+                        onReset={() => {
+                            setCustomerId("");
+                            setCustomer(undefined);
+                            setPeople(undefined);
+                        }}
+                    >
                         {renderPerson()}
                         {renderSidebarButtons()}
                     </form>
@@ -214,7 +220,7 @@ export const CartIndex: React.FC = () => {
             <div className="mt-4 d-grid col-12">
                 {isEmployee ? (
                     <React.Fragment>
-                        <Button size="sm" color="secondary">
+                        <Button size="sm" color="secondary" type="reset">
                             Reset
                         </Button>
                         <Button className="mt-2" color="primary">
