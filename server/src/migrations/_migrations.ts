@@ -3,6 +3,7 @@ import { Weed1621922119960 } from "./1621922119960-Weed";
 import { imageUrl1622052796655 } from "./1622052796655-imageUrl";
 import { BatchDate1622055634796 } from "./1622055634796-BatchDate";
 import { CartSales1627659293951 } from "./1627659293951-CartSales";
+import { CartAdjustment1627780783655 } from "./1627780783655-CartAdjustment";
 
 export const migrations = [
     PrimitiveAccount1621529788492,
@@ -10,4 +11,5 @@ export const migrations = [
     imageUrl1622052796655,
     BatchDate1622055634796,
     CartSales1627659293951,
+    CartAdjustment1627780783655,
 ];

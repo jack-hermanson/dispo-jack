@@ -8,8 +8,11 @@ export class Adjustment {
     @Column({ type: "float", nullable: false })
     amount: number;
 
-    @Column({ type: "integer", nullable: false })
+    @Column({ type: "integer", nullable: true })
     purchaseId: number;
+
+    @Column({ type: "integer", nullable: true })
+    cartId: number;
 
     @Column({ type: "varchar", nullable: true })
     notes?: string;
