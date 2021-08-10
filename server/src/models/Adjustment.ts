@@ -9,10 +9,10 @@ export class Adjustment {
     amount: number;
 
     @Column({ type: "integer", nullable: true })
-    purchaseId: number;
+    purchaseId?: number;
 
     @Column({ type: "integer", nullable: true })
-    cartId: number;
+    cartId?: number;
 
     @Column({ type: "varchar", nullable: true })
     notes?: string;

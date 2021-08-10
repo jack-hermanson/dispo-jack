@@ -11,7 +11,6 @@ import { AccountService } from "../services/AccountService";
 import { auth } from "../middleware/auth";
 import {
     AccountAndPerson,
-    AccountRecord,
     TokenLoginRequest,
 } from "../../../shared/resource_models/account";
 import {
