@@ -1,4 +1,4 @@
-import { ResourceModel } from "./_base";
+import { ResourceModel } from "jack-hermanson-ts-utils";
 import { BatchRecord } from "./batch";
 import { formatMoney, KeyValPair } from "jack-hermanson-ts-utils";
 

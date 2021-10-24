@@ -1,4 +1,4 @@
-import { ResourceModel } from "./_base";
+import { ResourceModel } from "jack-hermanson-ts-utils";
 import { formatPercent, KeyValPair } from "jack-hermanson-ts-utils";
 
 export interface BatchRequest {

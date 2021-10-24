@@ -1,4 +1,4 @@
-import { ResourceModel } from "./_base";
+import { ResourceModel } from "jack-hermanson-ts-utils";
 import { PersonRecord, PersonRequest } from "./person";
 
 export interface AccountRequest {
