@@ -5,6 +5,6 @@
     "license": "MIT",
     "private": false,
     "dependencies": {
-        "jack-hermanson-ts-utils": "^1.15.2"
+        "jack-hermanson-ts-utils": "^1.7.2"
     }
 }
